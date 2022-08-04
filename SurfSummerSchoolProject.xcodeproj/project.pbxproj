@@ -18,6 +18,9 @@
 		09D16AF8289961F900F8AC0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D16AF7289961F900F8AC0C /* AppDelegate.swift */; };
 		09D16B01289961FB00F8AC0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09D16B00289961FB00F8AC0C /* Assets.xcassets */; };
 		09D16B04289961FB00F8AC0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09D16B02289961FB00F8AC0C /* LaunchScreen.storyboard */; };
+		09E3AC94289C5F9700269388 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E3AC93289C5F9700269388 /* MainModel.swift */; };
+		09E3AC98289C5FF600269388 /* MainItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E3AC96289C5FF600269388 /* MainItemCollectionViewCell.swift */; };
+		09E3AC9B289C605E00269388 /* MainItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09E3AC9A289C605E00269388 /* MainItemCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +37,9 @@
 		09D16B00289961FB00F8AC0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		09D16B03289961FB00F8AC0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		09D16B05289961FB00F8AC0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		09E3AC93289C5F9700269388 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
+		09E3AC96289C5FF600269388 /* MainItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		09E3AC9A289C605E00269388 /* MainItemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainItemCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +86,10 @@
 		09794ED1289AFE6A00E042E8 /* MainModule */ = {
 			isa = PBXGroup;
 			children = (
+				09E3AC95289C5FAF00269388 /* Cells */,
 				09794EE0289B03F200E042E8 /* MainViewController.swift */,
 				09794EE1289B03F200E042E8 /* MainViewController.xib */,
+				09E3AC93289C5F9700269388 /* MainModel.swift */,
 			);
 			path = MainModule;
 			sourceTree = "<group>";
@@ -128,6 +136,15 @@
 				09794ECF289AFE0200E042E8 /* MainFlow */,
 			);
 			path = SurfSummerSchoolProject;
+			sourceTree = "<group>";
+		};
+		09E3AC95289C5FAF00269388 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				09E3AC96289C5FF600269388 /* MainItemCollectionViewCell.swift */,
+				09E3AC9A289C605E00269388 /* MainItemCollectionViewCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +207,7 @@
 			files = (
 				09D16B04289961FB00F8AC0C /* LaunchScreen.storyboard in Resources */,
 				09D16B01289961FB00F8AC0C /* Assets.xcassets in Resources */,
+				09E3AC9B289C605E00269388 /* MainItemCollectionViewCell.xib in Resources */,
 				09794EE3289B03F200E042E8 /* MainViewController.xib in Resources */,
 				09794EDF289B034E00E042E8 /* ProfileViewController.xib in Resources */,
 				09794EDB289B003600E042E8 /* FavoriteViewController.xib in Resources */,
@@ -206,6 +224,8 @@
 				09794ED7289AFF5300E042E8 /* TabBarModel.swift in Sources */,
 				09794ED5289AFF0600E042E8 /* TabBarConfigurator.swift in Sources */,
 				09794EDE289B034E00E042E8 /* ProfileViewController.swift in Sources */,
+				09E3AC94289C5F9700269388 /* MainModel.swift in Sources */,
+				09E3AC98289C5FF600269388 /* MainItemCollectionViewCell.swift in Sources */,
 				09794EE2289B03F200E042E8 /* MainViewController.swift in Sources */,
 				09794EDA289B003600E042E8 /* FavoriteViewController.swift in Sources */,
 				09D16AF8289961F900F8AC0C /* AppDelegate.swift in Sources */,
