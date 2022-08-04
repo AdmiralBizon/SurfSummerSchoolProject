@@ -40,7 +40,9 @@ private extension TabBarConfigurator {
             let controller = getCurrentViewController(tab: tab)
             let tabBarItem = UITabBarItem(title: tab.title, image: tab.image, selectedImage: tab.selectedImage)
             controller.tabBarItem = tabBarItem
-            viewControllers.append(controller)
+            
+            let navigationController = addNavigationController(for: controller)
+            viewControllers.append(navigationController)
         }
 
         return viewControllers
@@ -55,6 +57,14 @@ private extension TabBarConfigurator {
         case .profile:
             return ProfileViewController()
         }
+    }
+    
+    func addNavigationController(for viewController: UIViewController) -> UINavigationController {
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.tintColor = .black
+        navigationController.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black,
+                                                                  .font: UIFont.systemFont(ofSize: 17, weight: .semibold)]
+        return navigationController
     }
 
 }

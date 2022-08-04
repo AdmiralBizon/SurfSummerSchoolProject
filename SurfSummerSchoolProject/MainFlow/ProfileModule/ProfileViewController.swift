@@ -13,4 +13,13 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar()
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.title = "Профиль"
+    }
+    
 }
