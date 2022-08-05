@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var searchStatusImageView: UIImageView!
     @IBOutlet weak var searchStatusLabel: UILabel!
@@ -36,12 +36,10 @@ private extension SearchViewController {
         navigationItem.titleView = searchBar
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "backIcon"),
                                                            style: .plain,
-                                                           target: self,
-                                                           action: #selector(backButtonPressed(_:)))
-    }
+                                                           target: navigationController,
+                                                           action: #selector(UINavigationController.popViewController(animated:)))
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     
-    @objc func backButtonPressed(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
     }
     
     func configureSearchBar() {
