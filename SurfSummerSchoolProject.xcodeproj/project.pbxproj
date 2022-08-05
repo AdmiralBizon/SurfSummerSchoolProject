@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		090E47AC289CFFFE00B7C173 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 090E47AB289CFFFE00B7C173 /* .gitignore */; };
 		09794ED5289AFF0600E042E8 /* TabBarConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09794ED4289AFF0600E042E8 /* TabBarConfigurator.swift */; };
 		09794ED7289AFF5300E042E8 /* TabBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09794ED6289AFF5300E042E8 /* TabBarModel.swift */; };
 		09794EDA289B003600E042E8 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09794ED8289B003600E042E8 /* FavoriteViewController.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		090E47AB289CFFFE00B7C173 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		09794ED4289AFF0600E042E8 /* TabBarConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarConfigurator.swift; sourceTree = "<group>"; };
 		09794ED6289AFF5300E042E8 /* TabBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarModel.swift; sourceTree = "<group>"; };
 		09794ED8289B003600E042E8 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 		09D16AEB289961F900F8AC0C = {
 			isa = PBXGroup;
 			children = (
+				090E47AB289CFFFE00B7C173 /* .gitignore */,
 				09D16AF6289961F900F8AC0C /* SurfSummerSchoolProject */,
 				09D16AF5289961F900F8AC0C /* Products */,
 			);
@@ -206,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09D16B04289961FB00F8AC0C /* LaunchScreen.storyboard in Resources */,
+				090E47AC289CFFFE00B7C173 /* .gitignore in Resources */,
 				09D16B01289961FB00F8AC0C /* Assets.xcassets in Resources */,
 				09E3AC9B289C605E00269388 /* MainItemCollectionViewCell.xib in Resources */,
 				09794EE3289B03F200E042E8 /* MainViewController.xib in Resources */,
