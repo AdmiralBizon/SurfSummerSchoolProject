@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchViewController" customModule="SurfSummerSchoolProject" customModuleProvider="target">
             <connections>
+                <outlet property="collectionView" destination="3ba-bo-5T4" id="HHl-U4-cVJ"/>
                 <outlet property="searchStatusImageView" destination="kxk-IU-OCb" id="i04-4H-b0z"/>
                 <outlet property="searchStatusLabel" destination="62U-WI-EFJ" id="Ytf-CW-bDA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -39,15 +40,29 @@
                         </label>
                     </subviews>
                 </stackView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="3ba-bo-5T4">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="aOo-X5-kBr">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="OMc-dc-qhP" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="5ex-Cf-uYP"/>
                 <constraint firstItem="OMc-dc-qhP" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="252" id="MiZ-ur-lsw"/>
+                <constraint firstItem="3ba-bo-5T4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Tiv-ow-Lff"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="3ba-bo-5T4" secondAttribute="trailing" id="bm2-aY-0ot"/>
+                <constraint firstItem="3ba-bo-5T4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="wbx-qZ-l1m"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="OMc-dc-qhP" secondAttribute="trailing" constant="16" id="yE8-ty-Iae"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="3ba-bo-5T4" secondAttribute="bottom" id="ztO-lJ-g94"/>
             </constraints>
-            <point key="canvasLocation" x="139" y="81"/>
+            <point key="canvasLocation" x="137.68115942028987" y="80.357142857142847"/>
         </view>
     </objects>
     <resources>
