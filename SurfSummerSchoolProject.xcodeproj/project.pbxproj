@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		090E47AC289CFFFE00B7C173 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 090E47AB289CFFFE00B7C173 /* .gitignore */; };
+		090E47B0289D01C700B7C173 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090E47AE289D01C700B7C173 /* SearchViewController.swift */; };
+		090E47B1289D01C700B7C173 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 090E47AF289D01C700B7C173 /* SearchViewController.xib */; };
 		09794ED5289AFF0600E042E8 /* TabBarConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09794ED4289AFF0600E042E8 /* TabBarConfigurator.swift */; };
 		09794ED7289AFF5300E042E8 /* TabBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09794ED6289AFF5300E042E8 /* TabBarModel.swift */; };
 		09794EDA289B003600E042E8 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09794ED8289B003600E042E8 /* FavoriteViewController.swift */; };
@@ -26,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		090E47AB289CFFFE00B7C173 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		090E47AE289D01C700B7C173 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		090E47AF289D01C700B7C173 /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
 		09794ED4289AFF0600E042E8 /* TabBarConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarConfigurator.swift; sourceTree = "<group>"; };
 		09794ED6289AFF5300E042E8 /* TabBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarModel.swift; sourceTree = "<group>"; };
 		09794ED8289B003600E042E8 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +59,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		090E47AD289D01AF00B7C173 /* SearchModule */ = {
+			isa = PBXGroup;
+			children = (
+				090E47AE289D01C700B7C173 /* SearchViewController.swift */,
+				090E47AF289D01C700B7C173 /* SearchViewController.xib */,
+			);
+			path = SearchModule;
+			sourceTree = "<group>";
+		};
 		09794ECE289AEACD00E042E8 /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +85,7 @@
 				09794ED0289AFE5E00E042E8 /* FavoriteModule */,
 				09794ED2289AFE7500E042E8 /* ProfileModule */,
 				09794ED1289AFE6A00E042E8 /* MainModule */,
+				090E47AD289D01AF00B7C173 /* SearchModule */,
 			);
 			path = MainFlow;
 			sourceTree = "<group>";
@@ -214,6 +228,7 @@
 				09E3AC9B289C605E00269388 /* MainItemCollectionViewCell.xib in Resources */,
 				09794EE3289B03F200E042E8 /* MainViewController.xib in Resources */,
 				09794EDF289B034E00E042E8 /* ProfileViewController.xib in Resources */,
+				090E47B1289D01C700B7C173 /* SearchViewController.xib in Resources */,
 				09794EDB289B003600E042E8 /* FavoriteViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,6 +243,7 @@
 				09794ED7289AFF5300E042E8 /* TabBarModel.swift in Sources */,
 				09794ED5289AFF0600E042E8 /* TabBarConfigurator.swift in Sources */,
 				09794EDE289B034E00E042E8 /* ProfileViewController.swift in Sources */,
+				090E47B0289D01C700B7C173 /* SearchViewController.swift in Sources */,
 				09E3AC94289C5F9700269388 /* MainModel.swift in Sources */,
 				09E3AC98289C5FF600269388 /* MainItemCollectionViewCell.swift in Sources */,
 				09794EE2289B03F200E042E8 /* MainViewController.swift in Sources */,

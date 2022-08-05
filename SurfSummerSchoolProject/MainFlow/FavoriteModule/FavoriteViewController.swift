@@ -18,7 +18,13 @@ class FavoriteViewController: UIViewController {
         configureNavigationBar()
     }
     
-    private func configureNavigationBar() {
+}
+
+// MARK: - Private methods
+
+private extension FavoriteViewController {
+
+    func configureNavigationBar() {
         navigationItem.title = "Избранное"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "searchIcon"),
                                                             style: .plain,
@@ -26,8 +32,10 @@ class FavoriteViewController: UIViewController {
                                                             action: #selector(searchButtonPressed(_:)))
     }
     
-    @objc private func searchButtonPressed(_ sender: UIBarButtonItem) {
-        print("Search button pressed")
+    @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
+        let searchController = SearchViewController()
+        searchController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(searchController, animated: true)
     }
-    
+
 }
