@@ -75,7 +75,7 @@ private extension MainViewController {
 
 }
 
-// MARK: - UICollection
+// MARK: - UICollectionView
 
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
