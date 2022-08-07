@@ -47,13 +47,12 @@ private extension DetailViewController {
                                                            target: navigationController,
                                                            action: #selector(UINavigationController.popViewController(animated:)))
         navigationItem.leftBarButtonItem?.tintColor = .black
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "searchIcon"),
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(searchButtonPressed(_:)))
         
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
