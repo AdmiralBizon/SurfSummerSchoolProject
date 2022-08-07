@@ -17,7 +17,7 @@ class DetailTextTableViewCell: UITableViewCell {
 
     var text: String? {
         didSet {
-            contentLabel.text = text
+            contentLabel.attributedText = configureAtributedString(text: text)
         }
     }
 
@@ -33,6 +33,21 @@ class DetailTextTableViewCell: UITableViewCell {
         contentLabel.font = .systemFont(ofSize: 12, weight: .light)
         contentLabel.textColor = .black
         contentLabel.numberOfLines = 0
+    }
+    
+    private func configureAtributedString(text: String?) -> NSAttributedString? {
+        guard let text = text else {
+            return nil
+        }
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        
+        let attrString = NSMutableAttributedString(string: text)
+        attrString.addAttribute(.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
+       
+        return attrString
+        
     }
     
 }
