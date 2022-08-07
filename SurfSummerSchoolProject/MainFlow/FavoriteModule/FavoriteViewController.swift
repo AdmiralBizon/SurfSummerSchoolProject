@@ -72,6 +72,24 @@ private extension FavoriteViewController {
         }
     }
 
+    @objc func changeFavorites(_ sender: UIButton) {
+        removeFromFavorites(objectIndex: sender.tag)
+    }
+    
+    func removeFromFavorites(objectIndex: Int) {
+        
+        let alert = UIAlertController(title: "Внимание", message: "Вы точно хотите удалить из избранного?", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Да, точно", style: .default, handler: { [weak self] _ in
+            self?.model.items.remove(at: objectIndex)
+          }))
+
+        alert.addAction(UIAlertAction(title: "Нет", style: .cancel))
+
+        present(alert, animated: true)
+        
+    }
+    
 }
 
 // MARK: - UICollectionView
@@ -91,9 +109,9 @@ extension FavoriteViewController: UICollectionViewDataSource, UICollectionViewDe
             cell.image = item.image
             cell.content = item.content
             cell.date = item.dateCreation
-            cell.didFavoritesTapped = { [weak self] in
-                self?.model.items[indexPath.row].isFavorite.toggle()
-            }
+
+            cell.favoriteButton.tag = indexPath.row
+            cell.favoriteButton.addTarget(self, action: #selector(changeFavorites(_:)), for: .touchUpInside)
         }
         return cell
     }

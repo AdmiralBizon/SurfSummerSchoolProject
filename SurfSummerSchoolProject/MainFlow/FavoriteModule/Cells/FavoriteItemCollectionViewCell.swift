@@ -22,11 +22,7 @@ class FavoriteItemCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var detailTextLabel: UILabel!
-    @IBOutlet private weak var favoriteButton: UIButton!
-    
-    // MARK: - Events
-
-    var didFavoritesTapped: (() -> Void)?
+    @IBOutlet weak var favoriteButton: UIButton!
 
     // MARK: - Calculated
 
@@ -73,13 +69,6 @@ class FavoriteItemCollectionViewCell: UICollectionViewCell {
             favoriteButton.setImage(buttonImage, for: .normal)
         }
     }
-    
-    // MARK: - Actions
-
-    @IBAction private func favotiteAction(_ sender: UIButton) {
-        didFavoritesTapped?()
-        isFavorite.toggle()
-    }
 
     // MARK: - UICollectionViewCell
 
@@ -107,7 +96,6 @@ private extension FavoriteItemCollectionViewCell {
         detailTextLabel.numberOfLines = 1
         
         favoriteButton.tintColor = .white
-        isFavorite = true
     }
 
 }
