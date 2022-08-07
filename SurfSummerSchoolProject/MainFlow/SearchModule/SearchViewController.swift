@@ -39,7 +39,7 @@ class SearchViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private var searchResults = [DetailItemModel]()
     
-    // MARK: - Lifeсircle
+    // MARK: - Lifeсycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +61,6 @@ private extension SearchViewController {
                                                            target: navigationController,
                                                            action: #selector(UINavigationController.popViewController(animated:)))
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-    
     }
     
     func configureSearchBar() {
@@ -100,6 +99,8 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
+        searchBar.resignFirstResponder()
+        
         if let searchText = searchBar.text {
             searchResults = []
             
@@ -130,7 +131,7 @@ extension SearchViewController: UISearchBarDelegate {
     
 }
 
-// MARK: - UICollection
+// MARK: - UICollectionView
 
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
@@ -169,6 +170,10 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         let vc = DetailViewController()
         vc.model = searchResults[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchBar.endEditing(true)
     }
     
 }
