@@ -145,7 +145,8 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
             let item = searchResults[indexPath.row]
             cell.title = item.title
             cell.isFavorite = item.isFavorite
-            cell.image = item.image
+            //cell.image = item.image
+            cell.imageUrlInString = item.imageUrlInString
             cell.didFavoritesTapped = { [weak self] in
                 self?.searchResults[indexPath.row].isFavorite.toggle()
             }

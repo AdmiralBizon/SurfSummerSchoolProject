@@ -31,7 +31,8 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         configureApperance()
         configureModel()
-        model.getPosts()
+        //model.getPosts()
+        model.loadPosts()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +70,9 @@ private extension MainViewController {
 
     func configureModel() {
         model.didItemsUpdated = { [weak self] in
-            self?.collectionView.reloadData()
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
         }
     }
 
@@ -89,7 +92,8 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             let item = model.items[indexPath.row]
             cell.title = item.title
             cell.isFavorite = item.isFavorite
-            cell.image = item.image
+            //cell.image = item.image
+            cell.imageUrlInString = item.imageUrlInString
             cell.didFavoritesTapped = { [weak self] in
                 self?.model.items[indexPath.row].isFavorite.toggle()
             }

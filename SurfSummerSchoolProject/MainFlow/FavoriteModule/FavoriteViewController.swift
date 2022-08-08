@@ -30,7 +30,8 @@ class FavoriteViewController: UIViewController {
         super.viewDidLoad()
         configureApperance()
         configureModel()
-        model.getPosts()
+        //model.getPosts()
+        model.loadPosts()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -68,7 +69,9 @@ private extension FavoriteViewController {
     
     func configureModel() {
         model.didItemsUpdated = { [weak self] in
-            self?.collectionView.reloadData()
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
         }
     }
 
@@ -106,7 +109,8 @@ extension FavoriteViewController: UICollectionViewDataSource, UICollectionViewDe
             let item = model.items[indexPath.row]
             cell.title = item.title
             cell.isFavorite = true
-            cell.image = item.image
+            //cell.image = item.image
+            cell.imageUrlInString = item.imageUrlInString
             cell.content = item.content
             cell.date = item.dateCreation
 
