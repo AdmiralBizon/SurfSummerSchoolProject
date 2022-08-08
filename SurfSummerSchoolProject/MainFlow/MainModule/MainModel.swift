@@ -25,7 +25,7 @@ final class MainModel {
     // MARK: - Methods
 
     func getPosts() {
-        items = Array(repeating: DetailItemModel.createDefault(), count: 100)
+        items = Array(repeating: DetailItemModel.createDefault(), count: 3)
     }
 
 }
