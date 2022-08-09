@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		090B5B0828A2997E00E7190E /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090B5B0728A2997E00E7190E /* MainPresenter.swift */; };
 		090B5B0B28A2A5E500E7190E /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090B5B0A28A2A5E500E7190E /* ModuleBuilder.swift */; };
+		090B5B0F28A2B13900E7190E /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090B5B0E28A2B13900E7190E /* DetailPresenter.swift */; };
 		090E47AC289CFFFE00B7C173 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 090E47AB289CFFFE00B7C173 /* .gitignore */; };
 		090E47B0289D01C700B7C173 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090E47AE289D01C700B7C173 /* SearchViewController.swift */; };
 		090E47B1289D01C700B7C173 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 090E47AF289D01C700B7C173 /* SearchViewController.xib */; };
@@ -56,6 +57,7 @@
 /* Begin PBXFileReference section */
 		090B5B0728A2997E00E7190E /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
 		090B5B0A28A2A5E500E7190E /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
+		090B5B0E28A2B13900E7190E /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
 		090E47AB289CFFFE00B7C173 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		090E47AE289D01C700B7C173 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		090E47AF289D01C700B7C173 /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
@@ -148,6 +150,34 @@
 			path = Builders;
 			sourceTree = "<group>";
 		};
+		090B5B0C28A2B10500E7190E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				090B5B1028A2B8B600E7190E /* Cells */,
+				09B50853289D8D5E00DEFBA3 /* DetailViewController.swift */,
+				09B50854289D8D5E00DEFBA3 /* DetailViewController.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		090B5B0D28A2B12100E7190E /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				090B5B0E28A2B13900E7190E /* DetailPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		090B5B1028A2B8B600E7190E /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				09B50857289D8FCF00DEFBA3 /* TextCell */,
+				09B50858289D8FDB00DEFBA3 /* TitleCell */,
+				09B50859289D8FF300DEFBA3 /* ImageCell */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		090E47AD289D01AF00B7C173 /* SearchModule */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +200,7 @@
 		09794ECF289AFE0200E042E8 /* MainFlow */ = {
 			isa = PBXGroup;
 			children = (
+				090B5B0428A298FF00E7190E /* Models */,
 				09B50852289D8D4200DEFBA3 /* DetailModule */,
 				09794ED3289AFE7F00E042E8 /* TabBar */,
 				09794ED0289AFE5E00E042E8 /* FavoriteModule */,
@@ -193,9 +224,8 @@
 		09794ED1289AFE6A00E042E8 /* MainModule */ = {
 			isa = PBXGroup;
 			children = (
-				090B5B0628A2994300E7190E /* Presenter */,
-				090B5B0428A298FF00E7190E /* Models */,
 				090B5B0528A2991500E7190E /* Views */,
+				090B5B0628A2994300E7190E /* Presenter */,
 			);
 			path = MainModule;
 			sourceTree = "<group>";
@@ -221,11 +251,8 @@
 		09B50852289D8D4200DEFBA3 /* DetailModule */ = {
 			isa = PBXGroup;
 			children = (
-				09B50857289D8FCF00DEFBA3 /* TextCell */,
-				09B50858289D8FDB00DEFBA3 /* TitleCell */,
-				09B50859289D8FF300DEFBA3 /* ImageCell */,
-				09B50853289D8D5E00DEFBA3 /* DetailViewController.swift */,
-				09B50854289D8D5E00DEFBA3 /* DetailViewController.xib */,
+				090B5B0C28A2B10500E7190E /* Views */,
+				090B5B0D28A2B12100E7190E /* Presenter */,
 			);
 			path = DetailModule;
 			sourceTree = "<group>";
@@ -481,6 +508,7 @@
 				09E3AC98289C5FF600269388 /* MainItemCollectionViewCell.swift in Sources */,
 				09B50864289D918A00DEFBA3 /* DetailImageTableViewCell.swift in Sources */,
 				090B5B0828A2997E00E7190E /* MainPresenter.swift in Sources */,
+				090B5B0F28A2B13900E7190E /* DetailPresenter.swift in Sources */,
 				09794EE2289B03F200E042E8 /* MainViewController.swift in Sources */,
 				09FB6DFD28A179FB00946B44 /* PictureResponseModel.swift in Sources */,
 				09794EDA289B003600E042E8 /* FavoriteViewController.swift in Sources */,

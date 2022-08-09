@@ -169,7 +169,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = DetailViewController()
-        vc.model = searchResults[indexPath.row]
+        //vc.model = searchResults[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -9,6 +9,7 @@ import UIKit
 
 protocol Builder {
     static func createMainModule() -> UIViewController
+    static func createDetailModule(item: DetailItemModel?) -> UIViewController
 }
 
 class ModuleBuilder: Builder {
@@ -19,4 +20,12 @@ class ModuleBuilder: Builder {
         view.presenter = presenter
         return view
     }
+    
+    static func createDetailModule(item: DetailItemModel?) -> UIViewController {
+        let view = DetailViewController()
+        let presenter = DetailPresenter(view: view, item: item)
+        view.presenter = presenter
+        return view
+    }
+    
 }

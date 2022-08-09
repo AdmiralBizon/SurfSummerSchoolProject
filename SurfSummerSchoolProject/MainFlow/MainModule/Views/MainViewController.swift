@@ -30,7 +30,7 @@ class MainViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var placeholderView: UIView!
 
-    // MARK: - Lifeсyrcle
+    // MARK: - Lifeсycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,12 +129,14 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        vc.model = presenter.items[indexPath.item]
-        navigationController?.pushViewController(vc, animated: true)
+        let item = presenter.items[indexPath.item]
+        let detailViewController = ModuleBuilder.createDetailModule(item: item)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
 }
+
+// MARK: - MainViewProtocol
 
 extension MainViewController: MainViewProtocol {
     
