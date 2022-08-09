@@ -26,10 +26,6 @@ final class MainModel {
 
     // MARK: - Methods
 
-    func getPosts() {
-        items = Array(repeating: DetailItemModel.createDefault(), count: 3)
-    }
-
     func loadPosts() {
         pictureService.loadPictures { [weak self] result in
             switch result {
@@ -49,4 +45,5 @@ final class MainModel {
             }
         }
     }
+    
 }

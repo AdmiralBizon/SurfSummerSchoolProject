@@ -20,24 +20,38 @@ class MainViewController: UIViewController {
     // MARK: - Private Properties
 
     private let model: MainModel = .init()
+    private var activityIndicator = UIActivityIndicatorView()
 
     // MARK: - Views
 
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var placeholderView: UIView!
 
     // MARK: - Lifeсyrcle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureApperance()
+        configureActivityIndicator()
         configureModel()
-        //model.getPosts()
+
+        activityIndicator.startAnimating()
         model.loadPosts()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func reloadButtonPressed(_ sender: UIButton) {
+        DispatchQueue.main.async {
+            self.placeholderView.isHidden = true
+            self.activityIndicator.startAnimating()
+        }
+        model.loadPosts()
     }
     
 }
@@ -61,6 +75,8 @@ private extension MainViewController {
     }
     
     func configureApperance() {
+        placeholderView.isHidden = true
+        
         collectionView.register(UINib(nibName: "\(MainItemCollectionViewCell.self)", bundle: .main),
                                 forCellWithReuseIdentifier: "\(MainItemCollectionViewCell.self)")
         collectionView.dataSource = self
@@ -68,10 +84,25 @@ private extension MainViewController {
         collectionView.contentInset = .init(top: 10, left: 16, bottom: 10, right: 16)
     }
 
+    func configureActivityIndicator() {
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        view.addSubview(activityIndicator)
+    }
+    
     func configureModel() {
         model.didItemsUpdated = { [weak self] in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async() {
+                if self?.model.items.isEmpty == true {
+                    self?.collectionView.isHidden = true
+                    self?.placeholderView.isHidden = false
+                } else {
+                    self?.collectionView.isHidden = false
+                    self?.placeholderView.isHidden = true
+                }
                 self?.collectionView.reloadData()
+                self?.activityIndicator.stopAnimating()
             }
         }
     }
@@ -92,7 +123,6 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             let item = model.items[indexPath.row]
             cell.title = item.title
             cell.isFavorite = item.isFavorite
-            //cell.image = item.image
             cell.imageUrlInString = item.imageUrlInString
             cell.didFavoritesTapped = { [weak self] in
                 self?.model.items[indexPath.row].isFavorite.toggle()
