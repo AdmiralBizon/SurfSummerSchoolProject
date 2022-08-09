@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 struct DetailItemModel {
+    let id: String
     let imageUrlInString: String
     let title: String
     var isFavorite: Bool
@@ -17,7 +18,8 @@ struct DetailItemModel {
 
     // MARK: - Initialization
     
-    internal init(imageUrlInString: String, title: String, isFavorite: Bool, content: String, dateCreation: Date) {
+    internal init(id: String, imageUrlInString: String, title: String, isFavorite: Bool, content: String, dateCreation: Date) {
+        self.id = id
         self.imageUrlInString = imageUrlInString
         self.title = title
         self.isFavorite = isFavorite
@@ -33,6 +35,7 @@ struct DetailItemModel {
 
     static func createDefault() -> DetailItemModel {
         .init(
+            id: "0",
             imageUrlInString: "",
             title: "Самый милый корги",
             isFavorite: false,
