@@ -28,9 +28,9 @@ class MainItemCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Calculated
 
-    var buttonImage: UIImage? {
-        return isFavorite ? Constants.fillHeartImage : Constants.heartImage
-    }
+//    var buttonImage: UIImage? {
+//        return isFavorite ? Constants.fillHeartImage : Constants.heartImage
+//    }
 
     override var isHighlighted: Bool {
         didSet {
@@ -42,11 +42,11 @@ class MainItemCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
 
-    var title: String = "" {
-        didSet {
-            titleLabel.text = title
-        }
-    }
+//    var title: String = "" {
+//        didSet {
+//            titleLabel.text = title
+//        }
+//    }
     
 //    var image: UIImage? {
 //        didSet {
@@ -54,26 +54,26 @@ class MainItemCollectionViewCell: UICollectionViewCell {
 //        }
 //    }
     
-    var imageUrlInString: String = "" {
-        didSet {
-            guard let url = URL(string: imageUrlInString) else {
-                return
-            }
-            imageView.loadImage(from: url)
-        }
-    }
+//    var imageUrlInString: String = "" {
+//        didSet {
+//            guard let url = URL(string: imageUrlInString) else {
+//                return
+//            }
+//            imageView.loadImage(from: url)
+//        }
+//    }
     
-    var isFavorite: Bool = false {
-        didSet {
-            favoriteButton.setImage(buttonImage, for: .normal)
-        }
-    }
+//    var isFavorite: Bool = false {
+//        didSet {
+//            favoriteButton.setImage(buttonImage, for: .normal)
+//        }
+//    }
 
     // MARK: - Actions
 
     @IBAction private func favotiteAction(_ sender: UIButton) {
         didFavoritesTapped?()
-        isFavorite.toggle()
+        //isFavorite.toggle()
     }
 
     // MARK: - UICollectionViewCell
@@ -83,6 +83,16 @@ class MainItemCollectionViewCell: UICollectionViewCell {
         configureAppearance()
     }
 
+    func configure(_ item: DetailItemModel) {
+        titleLabel.text = item.title
+        if let url = URL(string: item.imageUrlInString) {
+            imageView.loadImage(from: url)
+        }
+        
+        let buttonImage = item.isFavorite ? Constants.fillHeartImage : Constants.heartImage
+        favoriteButton.setImage(buttonImage, for: .normal)
+        
+    }
 }
 
 // MARK: - Private Methods
@@ -96,7 +106,6 @@ private extension MainItemCollectionViewCell {
         imageView.layer.cornerRadius = 12
 
         favoriteButton.tintColor = .white
-        isFavorite = false
     }
 
 }

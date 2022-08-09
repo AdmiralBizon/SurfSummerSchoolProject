@@ -143,10 +143,10 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MainItemCollectionViewCell.self)", for: indexPath)
         if let cell = cell as? MainItemCollectionViewCell {
             let item = searchResults[indexPath.row]
-            cell.title = item.title
-            cell.isFavorite = item.isFavorite
-            //cell.image = item.image
-            cell.imageUrlInString = item.imageUrlInString
+//            cell.title = item.title
+//            cell.isFavorite = item.isFavorite
+//            //cell.image = item.image
+//            cell.imageUrlInString = item.imageUrlInString
             cell.didFavoritesTapped = { [weak self] in
                 self?.searchResults[indexPath.row].isFavorite.toggle()
             }
