@@ -10,16 +10,16 @@ import UIKit
 class SearchViewController: UIViewController, UIGestureRecognizerDelegate {
 
     // MARK: - Constants
-
-    enum SearchErrors: Error {
-        case noResults
-    }
     
     private enum Constants {
         static let horisontalInset: CGFloat = 16
         static let spaceBetweenElements: CGFloat = 7
         static let spaceBetweenRows: CGFloat = 8
     }
+    
+    // MARK: - Public properties
+    
+    var presenter: SearchViewPresenterProtocol!
     
     // MARK: - Views
     
@@ -36,8 +36,6 @@ class SearchViewController: UIViewController, UIGestureRecognizerDelegate {
         searchBar.delegate = self
         return searchBar
     }()
-    
-    private var searchResults = [DetailItemModel]()
     
     // MARK: - Lifeсycle
     
@@ -79,18 +77,6 @@ private extension SearchViewController {
         collectionView.contentInset = .init(top: 10, left: 16, bottom: 10, right: 16)
     }
     
-    func searchPosts(by title: String, completionHandler: (Result<[DetailItemModel],SearchErrors>) -> Void) {
-       
-        let allPosts = Array(repeating: DetailItemModel.createDefault(), count: 100)
-        let filteredPosts = allPosts.filter { $0.title.lowercased().contains(title.lowercased()) }
-        
-        switch !filteredPosts.isEmpty {
-        case true: completionHandler(.success(filteredPosts))
-        case false: completionHandler(.failure(.noResults))
-        }
-    
-    }
-    
 }
 
 // MARK: - UISearchBarDelegate
@@ -98,57 +84,29 @@ private extension SearchViewController {
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
         searchBar.resignFirstResponder()
-        
         if let searchText = searchBar.text {
-            searchResults = []
-            
-            searchPosts(by: searchText) { [weak self] response in
-                switch response {
-                case .success(let posts):
-                    searchResults = posts
-                    DispatchQueue.main.async {
-                        self?.collectionView.isHidden = false
-                        self?.collectionView.reloadData()
-                    }
-                case .failure(let error):
-                    print(error)
-                    DispatchQueue.main.async {
-                        self?.collectionView.isHidden = true
-                        self?.searchStatusImageView.image = UIImage(named: "searchFailedIcon")
-                        self?.searchStatusLabel.text = """
-                        По этому запросу нет результатов,
-                        попробуйте другой запрос.
-                        """
-                    }
-                }
-                
-            }
+            presenter.searchPosts(by: searchText)
         }
-        
     }
     
 }
 
-// MARK: - UICollectionView
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchResults.count
+        presenter.filteredItems.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MainItemCollectionViewCell.self)", for: indexPath)
         if let cell = cell as? MainItemCollectionViewCell {
-            let item = searchResults[indexPath.row]
-//            cell.title = item.title
-//            cell.isFavorite = item.isFavorite
-//            //cell.image = item.image
-//            cell.imageUrlInString = item.imageUrlInString
+            let item = presenter.filteredItems[indexPath.item]
+            cell.configure(item)
             cell.didFavoritesTapped = { [weak self] in
-                self?.searchResults[indexPath.row].isFavorite.toggle()
+                self?.presenter.changeIsFavoriteFlagForItem(at: indexPath.item)
             }
         }
         return cell
@@ -168,9 +126,9 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        //vc.model = searchResults[indexPath.row]
-        navigationController?.pushViewController(vc, animated: true)
+        let item = presenter.filteredItems[indexPath.item]
+        let detailViewController = ModuleBuilder.createDetailModule(item: item)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -178,3 +136,26 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
 }
+
+// MARK: - SearchViewProtocol
+
+extension SearchViewController: SearchViewProtocol {
+    func showPosts() {
+        DispatchQueue.main.async {
+            self.collectionView.isHidden = false
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func showEmptyState() {
+        DispatchQueue.main.async {
+            self.collectionView.isHidden = true
+            self.searchStatusImageView.image = UIImage(named: "searchFailedIcon")
+            self.searchStatusLabel.text = """
+                                По этому запросу нет результатов,
+                                попробуйте другой запрос.
+                                """
+        }
+    }
+}
+

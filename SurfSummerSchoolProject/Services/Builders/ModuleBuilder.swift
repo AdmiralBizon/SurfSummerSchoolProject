@@ -10,9 +10,10 @@ import UIKit
 protocol Builder {
     static func createMainModule() -> UIViewController
     static func createDetailModule(item: DetailItemModel?) -> UIViewController
+    static func createSearchModule(items: [DetailItemModel]) -> UIViewController
 }
 
-class ModuleBuilder: Builder {
+final class ModuleBuilder: Builder {
     static func createMainModule() -> UIViewController {
         let view = MainViewController()
         let picturesService = PicturesService()
@@ -24,6 +25,13 @@ class ModuleBuilder: Builder {
     static func createDetailModule(item: DetailItemModel?) -> UIViewController {
         let view = DetailViewController()
         let presenter = DetailPresenter(view: view, item: item)
+        view.presenter = presenter
+        return view
+    }
+    
+    static func createSearchModule(items: [DetailItemModel]) -> UIViewController {
+        let view = SearchViewController()
+        let presenter = SearchPresenter(view: view, items: items)
         view.presenter = presenter
         return view
     }

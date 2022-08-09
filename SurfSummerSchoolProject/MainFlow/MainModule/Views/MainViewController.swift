@@ -71,9 +71,12 @@ private extension MainViewController {
     }
     
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
-        let searchController = SearchViewController()
-        searchController.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(searchController, animated: true)
+//        let searchController = SearchViewController()
+//        searchController.hidesBottomBarWhenPushed = true
+//        navigationController?.pushViewController(searchController, animated: true)
+        let items = presenter.items
+        let searchViewController = ModuleBuilder.createSearchModule(items: items)
+        navigationController?.pushViewController(searchViewController, animated: true)
     }
     
     func configureApperance() {
