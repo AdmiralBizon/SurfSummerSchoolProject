@@ -13,16 +13,16 @@ class DetailViewController: UIViewController, UIGestureRecognizerDelegate {
 
     private let tableView = UITableView()
 
-    // MARK: - Properties
+    // MARK: - Public properties
 
-    var model: DetailItemModel?
+    var presenter: DetailViewPresenterProtocol!
 
-    // MARK: - UIViewController
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAppearance()
-        tableView.reloadData()
+        presenter.showDetails()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +41,7 @@ private extension DetailViewController {
     }
 
     func configureNavigationBar() {
-        navigationItem.title = model?.title
+        navigationItem.title = presenter.item?.title
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "backIcon"),
                                                            style: .plain,
                                                            target: navigationController,
@@ -96,21 +96,20 @@ extension DetailViewController: UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailImageTableViewCell.self)")
             if let cell = cell as? DetailImageTableViewCell {
-                //cell.image = model?.image
-                cell.imageUrlInString = model?.imageUrlInString ?? ""
+                cell.imageUrlInString = presenter.item?.imageUrlInString ?? ""
             }
             return cell ?? UITableViewCell()
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailTitleTableViewCell.self)")
             if let cell = cell as? DetailTitleTableViewCell {
-                cell.title = model?.title ?? ""
-                cell.date = model?.dateCreation ?? ""
+                cell.title = presenter.item?.title ?? ""
+                cell.date = presenter.item?.dateCreation ?? ""
             }
             return cell ?? UITableViewCell()
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailTextTableViewCell.self)")
             if let cell = cell as? DetailTextTableViewCell {
-                cell.text = model?.content
+                cell.text = presenter?.item?.content
             }
             return cell ?? UITableViewCell()
         default:
@@ -118,4 +117,14 @@ extension DetailViewController: UITableViewDataSource {
         }
     }
 
+}
+
+// MARK: - DetailViewProtocol
+
+extension DetailViewController: DetailViewProtocol {
+    func showDetails(item: DetailItemModel?) {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 }
