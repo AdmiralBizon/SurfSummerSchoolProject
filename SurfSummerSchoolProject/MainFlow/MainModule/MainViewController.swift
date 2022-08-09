@@ -121,9 +121,10 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MainItemCollectionViewCell.self)", for: indexPath)
         if let cell = cell as? MainItemCollectionViewCell {
             let item = model.items[indexPath.row]
-            cell.title = item.title
-            cell.isFavorite = item.isFavorite
-            cell.imageUrlInString = item.imageUrlInString
+            cell.configure(item)
+//            cell.title = item.title
+//            cell.isFavorite = item.isFavorite
+//            cell.imageUrlInString = item.imageUrlInString
             cell.didFavoritesTapped = { [weak self] in
                 self?.model.items[indexPath.row].isFavorite.toggle()
             }
