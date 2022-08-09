@@ -17,9 +17,12 @@ class MainViewController: UIViewController {
         static let spaceBetweenRows: CGFloat = 8
     }
 
+    // MARK: - Public properties
+    
+    var presenter: MainViewPresenterProtocol!
+    
     // MARK: - Private Properties
 
-    private let model: MainModel = .init()
     private var activityIndicator = UIActivityIndicatorView()
 
     // MARK: - Views
@@ -33,10 +36,9 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         configureApperance()
         configureActivityIndicator()
-        configureModel()
 
         activityIndicator.startAnimating()
-        model.loadPosts()
+        presenter.loadPosts()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -51,7 +53,7 @@ class MainViewController: UIViewController {
             self.placeholderView.isHidden = true
             self.activityIndicator.startAnimating()
         }
-        model.loadPosts()
+        presenter.loadPosts()
     }
     
 }
@@ -91,42 +93,23 @@ private extension MainViewController {
         view.addSubview(activityIndicator)
     }
     
-    func configureModel() {
-        model.didItemsUpdated = { [weak self] in
-            DispatchQueue.main.async() {
-                if self?.model.items.isEmpty == true {
-                    self?.collectionView.isHidden = true
-                    self?.placeholderView.isHidden = false
-                } else {
-                    self?.collectionView.isHidden = false
-                    self?.placeholderView.isHidden = true
-                }
-                self?.collectionView.reloadData()
-                self?.activityIndicator.stopAnimating()
-            }
-        }
-    }
-
 }
 
-// MARK: - UICollectionView
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.items.count
+        presenter.items.count 
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MainItemCollectionViewCell.self)", for: indexPath)
         if let cell = cell as? MainItemCollectionViewCell {
-            let item = model.items[indexPath.row]
+            let item = presenter.items[indexPath.item]
             cell.configure(item)
-//            cell.title = item.title
-//            cell.isFavorite = item.isFavorite
-//            cell.imageUrlInString = item.imageUrlInString
             cell.didFavoritesTapped = { [weak self] in
-                self?.model.items[indexPath.row].isFavorite.toggle()
+                self?.presenter.changeIsFavoriteFlagForItem(at: indexPath.item)
             }
         }
         return cell
@@ -147,8 +130,36 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = DetailViewController()
-        vc.model = model.items[indexPath.row]
+        vc.model = presenter.items[indexPath.item]
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+}
+
+extension MainViewController: MainViewProtocol {
+    
+    func showPosts() {
+        DispatchQueue.main.async {
+            self.collectionView.isHidden = false
+            self.placeholderView.isHidden = true
+            
+            self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
+        }
+    }
+    
+    func showEmptyState() {
+        DispatchQueue.main.async {
+            self.collectionView.isHidden = true
+            self.placeholderView.isHidden = false
+            
+            self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
+        }
+    }
+    
+    func showErrorState(error: Error) {
+        print(error)
     }
     
 }
