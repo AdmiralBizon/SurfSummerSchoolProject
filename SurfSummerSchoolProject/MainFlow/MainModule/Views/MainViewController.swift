@@ -83,6 +83,16 @@ private extension MainViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.contentInset = .init(top: 10, left: 16, bottom: 10, right: 16)
+        
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self,
+                                                 action: #selector(didPullToRefresh),
+                                                 for: .valueChanged)
+        
+    }
+    
+    @objc func didPullToRefresh() {
+        presenter.loadPosts()
     }
 
     func configureActivityIndicator() {
@@ -144,8 +154,14 @@ extension MainViewController: MainViewProtocol {
             self.collectionView.isHidden = false
             self.placeholderView.isHidden = true
             
+            if self.activityIndicator.isAnimating {
+                self.activityIndicator.stopAnimating()
+            }
+            
+            if self.collectionView.refreshControl?.isRefreshing == true {
+                self.collectionView.refreshControl?.endRefreshing()
+            }
             self.collectionView.reloadData()
-            self.activityIndicator.stopAnimating()
         }
     }
     
@@ -154,8 +170,14 @@ extension MainViewController: MainViewProtocol {
             self.collectionView.isHidden = true
             self.placeholderView.isHidden = false
             
+            if self.activityIndicator.isAnimating {
+                self.activityIndicator.stopAnimating()
+            }
+            
+            if self.collectionView.refreshControl?.isRefreshing == true {
+                self.collectionView.refreshControl?.endRefreshing()
+            }
             self.collectionView.reloadData()
-            self.activityIndicator.stopAnimating()
         }
     }
     
