@@ -40,11 +40,11 @@ class FavoriteItemCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
 
-    var title: String = "" {
-        didSet {
-            titleLabel.text = title
-        }
-    }
+//    var title: String = "" {
+//        didSet {
+//            titleLabel.text = title
+//        }
+//    }
     
 //    var image: UIImage? {
 //        didSet {
@@ -52,26 +52,26 @@ class FavoriteItemCollectionViewCell: UICollectionViewCell {
 //        }
 //    }
     
-    var imageUrlInString: String = "" {
-        didSet {
-            guard let url = URL(string: imageUrlInString) else {
-                return
-            }
-            imageView.loadImage(from: url)
-        }
-    }
+//    var imageUrlInString: String = "" {
+//        didSet {
+//            guard let url = URL(string: imageUrlInString) else {
+//                return
+//            }
+//            imageView.loadImage(from: url)
+//        }
+//    }
+//
+//    var date: String = "" {
+//        didSet {
+//            dateLabel.text = date
+//        }
+//    }
     
-    var date: String = "" {
-        didSet {
-            dateLabel.text = date
-        }
-    }
-    
-    var content: String = "" {
-        didSet {
-            detailTextLabel.text = content
-        }
-    }
+//    var content: String = "" {
+//        didSet {
+//            detailTextLabel.text = content
+//        }
+//    }
     
     var isFavorite: Bool = true {
         didSet {
@@ -86,6 +86,19 @@ class FavoriteItemCollectionViewCell: UICollectionViewCell {
         configureAppearance()
     }
 
+    func configure(_ item: DetailItemModel) {
+        titleLabel.text = item.title
+       
+        if let url = URL(string: item.imageUrlInString) {
+            imageView.loadImage(from: url)
+        }
+        
+        detailTextLabel.text = item.content
+        dateLabel.text = item.dateCreation
+        
+        isFavorite = item.isFavorite
+    }
+    
 }
 
 // MARK: - Private Methods
