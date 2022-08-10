@@ -38,6 +38,7 @@ final class ModuleBuilder: Builder {
         let view = SearchViewController()
         let presenter = SearchPresenter(view: view, items: items)
         view.presenter = presenter
+        view.hidesBottomBarWhenPushed = true
         return view
     }
     
