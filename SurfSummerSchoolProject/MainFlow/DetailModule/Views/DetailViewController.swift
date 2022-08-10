@@ -56,9 +56,8 @@ private extension DetailViewController {
     }
 
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
-        let searchController = SearchViewController()
-        searchController.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(searchController, animated: true)
+        let searchViewController = ModuleBuilder.createSearchModule(items: [])
+        navigationController?.pushViewController(searchViewController, animated: true)
     }
     
     func configureTableView() {
