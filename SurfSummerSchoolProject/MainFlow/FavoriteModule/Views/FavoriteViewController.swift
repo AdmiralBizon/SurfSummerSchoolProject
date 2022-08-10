@@ -16,9 +16,9 @@ class FavoriteViewController: UIViewController {
         static let spaceBetweenRows: CGFloat = 16
     }
     
-    // MARK: - Private Properties
-
-    private let model: MainModel = .init()
+    // MARK: - Public properties
+    
+    var presenter: FavoriteViewPresenterProtocol!
     
     // MARK: - Views
     
@@ -29,14 +29,12 @@ class FavoriteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureApperance()
-        configureModel()
-        //model.getPosts()
-        model.loadPosts()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
+        presenter.loadFavorites()
     }
     
 }
@@ -54,9 +52,9 @@ private extension FavoriteViewController {
     }
     
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
-        let searchController = SearchViewController()
-        searchController.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(searchController, animated: true)
+        let items = presenter.items
+        let searchViewController = ModuleBuilder.createSearchModule(items: items)
+        navigationController?.pushViewController(searchViewController, animated: true)
     }
     
     func configureApperance() {
@@ -66,56 +64,42 @@ private extension FavoriteViewController {
         collectionView.delegate = self
         collectionView.contentInset = .init(top: 10, left: 16, bottom: 10, right: 16)
     }
-    
-    func configureModel() {
-        model.didItemsUpdated = { [weak self] in
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-            }
-        }
-    }
 
-    @objc func changeFavorites(_ sender: UIButton) {
-        removeFromFavorites(objectIndex: sender.tag)
-    }
-    
-    func removeFromFavorites(objectIndex: Int) {
+    @objc func showAlert(_ sender: UIButton) {
         
         let alert = UIAlertController(title: "Внимание", message: "Вы точно хотите удалить из избранного?", preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "Да, точно", style: .default, handler: { [weak self] _ in
-            self?.model.items.remove(at: objectIndex)
+            self?.removeItemFromFavorites(index: sender.tag)
           }))
 
         alert.addAction(UIAlertAction(title: "Нет", style: .cancel))
 
         present(alert, animated: true)
-        
+    }
+    
+    func removeItemFromFavorites(index: Int) {
+        presenter.removeFromFavorites(index: index)
     }
     
 }
 
-// MARK: - UICollectionView
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 
 extension FavoriteViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.items.count
+        presenter.items.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(FavoriteItemCollectionViewCell.self)", for: indexPath)
         if let cell = cell as? FavoriteItemCollectionViewCell {
-            let item = model.items[indexPath.row]
-            cell.title = item.title
-            cell.isFavorite = true
-            //cell.image = item.image
-            cell.imageUrlInString = item.imageUrlInString
-            cell.content = item.content
-            cell.date = item.dateCreation
+            let item = presenter.items[indexPath.item]
 
+            cell.configure(item)
             cell.favoriteButton.tag = indexPath.row
-            cell.favoriteButton.addTarget(self, action: #selector(changeFavorites(_:)), for: .touchUpInside)
+            cell.favoriteButton.addTarget(self, action: #selector(showAlert(_:)), for: .touchUpInside)
         }
         return cell
     }
@@ -130,9 +114,19 @@ extension FavoriteViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        //vc.model = model.items[indexPath.row]
-        navigationController?.pushViewController(vc, animated: true)
+        let item = presenter.items[indexPath.item]
+        let detailViewController = ModuleBuilder.createDetailModule(item: item)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
+}
+
+// MARK: - FavoriteViewProtocol
+
+extension FavoriteViewController: FavoriteViewProtocol {
+    func showFavorites() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
 }

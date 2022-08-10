@@ -11,13 +11,18 @@ protocol Builder {
     static func createMainModule() -> UIViewController
     static func createDetailModule(item: DetailItemModel?) -> UIViewController
     static func createSearchModule(items: [DetailItemModel]) -> UIViewController
+    static func createFavoriteModule() -> UIViewController
 }
 
 final class ModuleBuilder: Builder {
+    
     static func createMainModule() -> UIViewController {
         let view = MainViewController()
         let picturesService = PicturesService()
-        let presenter = MainPresenter(view: view, networkService: picturesService)
+        let favoritesService = FavoritesService()
+        let presenter = MainPresenter(view: view,
+                                      networkService: picturesService,
+                                      favoritesService: favoritesService)
         view.presenter = presenter
         return view
     }
@@ -32,6 +37,15 @@ final class ModuleBuilder: Builder {
     static func createSearchModule(items: [DetailItemModel]) -> UIViewController {
         let view = SearchViewController()
         let presenter = SearchPresenter(view: view, items: items)
+        view.presenter = presenter
+        return view
+    }
+    
+    static func createFavoriteModule() -> UIViewController {
+        let view = FavoriteViewController()
+        let favoritesService = FavoritesService()
+        let presenter = FavoritePresenter(view: view,
+                                          favoritesService: favoritesService)
         view.presenter = presenter
         return view
     }

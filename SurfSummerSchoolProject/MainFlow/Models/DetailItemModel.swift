@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct DetailItemModel {
+struct DetailItemModel: Codable {
     let id: String
     let imageUrlInString: String
     let title: String
@@ -44,4 +44,10 @@ struct DetailItemModel {
         )
     }
 
+}
+
+extension DetailItemModel: Equatable {
+    static func == (lhs: DetailItemModel, rhs: DetailItemModel) -> Bool {
+        lhs.id == rhs.id
+    }
 }

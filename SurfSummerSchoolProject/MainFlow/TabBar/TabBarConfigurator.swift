@@ -54,7 +54,8 @@ private extension TabBarConfigurator {
             //return MainViewController()
             return ModuleBuilder.createMainModule()
         case .favorite:
-            return FavoriteViewController()
+            //return FavoriteViewController()
+            return ModuleBuilder.createFavoriteModule()
         case .profile:
             return ProfileViewController()
         }

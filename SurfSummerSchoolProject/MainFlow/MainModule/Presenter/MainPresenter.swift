@@ -14,9 +14,9 @@ protocol MainViewProtocol: AnyObject {
 }
 
 protocol MainViewPresenterProtocol: AnyObject {
-    init(view: MainViewProtocol, networkService: PicturesService)
+    init(view: MainViewProtocol, networkService: PicturesService, favoritesService: FavoritesService)
     func loadPosts()
-    func changeIsFavoriteFlagForItem(at index: Int)
+    func changeFavoritesByItem(at index: Int)
     var items: [DetailItemModel] { get set }
 }
 
@@ -24,11 +24,13 @@ class MainPresenter: MainViewPresenterProtocol {
     
     weak var view: MainViewProtocol?
     let networkService: PicturesService!
+    let favoritesService: FavoritesService!
     var items: [DetailItemModel] = []
     
-    required init(view: MainViewProtocol, networkService: PicturesService) {
+    required init(view: MainViewProtocol, networkService: PicturesService, favoritesService: FavoritesService) {
         self.view = view
         self.networkService = networkService
+        self.favoritesService = favoritesService
     }
     
     func loadPosts() {
@@ -40,7 +42,8 @@ class MainPresenter: MainViewPresenterProtocol {
                         id: pictureModel.id,
                         imageUrlInString: pictureModel.photoUrl,
                         title: pictureModel.title,
-                        isFavorite: false, // TODO: - Need adding `FavoriteService`
+                        //isFavorite: false, // TODO: - Need adding `FavoriteService`
+                        isFavorite: self?.favoritesService.isFavorite(itemId: pictureModel.id) ?? false,
                         content: pictureModel.content,
                         dateCreation: pictureModel.date
                     )
@@ -58,10 +61,19 @@ class MainPresenter: MainViewPresenterProtocol {
         }
     }
     
-    func changeIsFavoriteFlagForItem(at index: Int) {
+    func changeFavoritesByItem(at index: Int) {
         let range = 0..<items.count
         if range.contains(index) {
-            items[index].isFavorite.toggle()
+            
+            var item = items[index]
+            item.isFavorite.toggle()
+            
+            if !item.isFavorite {
+                favoritesService.removeFromFavorites(item: item)
+            } else {
+                favoritesService.addToFavorites(item: item)
+            }
+            
         }
     }
     

@@ -36,14 +36,13 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         configureApperance()
         configureActivityIndicator()
-
-        activityIndicator.startAnimating()
-        presenter.loadPosts()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
+        activityIndicator.startAnimating()
+        presenter.loadPosts()
     }
     
     // MARK: - IBActions
@@ -71,9 +70,6 @@ private extension MainViewController {
     }
     
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
-//        let searchController = SearchViewController()
-//        searchController.hidesBottomBarWhenPushed = true
-//        navigationController?.pushViewController(searchController, animated: true)
         let items = presenter.items
         let searchViewController = ModuleBuilder.createSearchModule(items: items)
         navigationController?.pushViewController(searchViewController, animated: true)
@@ -112,7 +108,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             let item = presenter.items[indexPath.item]
             cell.configure(item)
             cell.didFavoritesTapped = { [weak self] in
-                self?.presenter.changeIsFavoriteFlagForItem(at: indexPath.item)
+                self?.presenter.changeFavoritesByItem(at: indexPath.item)
             }
         }
         return cell
