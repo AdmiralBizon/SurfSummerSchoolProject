@@ -1,5 +1,5 @@
 //
-//  FavoriteItemCollectionViewCell.swift
+//  FavoritesItemCollectionViewCell.swift
 //  SurfSummerSchoolProject
 //
 //  Created by Ilya on 07.08.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoriteItemCollectionViewCell: UICollectionViewCell {
+class FavoritesItemCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Constants
 
@@ -22,7 +22,7 @@ class FavoriteItemCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var detailTextLabel: UILabel!
-    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet private weak var favoriteButton: UIButton!
 
     // MARK: - Calculated
 
@@ -37,41 +37,6 @@ class FavoriteItemCollectionViewCell: UICollectionViewCell {
             }
         }
     }
-    
-    // MARK: - Properties
-
-//    var title: String = "" {
-//        didSet {
-//            titleLabel.text = title
-//        }
-//    }
-    
-//    var image: UIImage? {
-//        didSet {
-//            imageView.image = image
-//        }
-//    }
-    
-//    var imageUrlInString: String = "" {
-//        didSet {
-//            guard let url = URL(string: imageUrlInString) else {
-//                return
-//            }
-//            imageView.loadImage(from: url)
-//        }
-//    }
-//
-//    var date: String = "" {
-//        didSet {
-//            dateLabel.text = date
-//        }
-//    }
-    
-//    var content: String = "" {
-//        didSet {
-//            detailTextLabel.text = content
-//        }
-//    }
     
     var isFavorite: Bool = true {
         didSet {
@@ -103,7 +68,7 @@ class FavoriteItemCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Private Methods
 
-private extension FavoriteItemCollectionViewCell {
+private extension FavoritesItemCollectionViewCell {
 
     func configureAppearance() {
         imageView.layer.cornerRadius = 12
