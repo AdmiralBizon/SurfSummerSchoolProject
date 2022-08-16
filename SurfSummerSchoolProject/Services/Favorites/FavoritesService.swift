@@ -33,20 +33,46 @@ struct FavoritesService {
     }
     
     func addToFavorites(item: DetailItemModel) {
+       // print(item)
         var currentFavorites = loadFavorites()
         if !currentFavorites.contains(item) {
             currentFavorites.append(item)
             saveToFavorites(items: currentFavorites)
         }
-        
+
     }
     
+//    func addToFavorites(itemId: String) {
+//        guard !itemId.isEmpty else {
+//            return
+//        }
+//
+//        let currentFavorites = loadFavorites()
+//
+//        if (currentFavorites.filter{ $0.id == itemId }.first) == nil {
+//            currentFavorites.append(<#T##newElement: DetailItemModel##DetailItemModel#>)
+//        }
+//
+//
+//    }
+    
     func removeFromFavorites(item: DetailItemModel) {
+        //print(item)
         var currentFavorites = loadFavorites()
         if let index = currentFavorites.firstIndex(of: item) {
             currentFavorites.remove(at: index)
             saveToFavorites(items: currentFavorites)
         }
+    }
+    
+    func getItemFromFavorites(itemId: String) -> DetailItemModel? {
+        guard !itemId.isEmpty else { return nil }
+        
+        let currentFavorites = loadFavorites()
+        let item = currentFavorites.first { $0.id == itemId }
+        
+        return item
+        
     }
     
     func isFavorite(itemId: String) -> Bool {
