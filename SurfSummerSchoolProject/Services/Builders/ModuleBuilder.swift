@@ -7,13 +7,6 @@
 
 import UIKit
 
-protocol Builder {
-    static func createMainModule() -> UIViewController
-    static func createDetailModule(item: DetailItemModel?) -> UIViewController
-    static func createSearchModule(items: [DetailItemModel], delegate: BaseViewDelegate?) -> UIViewController
-    static func createFavoriteModule() -> UIViewController
-}
-
 final class ModuleBuilder: Builder {
     
     static let dataStore = DataStore.shared

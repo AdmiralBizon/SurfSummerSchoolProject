@@ -8,29 +8,20 @@
 import UIKit
 
 class FavoritesViewController: UIViewController {
-
-    // MARK: - Constants
-
-    private enum Constants {
-        static let horisontalInset: CGFloat = 16
-        static let spaceBetweenRows: CGFloat = 16
-        static let multiplier: CGFloat = 1.17
-        static let itemCellId = "\(FavoritesItemCollectionViewCell.self)"
-    }
     
     // MARK: - Public properties
     
     var presenter: FavoritesViewPresenterProtocol!
     
-    // MARK: - Private properties
-    
-    private var adapter: FavoritesListAdapter?
-    
     // MARK: - Views
     
     @IBOutlet private weak var collectionView: UICollectionView!
-    @IBOutlet weak var emptyListImageView: UIImageView!
-    @IBOutlet weak var emptyListLabel: UILabel!
+    @IBOutlet private weak var emptyListImageView: UIImageView!
+    @IBOutlet private weak var emptyListLabel: UILabel!
+    
+    // MARK: - Private properties
+    
+    private var adapter: FavoritesListAdapter?
     
     // MARK: - Lifecycle
     
@@ -64,7 +55,7 @@ private extension FavoritesViewController {
     
     func configureNavigationBar() {
         navigationItem.title = "Избранное"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "searchIcon"),
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Image.NavigationBar.searchIcon,
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(searchButtonPressed(_:)))
@@ -80,9 +71,8 @@ private extension FavoritesViewController {
         emptyListImageView.isHidden = true
         emptyListLabel.isHidden = true
         
-        collectionView.register(UINib(nibName: Constants.itemCellId, bundle: .main),
-                                forCellWithReuseIdentifier: Constants.itemCellId)
         collectionView.contentInset = .init(top: 10, left: 16, bottom: 10, right: 16)
+        collectionView.registerCell(FavoritesItemCollectionViewCell.self)
         
         collectionView.dataSource = adapter
         collectionView.delegate = adapter

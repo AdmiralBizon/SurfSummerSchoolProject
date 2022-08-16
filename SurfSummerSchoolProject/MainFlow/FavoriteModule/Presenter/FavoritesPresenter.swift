@@ -7,19 +7,6 @@
 
 import Foundation
 
-protocol FavoritesViewProtocol: BaseViewProtocol {
-    func showAlertBeforeRemovingItem(itemId: Int)
-    func reloadMainScreen()
-}
-
-protocol FavoritesViewPresenterProtocol: BaseViewPresenterProtocol {
-    init(view: FavoritesViewProtocol, favoritesService: FavoritesService)
-    func loadFavorites()
-    func prepareToRemoveItem(itemId: Int)
-    func getItemsCollectionForSearch() -> [DetailItemModel]
-    func reloadMainScreen()
-}
-
 final class FavoritesPresenter: FavoritesViewPresenterProtocol {
     
     // MARK: - Private properties

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Constants {
+enum K {
     
     enum CollectionView {
         static let itemCellId = "\(MainItemCollectionViewCell.self)"
@@ -15,10 +15,9 @@ enum Constants {
     }
     
     enum TableView {
-        static let detailTextCellId = "\(DetailImageTableViewCell.self)"
+        static let detailTextCellId = "\(DetailTextTableViewCell.self)"
         static let detailTitleCellId = "\(DetailTitleTableViewCell.self)"
         static let detailImageCellId = "\(DetailImageTableViewCell.self)"
     }
-    
     
 }

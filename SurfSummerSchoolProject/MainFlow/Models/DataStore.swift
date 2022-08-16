@@ -13,10 +13,6 @@ final class DataStore {
     
     static let shared = DataStore()
     
-    var numberOfPosts: Int {
-        items.count
-    }
-    
     // MARK: - Private properties
     
     private let picturesService: PicturesService
@@ -33,44 +29,12 @@ final class DataStore {
     
     // MARK: - Public methods
     
-    func getPosts() -> [DetailItemModel] {
-        items
-    }
-    
-    func getItem(by index: Int) -> DetailItemModel? {
-        let range = 0..<items.count - 1
-        guard !items.isEmpty, range.contains(index) else {
-            return nil
-        }
-        
-        return items[index]
-    }
-    
-//    func changeFavoritesByItem(at index: Int) {
-//        let range = 0..<items.count - 1
-//        guard !items.isEmpty, range.contains(index) else {
-//            return
-//        }
-//
-//        if items[index].isFavorite {
-//            FavoritesService().removeFromFavorites(item: items[index])
-//        } else {
-//            FavoritesService().addToFavorites(item: items[index])
-//        }
-//
-//        items[index].isFavorite.toggle()
-//        
-//    }
-    
     func changeFavorites(itemId: String) {
         guard !itemId.isEmpty else {
             return
         }
         
-       // if var item = items.filter({ $0.id == itemId }).first {
-        //if var item = items.first(where: { $0.id == itemId }) {
         if let index = items.firstIndex(where: { $0.id == itemId }) {
-        
             items[index].isFavorite.toggle()
             
             if !items[index].isFavorite {
@@ -78,9 +42,7 @@ final class DataStore {
             } else {
                 favoritesService.addToFavorites(item: items[index])
             }
-            
         }
-        
     }
     
     func loadPosts(completion: @escaping (_ result: Result<[DetailItemModel], Error>) -> Void) {

@@ -8,12 +8,6 @@
 import UIKit
 
 class SearchViewController: UIViewController {
-
-    // MARK: - Constants
-    
-    private enum Constants {
-        static let itemCellId = "\(MainItemCollectionViewCell.self)"
-    }
     
     // MARK: - Public properties
     
@@ -28,7 +22,7 @@ class SearchViewController: UIViewController {
     // MARK: - Private Properties
     
     private var searchBar = UISearchBar()
-    private var adapter: PostsListAdapter?
+    private var adapter: ItemsListAdapter?
     
     // MARK: - Lifeсycle
     
@@ -52,7 +46,7 @@ class SearchViewController: UIViewController {
 private extension SearchViewController {
     
     func configureAdapter() {
-        adapter = PostsListAdapter(collectionView: collectionView)
+        adapter = ItemsListAdapter(collectionView: collectionView)
         adapter?.didSelectItem = { [weak self] item in
             self?.presenter.showDetails(for: item)
         }
@@ -70,13 +64,12 @@ private extension SearchViewController {
         searchBar.delegate = self
         
         if let clearButton = searchBar.searchTextField.value(forKeyPath: "_clearButton") as? UIButton {
-            clearButton.setImage(UIImage(named: "clearButtonIcon"), for: .normal)
+            clearButton.setImage(Image.Button.clearButtonIcon, for: .normal)
         }
     }
     
     func configureCollectionView() {
-        collectionView.register(UINib(nibName: Constants.itemCellId, bundle: .main),
-                                forCellWithReuseIdentifier: Constants.itemCellId)
+        collectionView.registerCell(MainItemCollectionViewCell.self)
         collectionView.contentInset = .init(top: 10, left: 16, bottom: 10, right: 16)
         
         collectionView.dataSource = adapter
@@ -94,7 +87,7 @@ extension SearchViewController: UIGestureRecognizerDelegate {
 
     private func configureNavigationBar() {
         navigationItem.titleView = searchBar
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "backIcon"),
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.NavigationBar.backIcon,
                                                            style: .plain,
                                                            target: navigationController,
                                                            action: #selector(UINavigationController.popViewController(animated:)))
@@ -130,7 +123,7 @@ extension SearchViewController: BaseViewProtocol {
     func showEmptyState() {
         DispatchQueue.main.async {
             self.collectionView.isHidden = true
-            self.searchStatusImageView.image = UIImage(named: "searchFailedIcon")
+            self.searchStatusImageView.image = Image.ImageView.searchFailedIcon
             self.searchStatusLabel.text = """
                                         По этому запросу нет результатов,
                                         попробуйте другой запрос.

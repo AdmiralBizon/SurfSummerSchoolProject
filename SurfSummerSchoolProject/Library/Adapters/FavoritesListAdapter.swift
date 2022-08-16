@@ -17,7 +17,6 @@ final class FavoritesListAdapter: NSObject {
         static let horisontalInset: CGFloat = 16
         static let spaceBetweenRows: CGFloat = 16
         static let multiplier: CGFloat = 1.17
-        static let itemCellId = "\(FavoritesItemCollectionViewCell.self)"
     }
     
     // MARK: - Events
@@ -54,8 +53,7 @@ extension FavoritesListAdapter: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.itemCellId,
-                                                      for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.CollectionView.favoritesItemCellId, for: indexPath)
         if let cell = cell as? FavoritesItemCollectionViewCell {
             let item = items[indexPath.item]
             cell.configure(item)
@@ -89,9 +87,7 @@ extension FavoritesListAdapter: UICollectionViewDelegateFlowLayout {
 // MARK: - FavoritesButtonDelegate
 
 extension FavoritesListAdapter: FavoritesButtonDelegate {
-    
     func favoritesButtonPressed(at itemId: Int) {
         didChangeFavorites?(itemId)
     }
-    
 }

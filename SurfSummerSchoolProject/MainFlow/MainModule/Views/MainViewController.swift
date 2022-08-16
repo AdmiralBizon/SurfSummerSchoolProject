@@ -9,12 +9,6 @@ import UIKit
 
 class MainViewController: UIViewController {
 
-    // MARK: - Constants
-
-    private enum Constants {
-        static let itemCellId = "\(MainItemCollectionViewCell.self)"
-    }
-
     // MARK: - Public properties
     
     var presenter: MainViewPresenterProtocol!
@@ -22,7 +16,7 @@ class MainViewController: UIViewController {
     // MARK: - Private Properties
 
     private var activityIndicator = UIActivityIndicatorView()
-    private var adapter: PostsListAdapter?
+    private var adapter: ItemsListAdapter?
 
     // MARK: - Views
 
@@ -62,7 +56,7 @@ class MainViewController: UIViewController {
 private extension MainViewController {
 
     func configureAdapter() {
-        adapter = PostsListAdapter(collectionView: collectionView)
+        adapter = ItemsListAdapter(collectionView: collectionView)
         adapter?.didSelectItem = { [weak self] item in
             self?.presenter.showDetails(for: item)
         }
@@ -73,7 +67,7 @@ private extension MainViewController {
     
     func configureNavigationBar() {
         navigationItem.title = "Главная"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "searchIcon"),
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Image.NavigationBar.searchIcon,
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(searchButtonPressed(_:)))
@@ -88,9 +82,8 @@ private extension MainViewController {
     func configureApperance() {
         placeholderView.isHidden = true
         
-        collectionView.register(UINib(nibName: Constants.itemCellId, bundle: .main),
-                                forCellWithReuseIdentifier: Constants.itemCellId)
         collectionView.contentInset = .init(top: 10, left: 16, bottom: 10, right: 16)
+        collectionView.registerCell(MainItemCollectionViewCell.self)
         
         collectionView.dataSource = adapter
         collectionView.delegate = adapter

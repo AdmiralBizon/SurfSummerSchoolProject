@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailTitleTableViewCell: UITableViewCell {
+final class DetailTitleTableViewCell: UITableViewCell {
 
     // MARK: - Views
 
@@ -21,7 +21,12 @@ class DetailTitleTableViewCell: UITableViewCell {
         configureAppearance()
     }
     
-    func configure(item: DetailItemModel) {
+    // MARK: - Public methods
+    
+    func configure(item: DetailItemModel?) {
+        guard let item = item else {
+            return
+        }
         cartTitleLabel.text = item.title
         dateLabel.text = item.dateCreation
     }
@@ -31,12 +36,10 @@ class DetailTitleTableViewCell: UITableViewCell {
 // MARK: - Private methods
 
 private extension DetailTitleTableViewCell {
-    
     func configureAppearance() {
         selectionStyle = .none
         cartTitleLabel.font = .systemFont(ofSize: 16, weight: .medium)
         dateLabel.font = .systemFont(ofSize: 10)
-        dateLabel.textColor = UIColor(named: "CustomGrey")
+        dateLabel.textColor = Color.lightGrey
     }
-    
 }

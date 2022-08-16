@@ -1,5 +1,5 @@
 //
-//  CollectionViewDataSource.swift
+//  ItemsListAdapter.swift
 //  SurfSummerSchoolProject
 //
 //  Created by Ilya on 15.08.2022.

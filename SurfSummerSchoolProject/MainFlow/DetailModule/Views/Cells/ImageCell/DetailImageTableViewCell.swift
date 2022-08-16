@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailImageTableViewCell: UITableViewCell {
+final class DetailImageTableViewCell: UITableViewCell {
 
     // MARK: - Views
 
@@ -17,16 +17,26 @@ class DetailImageTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        selectionStyle = .none
-        cartImageView.layer.cornerRadius = 12
-        cartImageView.contentMode = .scaleAspectFill
+        configureAppearance()
     }
     
-    func configure(item: DetailItemModel) {
-        guard let url = URL(string: item.imageUrlInString) else {
+    // MARK: - Public methods
+    
+    func configure(item: DetailItemModel?) {
+        guard let item = item, let url = URL(string: item.imageUrlInString) else {
             return
         }
         cartImageView?.loadImage(from: url)
     }
     
+}
+
+// MARK: - Private methods
+
+private extension DetailImageTableViewCell {
+    func configureAppearance() {
+        selectionStyle = .none
+        cartImageView.layer.cornerRadius = 12
+        cartImageView.contentMode = .scaleAspectFill
+    }
 }

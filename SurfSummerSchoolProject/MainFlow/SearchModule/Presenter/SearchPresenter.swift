@@ -7,11 +7,6 @@
 
 import Foundation
 
-protocol SearchViewPresenterProtocol: BaseViewPresenterProtocol {
-    init(view: BaseViewProtocol, dataStore: DataStore, items: [DetailItemModel], delegate: BaseViewDelegate?)
-    func searchItems(by title: String)
-}
-
 final class SearchPresenter: SearchViewPresenterProtocol {
     
     // MARK: - Private properties

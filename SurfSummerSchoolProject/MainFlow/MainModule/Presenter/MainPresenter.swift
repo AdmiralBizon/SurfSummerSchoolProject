@@ -7,31 +7,6 @@
 
 import Foundation
 
-protocol BaseViewProtocol: AnyObject {
-    func showPosts(_ posts: [DetailItemModel])
-    func showEmptyState()
-    func showDetails(for item: DetailItemModel)
-}
-
-protocol BaseViewPresenterProtocol: AnyObject {
-    func changeFavorites(itemId: Int)
-    func showDetails(for item: DetailItemModel)
-}
-
-protocol BaseViewDelegate: AnyObject {
-    func reloadCollection()
-}
-
-protocol MainViewProtocol: BaseViewProtocol {
-    func showErrorState(error: Error)
-}
-
-protocol MainViewPresenterProtocol: BaseViewPresenterProtocol {
-    init(view: MainViewProtocol, dataStore: DataStore)
-    func loadPosts()
-    func getItemsCollectionForSearch() -> [DetailItemModel]
-}
-
 final class MainPresenter: MainViewPresenterProtocol {
     
     // MARK: - Private properties
