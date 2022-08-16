@@ -23,6 +23,7 @@ class FavoritesViewController: UIViewController {
     var presenter: FavoritesViewPresenterProtocol!
     
     // MARK: - Private properties
+    
     private var adapter: FavoritesListAdapter?
     
     // MARK: - Views
@@ -37,13 +38,12 @@ class FavoritesViewController: UIViewController {
         super.viewDidLoad()
         configureAdapter()
         configureApperance()
-        presenter.loadFavorites()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
-        
+        presenter.loadFavorites()
     }
     
 }
@@ -58,7 +58,7 @@ private extension FavoritesViewController {
             self?.presenter.showDetails(for: item)
         }
         adapter?.didChangeFavorites = { [weak self] itemId in
-            self?.presenter.showAlertBeforeRemove(itemId: itemId)
+            self?.presenter.prepareToRemoveItem(itemId: itemId)
         }
     }
     
@@ -71,9 +71,9 @@ private extension FavoritesViewController {
     }
     
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
-//        let items = presenter.items
-//        let searchViewController = ModuleBuilder.createSearchModule(items: items)
-//        navigationController?.pushViewController(searchViewController, animated: true)
+        let items = presenter.getItemsCollectionForSearch()
+        let searchViewController = ModuleBuilder.createSearchModule(items: items, delegate: self)
+        navigationController?.pushViewController(searchViewController, animated: true)
     }
     
     func configureApperance() {
@@ -84,74 +84,11 @@ private extension FavoritesViewController {
                                 forCellWithReuseIdentifier: Constants.itemCellId)
         collectionView.contentInset = .init(top: 10, left: 16, bottom: 10, right: 16)
         
-//        collectionView.dataSource = self
-//        collectionView.delegate = self
         collectionView.dataSource = adapter
         collectionView.delegate = adapter
     }
-
-//    @objc func showAlert(_ sender: UIButton) {
-//
-//        let alert = UIAlertController(title: "Внимание", message: "Вы точно хотите удалить из избранного?", preferredStyle: .alert)
-//
-//        let removeAction = UIAlertAction(title: "Да, точно", style: .default, handler: { [weak self] _ in
-//            self?.removeItemFromFavorites(index: sender.tag)
-//          })
-//        let cancelAction = UIAlertAction(title: "Нет", style: .cancel)
-//
-//        alert.addAction(removeAction)
-//        alert.addAction(cancelAction)
-//
-//        alert.preferredAction = removeAction
-//
-//        present(alert, animated: true)
-//
-//    }
-    
-//    func removeItemFromFavorites(index: Int) {
-//        //presenter.removeFromFavorites(index: index)
-//        presenter.changeFavorites(itemId: index)
-//    }
     
 }
-
-//// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
-//
-//extension FavoriteViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-//
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        presenter.items.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.itemCellId,
-//                                                      for: indexPath)
-//        if let cell = cell as? FavoriteItemCollectionViewCell {
-//            let item = presenter.items[indexPath.item]
-//
-//            cell.configure(item)
-//            cell.favoriteButton.tag = indexPath.row
-//            cell.favoriteButton.addTarget(self, action: #selector(showAlert(_:)), for: .touchUpInside)
-//        }
-//        return cell
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let itemWidth = view.frame.width - Constants.horisontalInset * 2
-//        return CGSize(width: itemWidth, height: Constants.multiplier * itemWidth)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return Constants.spaceBetweenRows
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let item = presenter.items[indexPath.item]
-//        let detailViewController = ModuleBuilder.createDetailModule(item: item)
-//        navigationController?.pushViewController(detailViewController, animated: true)
-//    }
-//
-//}
 
 // MARK: - FavoritesViewProtocol
 
@@ -199,4 +136,20 @@ extension FavoritesViewController: FavoritesViewProtocol {
         present(alert, animated: true)
     }
     
+    func reloadMainScreen() {
+        if let navigationController = tabBarController?.viewControllers?[0] as? UINavigationController,
+           let mainViewController = navigationController.viewControllers[0] as? MainViewController {
+            mainViewController.reloadCollection()
+        }
+    }
+    
+}
+
+// MARK: - BaseViewDelegate
+
+extension FavoritesViewController: BaseViewDelegate {
+    func reloadCollection() {
+        presenter.loadFavorites()
+        presenter.reloadMainScreen()
+    }
 }

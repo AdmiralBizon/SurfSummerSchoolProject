@@ -167,19 +167,15 @@ extension MainViewController: MainViewProtocol {
 // MARK: - FavoritesButtonDelegate
 
 extension MainViewController: FavoritesButtonDelegate {
-    
     func favoritesButtonPressed(at itemId: Int) {
         presenter.changeFavorites(itemId: itemId)
     }
-    
 }
 
 // MARK: - BaseViewDelegate
 
 extension MainViewController: BaseViewDelegate {
-    
     func reloadCollection() {
-        presenter.updatePosts()
+        presenter.loadPosts()
     }
-    
 }

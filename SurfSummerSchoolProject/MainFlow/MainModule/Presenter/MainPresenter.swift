@@ -29,8 +29,6 @@ protocol MainViewProtocol: BaseViewProtocol {
 protocol MainViewPresenterProtocol: BaseViewPresenterProtocol {
     init(view: MainViewProtocol, dataStore: DataStore)
     func loadPosts()
-    func updatePosts()
-    func getItem(by index: Int) -> DetailItemModel?
     func getItemsCollectionForSearch() -> [DetailItemModel]
 }
 
@@ -63,19 +61,6 @@ final class MainPresenter: MainViewPresenterProtocol {
                 self?.view?.showErrorState(error: error)
             }
         })
-    }
-    
-    func updatePosts() {
-        let posts = dataStore?.getPosts() ?? []
-        if !posts.isEmpty {
-            view?.showPosts(posts)
-        } else {
-            view?.showEmptyState()
-        }
-    }
-    
-    func getItem(by index: Int) -> DetailItemModel? {
-        dataStore?.getItem(by: index)
     }
     
     func getItemsCollectionForSearch() -> [DetailItemModel] {

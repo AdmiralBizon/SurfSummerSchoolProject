@@ -50,7 +50,7 @@ class FavoritesItemCollectionViewCell: UICollectionViewCell {
 
     @IBAction private func favotiteAction(_ sender: UIButton) {
         delegate?.favoritesButtonPressed(at: sender.tag)
-        isFavorite.toggle()
+        //isFavorite.toggle()
     }
     
     // MARK: - UICollectionViewCell

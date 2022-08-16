@@ -243,7 +243,7 @@
 				090B5B0428A298FF00E7190E /* Models */,
 				09B50852289D8D4200DEFBA3 /* DetailModule */,
 				09794ED3289AFE7F00E042E8 /* TabBar */,
-				09794ED0289AFE5E00E042E8 /* FavoritesModule */,
+				09794ED0289AFE5E00E042E8 /* FavoriteModule */,
 				09794ED2289AFE7500E042E8 /* ProfileModule */,
 				09794ED1289AFE6A00E042E8 /* MainModule */,
 				090E47AD289D01AF00B7C173 /* SearchModule */,
@@ -251,13 +251,13 @@
 			path = MainFlow;
 			sourceTree = "<group>";
 		};
-		09794ED0289AFE5E00E042E8 /* FavoritesModule */ = {
+		09794ED0289AFE5E00E042E8 /* FavoriteModule */ = {
 			isa = PBXGroup;
 			children = (
 				09FA473D28A2F3D30058558C /* Views */,
 				09FA473E28A2F3E10058558C /* Presenter */,
 			);
-			path = FavoritesModule;
+			path = FavoriteModule;
 			sourceTree = "<group>";
 		};
 		09794ED1289AFE6A00E042E8 /* MainModule */ = {

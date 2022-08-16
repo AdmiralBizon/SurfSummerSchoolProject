@@ -35,7 +35,7 @@ private extension TabBarConfigurator {
 
     func getViewControllers() -> [UIViewController] {
         var viewControllers = [UIViewController]()
-
+        
         allTab.forEach { tab in
             let controller = getViewController(type: tab)
             let tabBarItem = UITabBarItem(title: tab.title, image: tab.image, selectedImage: tab.selectedImage)
