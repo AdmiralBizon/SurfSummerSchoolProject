@@ -12,7 +12,7 @@ typealias SelectItemClosure = (DetailItemModel) -> Void
 typealias ChangeFavoritesClosure = (Int) -> Void
 typealias CollectionScrollClosure = () -> Void
 
-final class PostsListAdapter: NSObject {
+final class ItemsListAdapter: NSObject {
     
     // MARK: - Constants
     
@@ -21,8 +21,7 @@ final class PostsListAdapter: NSObject {
         static let horisontalInset: CGFloat = 16
         static let spaceBetweenElements: CGFloat = 7
         static let spaceBetweenRows: CGFloat = 8
-        static let multiplier: CGFloat = 246 / 168 // width / height at Figma design
-        static let itemCellId = "\(MainItemCollectionViewCell.self)"
+        static let multiplier: CGFloat = 1.46 // width/height at Figma design
     }
     
     // MARK: - Events
@@ -53,14 +52,14 @@ final class PostsListAdapter: NSObject {
 
 // MARK: - UICollectionViewDataSource
 
-extension PostsListAdapter: UICollectionViewDataSource {
+extension ItemsListAdapter: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.itemCellId,
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.CollectionView.itemCellId,
                                                       for: indexPath)
         if let cell = cell as? MainItemCollectionViewCell {
             let item = items[indexPath.item]
@@ -74,7 +73,7 @@ extension PostsListAdapter: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension PostsListAdapter: UICollectionViewDelegateFlowLayout {
+extension ItemsListAdapter: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemWidth = (Constants.frameWidth - Constants.horisontalInset * 2 - Constants.spaceBetweenElements) / 2
@@ -102,10 +101,8 @@ extension PostsListAdapter: UICollectionViewDelegateFlowLayout {
 
 // MARK: - FavoritesButtonDelegate
 
-extension PostsListAdapter: FavoritesButtonDelegate {
-    
+extension ItemsListAdapter: FavoritesButtonDelegate {
     func favoritesButtonPressed(at itemId: Int) {
         didChangeFavorites?(itemId)
     }
-    
 }
