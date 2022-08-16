@@ -58,7 +58,7 @@ private extension FavoritesViewController {
             self?.presenter.showDetails(for: item)
         }
         adapter?.didChangeFavorites = { [weak self] itemId in
-            self?.presenter.changeFavorites(itemId: itemId)
+            self?.presenter.showAlertBeforeRemove(itemId: itemId)
         }
     }
     

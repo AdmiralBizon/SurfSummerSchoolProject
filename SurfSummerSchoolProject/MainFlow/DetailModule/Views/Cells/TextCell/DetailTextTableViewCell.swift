@@ -13,14 +13,6 @@ class DetailTextTableViewCell: UITableViewCell {
 
     @IBOutlet private weak var contentLabel: UILabel!
 
-    // MARK: - Properties
-
-    var text: String? {
-        didSet {
-            contentLabel.attributedText = configureAtributedString(text: text)
-        }
-    }
-
     // MARK: - UITableViewCell
 
     override func awakeFromNib() {
@@ -35,8 +27,18 @@ class DetailTextTableViewCell: UITableViewCell {
         contentLabel.numberOfLines = 0
     }
     
-    private func configureAtributedString(text: String?) -> NSAttributedString? {
-        guard let text = text else {
+    func configure(item: DetailItemModel) {
+        contentLabel.attributedText = configureAtributedString(text: item.content)
+    }
+    
+}
+
+// MARK: - Private methods
+
+private extension DetailTextTableViewCell {
+    
+    func configureAtributedString(text: String) -> NSAttributedString? {
+        if text.isEmpty {
             return nil
         }
         

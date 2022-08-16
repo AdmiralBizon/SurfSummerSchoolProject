@@ -12,17 +12,6 @@ class DetailImageTableViewCell: UITableViewCell {
     // MARK: - Views
 
     @IBOutlet private weak var cartImageView: UIImageView!
-
-    // MARK: - Properties
-
-    var imageUrlInString: String = "" {
-        didSet {
-            guard let url = URL(string: imageUrlInString) else {
-                return
-            }
-            cartImageView?.loadImage(from: url)
-        }
-    }
     
     // MARK: - UITableViewCell
 
@@ -31,6 +20,13 @@ class DetailImageTableViewCell: UITableViewCell {
         selectionStyle = .none
         cartImageView.layer.cornerRadius = 12
         cartImageView.contentMode = .scaleAspectFill
+    }
+    
+    func configure(item: DetailItemModel) {
+        guard let url = URL(string: item.imageUrlInString) else {
+            return
+        }
+        cartImageView?.loadImage(from: url)
     }
     
 }

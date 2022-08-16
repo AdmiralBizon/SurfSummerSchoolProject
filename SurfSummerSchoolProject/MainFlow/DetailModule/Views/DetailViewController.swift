@@ -9,6 +9,12 @@ import UIKit
 
 class DetailViewController: UIViewController, UIGestureRecognizerDelegate {
 
+    private enum Constants {
+        static let imageCellId = "\(DetailImageTableViewCell.self)"
+        static let titleCellId = "\(DetailTitleTableViewCell.self)"
+        static let textCellId = "\(DetailTextTableViewCell.self)"
+    }
+    
     // MARK: - Views
 
     private let tableView = UITableView()
@@ -56,8 +62,8 @@ private extension DetailViewController {
     }
 
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
-        let searchViewController = ModuleBuilder.createSearchModule(items: [])
-        navigationController?.pushViewController(searchViewController, animated: true)
+//        let searchViewController = ModuleBuilder.createSearchModule(items: [])
+//        navigationController?.pushViewController(searchViewController, animated: true)
     }
     
     func configureTableView() {
@@ -70,12 +76,12 @@ private extension DetailViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
-        tableView.register(UINib(nibName: "\(DetailImageTableViewCell.self)", bundle: .main),
-                           forCellReuseIdentifier: "\(DetailImageTableViewCell.self)")
-        tableView.register(UINib(nibName: "\(DetailTitleTableViewCell.self)", bundle: .main),
-                           forCellReuseIdentifier: "\(DetailTitleTableViewCell.self)")
-        tableView.register(UINib(nibName: "\(DetailTextTableViewCell.self)", bundle: .main),
-                           forCellReuseIdentifier: "\(DetailTextTableViewCell.self)")
+        tableView.register(UINib(nibName: Constants.imageCellId, bundle: .main),
+                           forCellReuseIdentifier: Constants.imageCellId)
+        tableView.register(UINib(nibName: Constants.titleCellId, bundle: .main),
+                           forCellReuseIdentifier: Constants.titleCellId)
+        tableView.register(UINib(nibName: Constants.textCellId, bundle: .main),
+                           forCellReuseIdentifier: Constants.textCellId)
         tableView.dataSource = self
         tableView.separatorStyle = .none
     }
@@ -91,26 +97,35 @@ extension DetailViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let item = presenter.item else {
+            return UITableViewCell()
+        }
+        
         switch indexPath.row {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailImageTableViewCell.self)")
-            if let cell = cell as? DetailImageTableViewCell {
-                cell.imageUrlInString = presenter.item?.imageUrlInString ?? ""
+            if let cell = tableView.dequeueReusableCell(
+                withIdentifier: Constants.imageCellId) as? DetailImageTableViewCell {
+                cell.configure(item: item)
+                return cell
             }
-            return cell ?? UITableViewCell()
+            return UITableViewCell()
+            
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailTitleTableViewCell.self)")
-            if let cell = cell as? DetailTitleTableViewCell {
-                cell.title = presenter.item?.title ?? ""
-                cell.date = presenter.item?.dateCreation ?? ""
+            if let cell = tableView.dequeueReusableCell(
+                withIdentifier: Constants.titleCellId) as? DetailTitleTableViewCell {
+                cell.configure(item: item)
+                return cell
             }
-            return cell ?? UITableViewCell()
+            return UITableViewCell()
+            
         case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailTextTableViewCell.self)")
-            if let cell = cell as? DetailTextTableViewCell {
-                cell.text = presenter?.item?.content
+            if let cell = tableView.dequeueReusableCell(
+                withIdentifier: Constants.textCellId) as? DetailTextTableViewCell {
+                cell.configure(item: item)
+                return cell
             }
-            return cell ?? UITableViewCell()
+            return UITableViewCell()
         default:
             return UITableViewCell()
         }

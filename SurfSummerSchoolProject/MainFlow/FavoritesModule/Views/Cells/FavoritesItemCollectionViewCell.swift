@@ -44,6 +44,15 @@ class FavoritesItemCollectionViewCell: UICollectionViewCell {
         }
     }
 
+    var delegate: FavoritesButtonDelegate?
+    
+    // MARK: - Actions
+
+    @IBAction private func favotiteAction(_ sender: UIButton) {
+        delegate?.favoritesButtonPressed(at: sender.tag)
+        isFavorite.toggle()
+    }
+    
     // MARK: - UICollectionViewCell
 
     override func awakeFromNib() {
@@ -51,11 +60,24 @@ class FavoritesItemCollectionViewCell: UICollectionViewCell {
         configureAppearance()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = nil
+        dateLabel.text = nil
+        detailTextLabel.text = nil
+        imageView.image = nil
+        isFavorite = true
+    }
+    
     func configure(_ item: DetailItemModel) {
         titleLabel.text = item.title
        
         if let url = URL(string: item.imageUrlInString) {
             imageView.loadImage(from: url)
+        }
+        
+        if let tag = Int(item.id) {
+            favoriteButton.tag = tag
         }
         
         detailTextLabel.text = item.content
