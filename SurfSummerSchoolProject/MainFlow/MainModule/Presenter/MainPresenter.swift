@@ -7,74 +7,87 @@
 
 import Foundation
 
-protocol MainViewProtocol: AnyObject {
-    func showPosts()
+protocol BaseViewProtocol: AnyObject {
+    func showPosts(_ posts: [DetailItemModel])
     func showEmptyState()
+    func showDetails(for item: DetailItemModel)
+}
+
+protocol BaseViewPresenterProtocol: AnyObject {
+    func changeFavorites(itemId: Int)
+    func showDetails(for item: DetailItemModel)
+}
+
+protocol BaseViewDelegate: AnyObject {
+    func reloadCollection()
+}
+
+protocol MainViewProtocol: BaseViewProtocol {
     func showErrorState(error: Error)
 }
 
-protocol MainViewPresenterProtocol: AnyObject {
-    init(view: MainViewProtocol, networkService: PicturesService, favoritesService: FavoritesService)
+protocol MainViewPresenterProtocol: BaseViewPresenterProtocol {
+    init(view: MainViewProtocol, dataStore: DataStore)
     func loadPosts()
-    func changeFavoritesByItem(at index: Int)
-    var items: [DetailItemModel] { get set }
+    func updatePosts()
+    func getItem(by index: Int) -> DetailItemModel?
+    func getItemsCollectionForSearch() -> [DetailItemModel]
 }
 
-class MainPresenter: MainViewPresenterProtocol {
+final class MainPresenter: MainViewPresenterProtocol {
     
-    weak var view: MainViewProtocol?
-    let networkService: PicturesService!
-    let favoritesService: FavoritesService!
-    var items: [DetailItemModel] = []
+    // MARK: - Private properties
     
-    required init(view: MainViewProtocol, networkService: PicturesService, favoritesService: FavoritesService) {
+    private weak var view: MainViewProtocol?
+    private let dataStore: DataStore?
+    
+    // MARK: - Initializers
+    
+    init(view: MainViewProtocol, dataStore: DataStore) {
         self.view = view
-        self.networkService = networkService
-        self.favoritesService = favoritesService
+        self.dataStore = dataStore
     }
     
+    // MARK: - Public methods
+    
     func loadPosts() {
-        networkService.loadPictures { [weak self] result in
+        dataStore?.loadPosts(completion: { [weak self] result in
             switch result {
-            case .success(let pictures):
-                self?.items = pictures.map { pictureModel in
-                    DetailItemModel(
-                        id: pictureModel.id,
-                        imageUrlInString: pictureModel.photoUrl,
-                        title: pictureModel.title,
-                        //isFavorite: false, // TODO: - Need adding `FavoriteService`
-                        isFavorite: self?.favoritesService.isFavorite(itemId: pictureModel.id) ?? false,
-                        content: pictureModel.content,
-                        dateCreation: pictureModel.date
-                    )
-                }
-                
-                if self?.items.isEmpty == false  {
-                    self?.view?.showPosts()
+            case .success(let posts):
+                if !posts.isEmpty  {
+                    self?.view?.showPosts(posts)
                 } else {
                     self?.view?.showEmptyState()
                 }
-                
             case .failure(let error):
                 self?.view?.showErrorState(error: error)
             }
+        })
+    }
+    
+    func updatePosts() {
+        let posts = dataStore?.getPosts() ?? []
+        if !posts.isEmpty {
+            view?.showPosts(posts)
+        } else {
+            view?.showEmptyState()
         }
     }
     
-    func changeFavoritesByItem(at index: Int) {
-        let range = 0..<items.count
-        if range.contains(index) {
-            
-            var item = items[index]
-            item.isFavorite.toggle()
-            
-            if !item.isFavorite {
-                favoritesService.removeFromFavorites(item: item)
-            } else {
-                favoritesService.addToFavorites(item: item)
-            }
-            
-        }
+    func getItem(by index: Int) -> DetailItemModel? {
+        dataStore?.getItem(by: index)
+    }
+    
+    func getItemsCollectionForSearch() -> [DetailItemModel] {
+        dataStore?.getItemsCollectionForSearch(onlyFavorites: false) ?? []
+    }
+    
+    func changeFavorites(itemId: Int) {
+        dataStore?.changeFavorites(itemId: String(itemId))
+    }
+    
+    func showDetails(for item: DetailItemModel) {
+        view?.showDetails(for: item)
     }
     
 }

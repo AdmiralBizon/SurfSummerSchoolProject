@@ -12,9 +12,7 @@ class MainViewController: UIViewController {
     // MARK: - Constants
 
     private enum Constants {
-        static let horisontalInset: CGFloat = 16
-        static let spaceBetweenElements: CGFloat = 7
-        static let spaceBetweenRows: CGFloat = 8
+        static let itemCellId = "\(MainItemCollectionViewCell.self)"
     }
 
     // MARK: - Public properties
@@ -24,6 +22,7 @@ class MainViewController: UIViewController {
     // MARK: - Private Properties
 
     private var activityIndicator = UIActivityIndicatorView()
+    private var adapter: PostsListAdapter?
 
     // MARK: - Views
 
@@ -34,15 +33,16 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureAdapter()
         configureApperance()
         configureActivityIndicator()
+        activityIndicator.startAnimating()
+        presenter.loadPosts()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
-        activityIndicator.startAnimating()
-        presenter.loadPosts()
     }
     
     // MARK: - IBActions
@@ -61,6 +61,16 @@ class MainViewController: UIViewController {
 
 private extension MainViewController {
 
+    func configureAdapter() {
+        adapter = PostsListAdapter(collectionView: collectionView)
+        adapter?.didSelectItem = { [weak self] item in
+            self?.presenter.showDetails(for: item)
+        }
+        adapter?.didChangeFavorites = { [weak self] itemId in
+            self?.presenter.changeFavorites(itemId: itemId)
+        }
+    }
+    
     func configureNavigationBar() {
         navigationItem.title = "Главная"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "searchIcon"),
@@ -70,19 +80,20 @@ private extension MainViewController {
     }
     
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
-        let items = presenter.items
-        let searchViewController = ModuleBuilder.createSearchModule(items: items)
+        let items = presenter.getItemsCollectionForSearch()
+        let searchViewController = ModuleBuilder.createSearchModule(items: items, delegate: self)
         navigationController?.pushViewController(searchViewController, animated: true)
     }
     
     func configureApperance() {
         placeholderView.isHidden = true
         
-        collectionView.register(UINib(nibName: "\(MainItemCollectionViewCell.self)", bundle: .main),
-                                forCellWithReuseIdentifier: "\(MainItemCollectionViewCell.self)")
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        collectionView.register(UINib(nibName: Constants.itemCellId, bundle: .main),
+                                forCellWithReuseIdentifier: Constants.itemCellId)
         collectionView.contentInset = .init(top: 10, left: 16, bottom: 10, right: 16)
+        
+        collectionView.dataSource = adapter
+        collectionView.delegate = adapter
         
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self,
@@ -104,68 +115,30 @@ private extension MainViewController {
     
 }
 
-// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
-
-extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        presenter.items.count 
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MainItemCollectionViewCell.self)", for: indexPath)
-        if let cell = cell as? MainItemCollectionViewCell {
-            let item = presenter.items[indexPath.item]
-            cell.configure(item)
-            cell.didFavoritesTapped = { [weak self] in
-                self?.presenter.changeFavoritesByItem(at: indexPath.item)
-            }
-        }
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = (view.frame.width - Constants.horisontalInset * 2 - Constants.spaceBetweenElements) / 2
-        return CGSize(width: itemWidth, height: 1.46 * itemWidth)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return Constants.spaceBetweenRows
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return Constants.spaceBetweenElements
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = presenter.items[indexPath.item]
-        let detailViewController = ModuleBuilder.createDetailModule(item: item)
-        navigationController?.pushViewController(detailViewController, animated: true)
-    }
-    
-}
-
 // MARK: - MainViewProtocol
 
 extension MainViewController: MainViewProtocol {
     
-    func showPosts() {
+    func showPosts(_ posts: [DetailItemModel]) {
+
         DispatchQueue.main.async {
             self.collectionView.isHidden = false
             self.placeholderView.isHidden = true
-            
+
             if self.activityIndicator.isAnimating {
                 self.activityIndicator.stopAnimating()
             }
-            
+
             if self.collectionView.refreshControl?.isRefreshing == true {
                 self.collectionView.refreshControl?.endRefreshing()
             }
-            self.collectionView.reloadData()
+
+            self.adapter?.configure(items: posts)
         }
     }
     
     func showEmptyState() {
+        
         DispatchQueue.main.async {
             self.collectionView.isHidden = true
             self.placeholderView.isHidden = false
@@ -177,12 +150,36 @@ extension MainViewController: MainViewProtocol {
             if self.collectionView.refreshControl?.isRefreshing == true {
                 self.collectionView.refreshControl?.endRefreshing()
             }
-            self.collectionView.reloadData()
         }
+    }
+    
+    func showDetails(for item: DetailItemModel) {
+        let detailViewController = ModuleBuilder.createDetailModule(item: item)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
     func showErrorState(error: Error) {
         print(error)
+    }
+    
+}
+
+// MARK: - FavoritesButtonDelegate
+
+extension MainViewController: FavoritesButtonDelegate {
+    
+    func favoritesButtonPressed(at itemId: Int) {
+        presenter.changeFavorites(itemId: itemId)
+    }
+    
+}
+
+// MARK: - BaseViewDelegate
+
+extension MainViewController: BaseViewDelegate {
+    
+    func reloadCollection() {
+        presenter.updatePosts()
     }
     
 }

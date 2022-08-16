@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol FavoritesButtonDelegate: AnyObject {
+    func favoritesButtonPressed(at itemId: Int)
+}
+
 class MainItemCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Constants
@@ -24,7 +28,7 @@ class MainItemCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Events
 
-    var didFavoritesTapped: (() -> Void)?
+    //var didFavoritesTapped: (() -> Void)?
 
     // MARK: - Calculated
 
@@ -48,10 +52,14 @@ class MainItemCollectionViewCell: UICollectionViewCell {
         }
     }
 
+    var delegate: FavoritesButtonDelegate?
+    //var delegate: BasePresenter?
+    
     // MARK: - Actions
 
     @IBAction private func favotiteAction(_ sender: UIButton) {
-        didFavoritesTapped?()
+        //didFavoritesTapped?()
+        delegate?.favoritesButtonPressed(at: sender.tag)
         isFavorite.toggle()
     }
 
@@ -62,11 +70,22 @@ class MainItemCollectionViewCell: UICollectionViewCell {
         configureAppearance()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = nil
+        imageView.image = nil
+        isFavorite = false
+    }
+    
     func configure(_ item: DetailItemModel) {
         titleLabel.text = item.title
        
         if let url = URL(string: item.imageUrlInString) {
             imageView.loadImage(from: url)
+        }
+        
+        if let tag = Int(item.id) {
+            favoriteButton.tag = tag
         }
         
         isFavorite = item.isFavorite

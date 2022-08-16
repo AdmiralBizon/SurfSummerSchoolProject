@@ -1,9 +1,9 @@
-//
+
 //  MainModel.swift
 //  SurfSummerSchoolProject
 //
 //  Created by Владислав Климов on 04.08.2022.
-//
+
 
 import Foundation
 import UIKit
@@ -17,7 +17,7 @@ final class MainModel {
     // MARK: - Properties
 
     let pictureService = PicturesService()
-    
+
     var items: [DetailItemModel] = [] {
         didSet {
             didItemsUpdated?()
@@ -46,5 +46,5 @@ final class MainModel {
             }
         }
     }
-    
+
 }

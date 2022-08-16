@@ -37,7 +37,7 @@ private extension TabBarConfigurator {
         var viewControllers = [UIViewController]()
 
         allTab.forEach { tab in
-            let controller = getCurrentViewController(tab: tab)
+            let controller = getViewController(type: tab)
             let tabBarItem = UITabBarItem(title: tab.title, image: tab.image, selectedImage: tab.selectedImage)
             controller.tabBarItem = tabBarItem
             
@@ -48,13 +48,11 @@ private extension TabBarConfigurator {
         return viewControllers
     }
 
-    func getCurrentViewController(tab: TabBarModel) -> UIViewController {
-        switch tab {
+    func getViewController(type: TabBarModel) -> UIViewController {
+        switch type {
         case .main:
-            //return MainViewController()
             return ModuleBuilder.createMainModule()
         case .favorite:
-            //return FavoriteViewController()
             return ModuleBuilder.createFavoriteModule()
         case .profile:
             return ProfileViewController()
@@ -65,7 +63,8 @@ private extension TabBarConfigurator {
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.navigationBar.tintColor = .black
         navigationController.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black,
-                                                                  .font: UIFont.systemFont(ofSize: 17, weight: .semibold)]
+                                                                  .font: UIFont.systemFont(ofSize: 17,
+                                                                                           weight: .semibold)]
         return navigationController
     }
 
