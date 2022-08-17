@@ -16,6 +16,8 @@
 		090E47B1289D01C700B7C173 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 090E47AF289D01C700B7C173 /* SearchViewController.xib */; };
 		0912BBC528ACF78100CF6EF2 /* LocalStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0912BBC428ACF78100CF6EF2 /* LocalStorageProtocol.swift */; };
 		0912BBC728ACF80100CF6EF2 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0912BBC628ACF80100CF6EF2 /* LocalStorage.swift */; };
+		094FBB3628AD7564003DACC0 /* ErrorStateAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094FBB3528AD7564003DACC0 /* ErrorStateAlert.swift */; };
+		094FBB3828AD82E4003DACC0 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094FBB3728AD82E4003DACC0 /* UIViewController.swift */; };
 		095B234D28ABA3CD004143DF /* FavoritesListAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095B234C28ABA3CD004143DF /* FavoritesListAdapter.swift */; };
 		095B234F28ABEC68004143DF /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095B234E28ABEC68004143DF /* Color.swift */; };
 		095B235728ABF4CE004143DF /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095B235628ABF4CE004143DF /* Image.swift */; };
@@ -90,6 +92,8 @@
 		090E47AF289D01C700B7C173 /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
 		0912BBC428ACF78100CF6EF2 /* LocalStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageProtocol.swift; sourceTree = "<group>"; };
 		0912BBC628ACF80100CF6EF2 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
+		094FBB3528AD7564003DACC0 /* ErrorStateAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStateAlert.swift; sourceTree = "<group>"; };
+		094FBB3728AD82E4003DACC0 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		095B234C28ABA3CD004143DF /* FavoritesListAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesListAdapter.swift; sourceTree = "<group>"; };
 		095B234E28ABEC68004143DF /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		095B235628ABF4CE004143DF /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
@@ -257,6 +261,14 @@
 			path = SearchModule;
 			sourceTree = "<group>";
 		};
+		094FBB3928AD84E2003DACC0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				094FBB3528AD7564003DACC0 /* ErrorStateAlert.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		095B234B28ABA3A7004143DF /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +284,7 @@
 				095B234B28ABA3A7004143DF /* Adapters */,
 				095B235128ABED7E004143DF /* Extensions */,
 				095B236428AC37A8004143DF /* Protocols */,
+				094FBB3928AD84E2003DACC0 /* Views */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -282,6 +295,7 @@
 				095B235928AC0E59004143DF /* UICollectionView.swift */,
 				095B235E28AC11C8004143DF /* UITableView.swift */,
 				095B236028AC3586004143DF /* UICollectionViewCell.swift */,
+				094FBB3728AD82E4003DACC0 /* UIViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -718,6 +732,7 @@
 				095B235728ABF4CE004143DF /* Image.swift in Sources */,
 				09FB6DFF28A17A2D00946B44 /* PicturesService.swift in Sources */,
 				095B235C28AC1036004143DF /* Constants.swift in Sources */,
+				094FBB3628AD7564003DACC0 /* ErrorStateAlert.swift in Sources */,
 				095B236328AC3730004143DF /* Builder.swift in Sources */,
 				09FA473C28A2F3B80058558C /* FavoritesPresenter.swift in Sources */,
 				09FB6DF328A1786800946B44 /* AuthService.swift in Sources */,
@@ -735,6 +750,7 @@
 				09FB6DF828A1792800946B44 /* TokenContainer.swift in Sources */,
 				090B5B0B28A2A5E500E7190E /* ModuleBuilder.swift in Sources */,
 				09FB6DFA28A1794300946B44 /* TokenStorage.swift in Sources */,
+				094FBB3828AD82E4003DACC0 /* UIViewController.swift in Sources */,
 				095B236E28AC3939004143DF /* FavoritesButtonDelegate.swift in Sources */,
 				09FB6E0228A17AE100946B44 /* ImageLoader.swift in Sources */,
 				09FB6DF128A1784D00946B44 /* AuthResponseModel.swift in Sources */,
