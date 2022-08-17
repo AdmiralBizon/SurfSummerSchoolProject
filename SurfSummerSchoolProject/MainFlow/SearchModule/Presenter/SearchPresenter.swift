@@ -7,52 +7,53 @@
 
 import Foundation
 
-protocol SearchViewProtocol: AnyObject {
-    func showPosts()
-    func showEmptyState()
-}
-
-protocol SearchViewPresenterProtocol: AnyObject {
-    init(view: SearchViewProtocol, items: [DetailItemModel])
-    func searchPosts(by title: String)
-    func changeIsFavoriteFlagForItem(at index: Int)
-    var items: [DetailItemModel] { get set }
-    var filteredItems: [DetailItemModel] { get set }
-}
-
-class SearchPresenter: SearchViewPresenterProtocol {
-
-    weak var view: SearchViewProtocol?
-    var items: [DetailItemModel] = []
-    var filteredItems: [DetailItemModel] = []
+final class SearchPresenter: SearchViewPresenterProtocol {
     
-    required init(view: SearchViewProtocol, items: [DetailItemModel]) {
+    // MARK: - Private properties
+    
+    private weak var view: BaseViewProtocol?
+    private let dataStore: DataStore?
+    private var items: [DetailItemModel]
+    private weak var delegate: BaseViewDelegate?
+    
+    // MARK: - Initializers
+    
+    init(view: BaseViewProtocol, dataStore: DataStore, items: [DetailItemModel], delegate: BaseViewDelegate?) {
         self.view = view
+        self.dataStore = dataStore
         self.items = items
+        self.delegate = delegate
     }
     
-    func searchPosts(by title: String) {
-        filteredItems = []
+    // MARK: - Public methods
+    
+    func searchItems(by title: String) {
         
-        filteredItems = items.filter {
+        let filteredItems = items.filter {
             $0.title.lowercased().contains(title.lowercased())
         }
         
-        switch !filteredItems.isEmpty {
-        case true: view?.showPosts()
-        case false: view?.showEmptyState()
+        if !filteredItems.isEmpty {
+            view?.showPosts(filteredItems)
+        } else {
+            view?.showEmptyState()
+        }
+    }
+    
+    func changeFavorites(itemId: Int) {
+        
+        let itemId = String(itemId)
+        
+        if let index = items.firstIndex(where: { $0.id == itemId }) {
+            dataStore?.changeFavorites(itemId: itemId)
+            items[index].isFavorite.toggle()
+            delegate?.reloadCollection() // reload collection at delegate screen
         }
         
     }
     
-    func changeIsFavoriteFlagForItem(at index: Int) {
-//        let range = 0..<filteredItems.count
-//        if range.contains(index) {
-//            let item = filteredItems[index].isFavorite.toggle()
-//
-//            let originalItem = items.first {}
-//
-//        }
+    func showDetails(for item: DetailItemModel) {
+        view?.showDetails(for: item)
     }
     
 }

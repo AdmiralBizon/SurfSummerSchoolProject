@@ -11,9 +11,11 @@ import UIKit
 final class TabBarConfigurator {
 
     // MARK: - Private property
+    
     private let allTab: [TabBarModel] = [.main, .favorite, .profile]
 
     // MARK: - Internal Methods
+    
     func configure() -> UITabBarController {
         getTabBarController()
     }
@@ -21,13 +23,14 @@ final class TabBarConfigurator {
 }
 
 // MARK: - Private Methods
+
 private extension TabBarConfigurator {
 
     func getTabBarController() -> UITabBarController {
         let tabBarController = UITabBarController()
-        tabBarController.tabBar.tintColor = .black
-        tabBarController.tabBar.unselectedItemTintColor = UIColor(named: "CustomGrey")
-        tabBarController.tabBar.backgroundColor = .white
+        tabBarController.tabBar.tintColor = Color.black
+        tabBarController.tabBar.unselectedItemTintColor = Color.lightGrey
+        tabBarController.tabBar.backgroundColor = Color.white
         tabBarController.viewControllers = getViewControllers()
 
         return tabBarController
@@ -35,10 +38,12 @@ private extension TabBarConfigurator {
 
     func getViewControllers() -> [UIViewController] {
         var viewControllers = [UIViewController]()
-
+        
         allTab.forEach { tab in
-            let controller = getCurrentViewController(tab: tab)
-            let tabBarItem = UITabBarItem(title: tab.title, image: tab.image, selectedImage: tab.selectedImage)
+            let controller = createViewController(type: tab)
+            let tabBarItem = UITabBarItem(title: tab.properties.title,
+                                          image: tab.properties.image,
+                                          selectedImage: tab.properties.selectedImage)
             controller.tabBarItem = tabBarItem
             
             let navigationController = addNavigationController(for: controller)
@@ -48,13 +53,11 @@ private extension TabBarConfigurator {
         return viewControllers
     }
 
-    func getCurrentViewController(tab: TabBarModel) -> UIViewController {
-        switch tab {
+    func createViewController(type: TabBarModel) -> UIViewController {
+        switch type {
         case .main:
-            //return MainViewController()
             return ModuleBuilder.createMainModule()
         case .favorite:
-            //return FavoriteViewController()
             return ModuleBuilder.createFavoriteModule()
         case .profile:
             return ProfileViewController()
@@ -63,9 +66,10 @@ private extension TabBarConfigurator {
     
     func addNavigationController(for viewController: UIViewController) -> UINavigationController {
         let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.navigationBar.tintColor = .black
-        navigationController.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black,
-                                                                  .font: UIFont.systemFont(ofSize: 17, weight: .semibold)]
+        navigationController.navigationBar.tintColor = Color.black
+        navigationController.navigationBar.titleTextAttributes = [.foregroundColor: Color.black,
+                                                                  .font: UIFont.systemFont(ofSize: 17,
+                                                                                           weight: .semibold)]
         return navigationController
     }
 

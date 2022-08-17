@@ -7,26 +7,12 @@
 
 import UIKit
 
-class DetailTitleTableViewCell: UITableViewCell {
+final class DetailTitleTableViewCell: UITableViewCell {
 
     // MARK: - Views
 
     @IBOutlet private weak var cartTitleLabel: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
-
-    // MARK: - Properties
-
-    var title: String = "" {
-        didSet {
-            cartTitleLabel.text = title
-        }
-    }
-
-    var date: String = "" {
-        didSet {
-            dateLabel.text = date
-        }
-    }
 
     // MARK: - UITableViewCell
 
@@ -34,12 +20,26 @@ class DetailTitleTableViewCell: UITableViewCell {
         super.awakeFromNib()
         configureAppearance()
     }
+    
+    // MARK: - Public methods
+    
+    func configure(item: DetailItemModel?) {
+        guard let item = item else {
+            return
+        }
+        cartTitleLabel.text = item.title
+        dateLabel.text = item.dateCreation
+    }
+    
+}
 
-    private func configureAppearance() {
+// MARK: - Private methods
+
+private extension DetailTitleTableViewCell {
+    func configureAppearance() {
         selectionStyle = .none
         cartTitleLabel.font = .systemFont(ofSize: 16, weight: .medium)
         dateLabel.font = .systemFont(ofSize: 10)
-        dateLabel.textColor = UIColor(named: "CustomGrey")
+        dateLabel.textColor = Color.lightGrey
     }
-    
 }

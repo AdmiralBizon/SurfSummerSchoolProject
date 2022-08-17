@@ -7,19 +7,11 @@
 
 import UIKit
 
-class DetailTextTableViewCell: UITableViewCell {
+final class DetailTextTableViewCell: UITableViewCell {
 
     // MARK: - Views
 
     @IBOutlet private weak var contentLabel: UILabel!
-
-    // MARK: - Properties
-
-    var text: String? {
-        didSet {
-            contentLabel.attributedText = configureAtributedString(text: text)
-        }
-    }
 
     // MARK: - UITableViewCell
 
@@ -28,15 +20,30 @@ class DetailTextTableViewCell: UITableViewCell {
         configureAppearance()
     }
 
-    private func configureAppearance() {
+    // MARK: - Public methods
+    
+    func configure(item: DetailItemModel?) {
+        guard let item = item else {
+            return
+        }
+        contentLabel.attributedText = configureAtributedString(text: item.content)
+    }
+    
+}
+
+// MARK: - Private methods
+
+private extension DetailTextTableViewCell {
+    
+    func configureAppearance() {
         selectionStyle = .none
         contentLabel.font = .systemFont(ofSize: 12, weight: .light)
-        contentLabel.textColor = .black
+        contentLabel.textColor = Color.black
         contentLabel.numberOfLines = 0
     }
     
-    private func configureAtributedString(text: String?) -> NSAttributedString? {
-        guard let text = text else {
+    func configureAtributedString(text: String) -> NSAttributedString? {
+        if text.isEmpty {
             return nil
         }
         
@@ -47,7 +54,6 @@ class DetailTextTableViewCell: UITableViewCell {
         attrString.addAttribute(.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
        
         return attrString
-        
     }
     
 }

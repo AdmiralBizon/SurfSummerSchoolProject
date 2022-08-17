@@ -7,12 +7,20 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UIGestureRecognizerDelegate {
-
+class DetailViewController: UIViewController {
+    
+    // MARK: - Enums
+    
+    private enum CellTypes: Int, CaseIterable {
+        case detailImage
+        case detailTitle
+        case detailText
+    }
+    
     // MARK: - Views
 
     private let tableView = UITableView()
-
+    
     // MARK: - Public properties
 
     var presenter: DetailViewPresenterProtocol!
@@ -22,7 +30,7 @@ class DetailViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAppearance()
-        presenter.showDetails()
+        presenter.reloadData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -40,28 +48,15 @@ private extension DetailViewController {
         configureTableView()
     }
 
-    func configureNavigationBar() {
-        navigationItem.title = presenter.item?.title
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "backIcon"),
-                                                           style: .plain,
-                                                           target: navigationController,
-                                                           action: #selector(UINavigationController.popViewController(animated:)))
-        navigationItem.leftBarButtonItem?.tintColor = .black
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "searchIcon"),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(searchButtonPressed(_:)))
-        
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
-    }
-
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
-        let searchViewController = ModuleBuilder.createSearchModule(items: [])
+        let searchViewController = ModuleBuilder.createSearchModule(items: [],
+                                                                    delegate: nil)
         navigationController?.pushViewController(searchViewController, animated: true)
     }
     
     func configureTableView() {
         view.addSubview(tableView)
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -69,17 +64,35 @@ private extension DetailViewController {
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-
-        tableView.register(UINib(nibName: "\(DetailImageTableViewCell.self)", bundle: .main),
-                           forCellReuseIdentifier: "\(DetailImageTableViewCell.self)")
-        tableView.register(UINib(nibName: "\(DetailTitleTableViewCell.self)", bundle: .main),
-                           forCellReuseIdentifier: "\(DetailTitleTableViewCell.self)")
-        tableView.register(UINib(nibName: "\(DetailTextTableViewCell.self)", bundle: .main),
-                           forCellReuseIdentifier: "\(DetailTextTableViewCell.self)")
+        
+        tableView.registerCell(DetailImageTableViewCell.self)
+        tableView.registerCell(DetailTitleTableViewCell.self)
+        tableView.registerCell(DetailTextTableViewCell.self)
+        
         tableView.dataSource = self
         tableView.separatorStyle = .none
     }
 
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension DetailViewController: UIGestureRecognizerDelegate {
+    
+    private func configureNavigationBar() {
+        navigationItem.title = presenter.getItem()?.title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Image.NavigationBar.backIcon,
+                                                           style: .plain,
+                                                           target: navigationController,
+                                                           action: #selector(UINavigationController.popViewController(animated:)))
+        navigationItem.leftBarButtonItem?.tintColor = .black
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Image.NavigationBar.searchIcon,
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(searchButtonPressed(_:)))
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -87,41 +100,60 @@ private extension DetailViewController {
 extension DetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        CellTypes.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailImageTableViewCell.self)")
-            if let cell = cell as? DetailImageTableViewCell {
-                cell.imageUrlInString = presenter.item?.imageUrlInString ?? ""
-            }
-            return cell ?? UITableViewCell()
-        case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailTitleTableViewCell.self)")
-            if let cell = cell as? DetailTitleTableViewCell {
-                cell.title = presenter.item?.title ?? ""
-                cell.date = presenter.item?.dateCreation ?? ""
-            }
-            return cell ?? UITableViewCell()
-        case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "\(DetailTextTableViewCell.self)")
-            if let cell = cell as? DetailTextTableViewCell {
-                cell.text = presenter?.item?.content
-            }
-            return cell ?? UITableViewCell()
-        default:
+        
+        guard let cellType = CellTypes(rawValue: indexPath.row) else {
             return UITableViewCell()
         }
+        
+        switch cellType {
+        case .detailImage:
+            return configureImageCell(tableView, indexPath: indexPath)
+        case .detailTitle:
+            return configureTitleCell(tableView, indexPath: indexPath)
+        case .detailText:
+            return configureTextCell(tableView, indexPath: indexPath)
+        }
+        
     }
 
+}
+
+// MARK: - Configure cells
+
+private extension DetailViewController {
+    func configureImageCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        guard let imageCell = tableView.dequeueReusableCell(withIdentifier: K.TableView.detailImageCellId, for: indexPath) as? DetailImageTableViewCell else {
+            return UITableViewCell()
+        }
+        imageCell.configure(item: presenter.getItem())
+        return imageCell
+    }
+    
+    func configureTitleCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        guard let titleCell = tableView.dequeueReusableCell(withIdentifier: K.TableView.detailTitleCellId, for: indexPath) as? DetailTitleTableViewCell else {
+            return UITableViewCell()
+        }
+        titleCell.configure(item: presenter.getItem())
+        return titleCell
+    }
+    
+    func configureTextCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        guard let textCell = tableView.dequeueReusableCell(withIdentifier: K.TableView.detailTextCellId, for: indexPath) as? DetailTextTableViewCell else {
+            return UITableViewCell()
+        }
+        textCell.configure(item: presenter.getItem())
+        return textCell
+    }
 }
 
 // MARK: - DetailViewProtocol
 
 extension DetailViewController: DetailViewProtocol {
-    func showDetails(item: DetailItemModel?) {
+    func updateScreen() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

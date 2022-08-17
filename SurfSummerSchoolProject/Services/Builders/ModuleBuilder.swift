@@ -7,22 +7,11 @@
 
 import UIKit
 
-protocol Builder {
-    static func createMainModule() -> UIViewController
-    static func createDetailModule(item: DetailItemModel?) -> UIViewController
-    static func createSearchModule(items: [DetailItemModel]) -> UIViewController
-    static func createFavoriteModule() -> UIViewController
-}
-
 final class ModuleBuilder: Builder {
     
     static func createMainModule() -> UIViewController {
         let view = MainViewController()
-        let picturesService = PicturesService()
-        let favoritesService = FavoritesService()
-        let presenter = MainPresenter(view: view,
-                                      networkService: picturesService,
-                                      favoritesService: favoritesService)
+        let presenter = MainPresenter(view: view, dataStore: DataStore.shared)
         view.presenter = presenter
         return view
     }
@@ -34,19 +23,22 @@ final class ModuleBuilder: Builder {
         return view
     }
     
-    static func createSearchModule(items: [DetailItemModel]) -> UIViewController {
+    static func createSearchModule(items: [DetailItemModel], delegate: BaseViewDelegate?) -> UIViewController {
         let view = SearchViewController()
-        let presenter = SearchPresenter(view: view, items: items)
+        let presenter = SearchPresenter(view: view,
+                                        dataStore: DataStore.shared,
+                                        items: items,
+                                        delegate: delegate)
         view.presenter = presenter
         view.hidesBottomBarWhenPushed = true
         return view
     }
     
     static func createFavoriteModule() -> UIViewController {
-        let view = FavoriteViewController()
-        let favoritesService = FavoritesService()
-        let presenter = FavoritePresenter(view: view,
-                                          favoritesService: favoritesService)
+        let view = FavoritesViewController()
+        let favoritesService = FavoritesService.shared
+        let presenter = FavoritesPresenter(view: view,
+                                           favoritesService: favoritesService)
         view.presenter = presenter
         return view
     }

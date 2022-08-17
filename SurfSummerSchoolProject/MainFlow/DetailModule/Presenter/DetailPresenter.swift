@@ -7,28 +7,28 @@
 
 import Foundation
 
-protocol DetailViewProtocol: AnyObject {
-    func showDetails(item: DetailItemModel?)
-}
-
-protocol DetailViewPresenterProtocol: AnyObject {
-    init(view: DetailViewProtocol, item: DetailItemModel?)
-    func showDetails()
-    var item: DetailItemModel? { get set }
-}
-
-class DetailPresenter: DetailViewPresenterProtocol {
+final class DetailPresenter: DetailViewPresenterProtocol {
     
-    weak var view: DetailViewProtocol?
-    var item: DetailItemModel?
+    // MARK: - Private properties
     
-    required init(view: DetailViewProtocol, item: DetailItemModel?) {
+    private weak var view: DetailViewProtocol?
+    private var item: DetailItemModel?
+    
+    // MARK: - Initializers
+    
+    init(view: DetailViewProtocol, item: DetailItemModel?) {
         self.view = view
         self.item = item
     }
     
-    public func showDetails() {
-        view?.showDetails(item: item)
+    // MARK: - Public methods
+    
+    func getItem() -> DetailItemModel? {
+        item
+    }
+    
+    func reloadData() {
+        view?.updateScreen()
     }
     
 }
