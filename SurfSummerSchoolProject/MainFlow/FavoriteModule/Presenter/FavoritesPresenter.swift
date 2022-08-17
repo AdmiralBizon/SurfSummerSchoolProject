@@ -24,7 +24,7 @@ final class FavoritesPresenter: FavoritesViewPresenterProtocol {
     // MARK: - Public methods
     
     func loadFavorites() {
-        let items = favoritesService?.loadFavorites() ?? []
+        let items = favoritesService?.getFavorites() ?? []
         
         if !items.isEmpty {
             view?.showPosts(items)
@@ -33,8 +33,8 @@ final class FavoritesPresenter: FavoritesViewPresenterProtocol {
         }
     }
     
-    func getItemsCollectionForSearch() -> [DetailItemModel] {
-        favoritesService?.loadFavorites() ?? []
+    func getItems() -> [DetailItemModel] {
+        favoritesService?.getFavorites() ?? []
     }
     
     func changeFavorites(itemId: Int) {

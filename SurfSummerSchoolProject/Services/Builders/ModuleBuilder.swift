@@ -9,11 +9,9 @@ import UIKit
 
 final class ModuleBuilder: Builder {
     
-    static let dataStore = DataStore.shared
-    
     static func createMainModule() -> UIViewController {
         let view = MainViewController()
-        let presenter = MainPresenter(view: view, dataStore: dataStore)
+        let presenter = MainPresenter(view: view, dataStore: DataStore.shared)
         view.presenter = presenter
         return view
     }
@@ -28,7 +26,7 @@ final class ModuleBuilder: Builder {
     static func createSearchModule(items: [DetailItemModel], delegate: BaseViewDelegate?) -> UIViewController {
         let view = SearchViewController()
         let presenter = SearchPresenter(view: view,
-                                        dataStore: dataStore,
+                                        dataStore: DataStore.shared,
                                         items: items,
                                         delegate: delegate)
         view.presenter = presenter
@@ -38,7 +36,7 @@ final class ModuleBuilder: Builder {
     
     static func createFavoriteModule() -> UIViewController {
         let view = FavoritesViewController()
-        let favoritesService = FavoritesService()
+        let favoritesService = FavoritesService.shared
         let presenter = FavoritesPresenter(view: view,
                                            favoritesService: favoritesService)
         view.presenter = presenter

@@ -38,8 +38,8 @@ final class MainPresenter: MainViewPresenterProtocol {
         })
     }
     
-    func getItemsCollectionForSearch() -> [DetailItemModel] {
-        dataStore?.getItemsCollectionForSearch(onlyFavorites: false) ?? []
+    func getItems() -> [DetailItemModel] {
+        dataStore?.getItems() ?? []
     }
     
     func changeFavorites(itemId: Int) {

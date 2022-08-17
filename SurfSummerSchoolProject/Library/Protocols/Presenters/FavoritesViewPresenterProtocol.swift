@@ -11,6 +11,6 @@ protocol FavoritesViewPresenterProtocol: BaseViewPresenterProtocol {
     init(view: FavoritesViewProtocol, favoritesService: FavoritesService)
     func loadFavorites()
     func prepareToRemoveItem(itemId: Int)
-    func getItemsCollectionForSearch() -> [DetailItemModel]
+    func getItems() -> [DetailItemModel]
     func reloadMainScreen()
 }

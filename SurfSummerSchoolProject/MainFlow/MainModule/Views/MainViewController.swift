@@ -74,7 +74,7 @@ private extension MainViewController {
     }
     
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
-        let items = presenter.getItemsCollectionForSearch()
+        let items = presenter.getItems()
         let searchViewController = ModuleBuilder.createSearchModule(items: items, delegate: self)
         navigationController?.pushViewController(searchViewController, animated: true)
     }

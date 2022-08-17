@@ -24,7 +24,7 @@ final class DataStore {
     
     private init() {
         self.picturesService = PicturesService()
-        self.favoritesService = FavoritesService()
+        self.favoritesService = FavoritesService.shared
     }
     
     // MARK: - Public methods
@@ -68,12 +68,8 @@ final class DataStore {
         }
     }
     
-    func getItemsCollectionForSearch(onlyFavorites: Bool) -> [DetailItemModel] {
-        if onlyFavorites {
-            return favoritesService.loadFavorites()
-        } else {
-            return items
-        }
+    func getItems() -> [DetailItemModel] {
+        items
     }
     
 }

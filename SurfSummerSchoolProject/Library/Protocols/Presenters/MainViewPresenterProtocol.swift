@@ -10,5 +10,5 @@ import Foundation
 protocol MainViewPresenterProtocol: BaseViewPresenterProtocol {
     init(view: MainViewProtocol, dataStore: DataStore)
     func loadPosts()
-    func getItemsCollectionForSearch() -> [DetailItemModel]
+    func getItems() -> [DetailItemModel]
 }
