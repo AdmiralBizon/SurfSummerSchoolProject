@@ -11,9 +11,11 @@ import UIKit
 final class TabBarConfigurator {
 
     // MARK: - Private property
+    
     private let allTab: [TabBarModel] = [.main, .favorite, .profile]
 
     // MARK: - Internal Methods
+    
     func configure() -> UITabBarController {
         getTabBarController()
     }
@@ -21,13 +23,14 @@ final class TabBarConfigurator {
 }
 
 // MARK: - Private Methods
+
 private extension TabBarConfigurator {
 
     func getTabBarController() -> UITabBarController {
         let tabBarController = UITabBarController()
-        tabBarController.tabBar.tintColor = .black
-        tabBarController.tabBar.unselectedItemTintColor = UIColor(named: "CustomGrey")
-        tabBarController.tabBar.backgroundColor = .white
+        tabBarController.tabBar.tintColor = Color.black
+        tabBarController.tabBar.unselectedItemTintColor = Color.lightGrey
+        tabBarController.tabBar.backgroundColor = Color.white
         tabBarController.viewControllers = getViewControllers()
 
         return tabBarController
@@ -37,8 +40,10 @@ private extension TabBarConfigurator {
         var viewControllers = [UIViewController]()
         
         allTab.forEach { tab in
-            let controller = getViewController(type: tab)
-            let tabBarItem = UITabBarItem(title: tab.title, image: tab.image, selectedImage: tab.selectedImage)
+            let controller = createViewController(type: tab)
+            let tabBarItem = UITabBarItem(title: tab.properties.title,
+                                          image: tab.properties.image,
+                                          selectedImage: tab.properties.selectedImage)
             controller.tabBarItem = tabBarItem
             
             let navigationController = addNavigationController(for: controller)
@@ -48,7 +53,7 @@ private extension TabBarConfigurator {
         return viewControllers
     }
 
-    func getViewController(type: TabBarModel) -> UIViewController {
+    func createViewController(type: TabBarModel) -> UIViewController {
         switch type {
         case .main:
             return ModuleBuilder.createMainModule()
@@ -61,8 +66,8 @@ private extension TabBarConfigurator {
     
     func addNavigationController(for viewController: UIViewController) -> UINavigationController {
         let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.navigationBar.tintColor = .black
-        navigationController.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black,
+        navigationController.navigationBar.tintColor = Color.black
+        navigationController.navigationBar.titleTextAttributes = [.foregroundColor: Color.black,
                                                                   .font: UIFont.systemFont(ofSize: 17,
                                                                                            weight: .semibold)]
         return navigationController
