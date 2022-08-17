@@ -76,10 +76,10 @@ private extension FavoritesItemCollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         
         titleLabel.font = .systemFont(ofSize: 16, weight: .medium)
-        dateLabel.font = .systemFont(ofSize: 10)
+        dateLabel.font = .systemFont(ofSize: 10, weight: .medium)
         dateLabel.textColor = Color.lightGrey
         
-        detailTextLabel.font = .systemFont(ofSize: 12, weight: .light)
+        detailTextLabel.font = .systemFont(ofSize: 12, weight: .regular)
         detailTextLabel.textColor = Color.black
         detailTextLabel.numberOfLines = 1
         
