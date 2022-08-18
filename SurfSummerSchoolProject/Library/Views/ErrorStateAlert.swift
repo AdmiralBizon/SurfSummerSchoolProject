@@ -12,24 +12,18 @@ import UIKit
 
 final class ErrorStateAlert: UIButton {
     
-    // MARK: - Public Properties
-    
-    public var didTapBlock: (() -> ())?
-    
     // MARK: - Private properties
     
-    private var height: CGFloat = 95.0
-    private var duration = 0.3
-    private var delay: Double = 5.0
+    private let height: CGFloat = 95.0
+    private let duration = 0.3
+    private let delay: Double = 5.0
     
     private var titleFrame: CGRect!
     private var topLabel = UILabel()
-    private var messageLabel = UILabel()
+    private let titleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
     
     private var statusBarHeight: CGFloat = 0.0
     private let screenWidth = UIScreen.main.bounds.size.width
-    
-    private let titleFont = UIFont.systemFont(ofSize: 14, weight: .regular)
     
     // MARK: - Initializers
     
@@ -45,13 +39,8 @@ final class ErrorStateAlert: UIButton {
     
     // MARK: - Public methods
     
-    func showAlert(_ title: String,
-                   message: String? = nil,
-                   topLabelColor: UIColor = Color.white,
-                   messageLabelColor: UIColor = Color.white,
-                   backgroundColor: UIColor = Color.lightRed ?? .red) {
-        
-        show(title: title, message: message, topLabelColor: topLabelColor, messageLabelColor: messageLabelColor, backgroundColor: backgroundColor)
+    func showAlert(_ title: String) {
+        show(title: title)
     }
     
 }
@@ -77,19 +66,19 @@ private extension ErrorStateAlert {
         topLabel.textAlignment = .center
         topLabel.numberOfLines = 0
         topLabel.textColor = UIColor.white
-        topLabel.font = self.titleFont
+        topLabel.font = titleFont
         addSubview(topLabel)
     }
     
-    func show(title: String, message: String?, topLabelColor: UIColor, messageLabelColor: UIColor, backgroundColor: UIColor?) {
+    func show(title: String) {
         
         addWindowSubview(self)
-        configureProperties(title, message: message, topLabelColor: topLabelColor, messageLabelColor: messageLabelColor, backgroundColor: backgroundColor)
+        configureProperties(title)
         
-        UIView.animate(withDuration: self.duration, animations: {
+        UIView.animate(withDuration: duration, animations: {
             self.frame.origin.y = 0
         })
-        perform(#selector(hide), with: self, afterDelay: self.delay)
+        perform(#selector(hide), with: self, afterDelay: delay)
     }
     
     func addWindowSubview(_ view: UIView) {
@@ -106,35 +95,13 @@ private extension ErrorStateAlert {
         }
     }
     
-    func configureProperties(_ title: String, message: String?, topLabelColor: UIColor?, messageLabelColor: UIColor?, backgroundColor: UIColor?) {
-        
+    func configureProperties(_ title: String) {
         topLabel.text = title
-        
-        if let message = message {
-            messageLabel.text = message
-        } else {
-            messageLabel.isHidden = true
-            topLabel.frame.origin.y = height/2
-        }
-        
-        if let topLabelColor = topLabelColor {
-            topLabel.textColor = topLabelColor
-        }
-        
-        if let messageLabelColor = messageLabelColor {
-            messageLabel.textColor = messageLabelColor
-        }
-        
-        if let backgroundColor = backgroundColor {
-            self.backgroundColor = backgroundColor
-        }
+        topLabel.frame.origin.y = height / 2
     }
     
     @objc func viewDidTap() {
-        if let didTapBlock = didTapBlock {
-            didTapBlock()
-            hide(self)
-        }
+        hide(self)
     }
     
     @objc func hide(_ alertView: UIButton) {
