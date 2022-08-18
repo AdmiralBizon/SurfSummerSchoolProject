@@ -75,7 +75,9 @@ private extension MainViewController {
     
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
         let items = presenter.getItems()
-        let searchViewController = ModuleBuilder.createSearchModule(items: items, delegate: self)
+        let searchViewController = ModuleBuilder.createSearchModule(items: items,
+                                                                    delegate: presenter,
+                                                                    useMainModuleDelegate: false)
         navigationController?.pushViewController(searchViewController, animated: true)
     }
     
@@ -113,7 +115,6 @@ private extension MainViewController {
 extension MainViewController: MainViewProtocol {
     
     func showPosts(_ posts: [DetailItemModel]) {
-
         DispatchQueue.main.async {
             self.collectionView.isHidden = false
             self.placeholderView.isHidden = true
@@ -126,13 +127,11 @@ extension MainViewController: MainViewProtocol {
                 self.collectionView.refreshControl?.endRefreshing()
             }
 
-            self.adapter?.configure(items: posts)
+            self.adapter?.reloadData(with: posts)
         }
-        
     }
     
     func showEmptyState() {
-        
         DispatchQueue.main.async {
             self.collectionView.isHidden = true
             self.placeholderView.isHidden = false
@@ -154,7 +153,16 @@ extension MainViewController: MainViewProtocol {
     
     func showErrorState(error: Error) {
         DispatchQueue.main.async {
+            if self.collectionView.refreshControl?.isRefreshing == true {
+                self.collectionView.refreshControl?.endRefreshing()
+            }
             self.showErrorState(error.localizedDescription)
+        }
+    }
+    
+    func reloadItemAt(indexPath: IndexPath, in collection: [DetailItemModel]) {
+        DispatchQueue.main.async {
+            self.adapter?.reloadData(at: indexPath, in: collection)
         }
     }
     
@@ -165,13 +173,5 @@ extension MainViewController: MainViewProtocol {
 extension MainViewController: FavoritesButtonDelegate {
     func favoritesButtonPressed(at itemId: Int) {
         presenter.changeFavorites(itemId: itemId)
-    }
-}
-
-// MARK: - BaseViewDelegate
-
-extension MainViewController: BaseViewDelegate {
-    func reloadCollection() {
-        presenter.loadPosts()
     }
 }

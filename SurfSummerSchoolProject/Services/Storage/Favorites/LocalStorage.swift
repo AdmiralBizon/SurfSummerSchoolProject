@@ -26,7 +26,7 @@ struct LocalStorage: LocalStorageProtocol {
         return nil
     }
     
-    func set<T:Codable>(value: T?, for key: LocalStorageKeysProtocol) {
+    func set<T:Codable>(value: T, for key: LocalStorageKeysProtocol) {
         if let encodedObject = try? JSONEncoder().encode(value) {
             userDefaults.set(encodedObject, forKey: key.rawValue)
         }

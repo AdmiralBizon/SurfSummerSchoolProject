@@ -7,10 +7,9 @@
 
 import Foundation
 
-protocol FavoritesViewPresenterProtocol: BaseViewPresenterProtocol {
-    init(view: FavoritesViewProtocol, favoritesService: FavoritesService)
+protocol FavoritesViewPresenterProtocol: BaseViewPresenterProtocol, BasePresenterDelegate {
+    init(view: FavoritesViewProtocol, dataStore: DataStore, delegate: BasePresenterDelegate?)
     func loadFavorites()
     func prepareToRemoveItem(itemId: Int)
     func getItems() -> [DetailItemModel]
-    func reloadMainScreen()
 }

@@ -63,7 +63,9 @@ private extension FavoritesViewController {
     
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
         let items = presenter.getItems()
-        let searchViewController = ModuleBuilder.createSearchModule(items: items, delegate: self)
+        let searchViewController = ModuleBuilder.createSearchModule(items: items,
+                                                                    delegate: presenter,
+                                                                    useMainModuleDelegate: true)
         navigationController?.pushViewController(searchViewController, animated: true)
     }
     
@@ -76,6 +78,15 @@ private extension FavoritesViewController {
         
         collectionView.dataSource = adapter
         collectionView.delegate = adapter
+        
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self,
+                                                 action: #selector(didPullToRefresh),
+                                                 for: .valueChanged)
+    }
+    
+    @objc func didPullToRefresh() {
+        presenter.loadFavorites()
     }
     
 }
@@ -86,6 +97,10 @@ extension FavoritesViewController: FavoritesViewProtocol {
     
     func showPosts(_ posts: [DetailItemModel]) {
         DispatchQueue.main.async {
+            if self.collectionView.refreshControl?.isRefreshing == true {
+                self.collectionView.refreshControl?.endRefreshing()
+            }
+            
             self.emptyListLabel.isHidden = true
             self.emptyListImageView.isHidden = true
             self.collectionView.isHidden = false
@@ -96,6 +111,10 @@ extension FavoritesViewController: FavoritesViewProtocol {
     
     func showEmptyState() {
         DispatchQueue.main.async {
+            if self.collectionView.refreshControl?.isRefreshing == true {
+                self.collectionView.refreshControl?.endRefreshing()
+            }
+            
             self.collectionView.isHidden = true
             self.emptyListLabel.isHidden = false
             self.emptyListImageView.isHidden = false
@@ -126,20 +145,4 @@ extension FavoritesViewController: FavoritesViewProtocol {
         present(alert, animated: true)
     }
     
-    func reloadMainScreen() {
-        if let navigationController = tabBarController?.viewControllers?[0] as? UINavigationController,
-           let mainViewController = navigationController.viewControllers[0] as? MainViewController {
-            mainViewController.reloadCollection()
-        }
-    }
-    
-}
-
-// MARK: - BaseViewDelegate
-
-extension FavoritesViewController: BaseViewDelegate {
-    func reloadCollection() {
-        presenter.loadFavorites()
-        presenter.reloadMainScreen()
-    }
 }

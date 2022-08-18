@@ -116,7 +116,7 @@ extension SearchViewController: BaseViewProtocol {
     func showPosts(_ posts: [DetailItemModel]) {
         DispatchQueue.main.async {
             self.collectionView.isHidden = false
-            self.adapter?.configure(items: posts)
+            self.adapter?.reloadData(with: posts)
         }
     }
     

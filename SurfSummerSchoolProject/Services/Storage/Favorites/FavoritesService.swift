@@ -15,11 +15,7 @@ final class FavoritesService {
     
     // MARK: - Private properties
     
-    private var favorites = [DetailItemModel]() {
-        didSet {
-            saveFavorites()
-        }
-    }
+    private var favorites = [DetailItemModel]()
     
     // MARK: - Initializers
     
@@ -36,6 +32,7 @@ final class FavoritesService {
     func addToFavorites(item: DetailItemModel) {
         if !favorites.contains(item) {
             favorites.append(item)
+            saveFavorites()
         }
         
     }
@@ -43,6 +40,7 @@ final class FavoritesService {
     func removeFromFavorites(item: DetailItemModel) {
         if let index = favorites.firstIndex(of: item) {
             favorites.remove(at: index)
+            saveFavorites()
         }
     }
     
@@ -65,6 +63,7 @@ private extension FavoritesService {
     func loadFavorites() {
         favorites = []
         let loadedData: [DetailItemModel]? = LocalStorage().value(for: LocalStorageKeys.favorites)
+        
         if let loadedData = loadedData {
             favorites = loadedData
         }

@@ -12,17 +12,21 @@ final class SearchPresenter: SearchViewPresenterProtocol {
     // MARK: - Private properties
     
     private weak var view: BaseViewProtocol?
-    private let dataStore: DataStore?
     private var items: [DetailItemModel]
-    private weak var delegate: BaseViewDelegate?
+    private weak var delegate: BasePresenterDelegate?
+    private weak var mainScreenDelegate: BasePresenterDelegate?
     
     // MARK: - Initializers
     
-    init(view: BaseViewProtocol, dataStore: DataStore, items: [DetailItemModel], delegate: BaseViewDelegate?) {
+    init(view: BaseViewProtocol,
+         items: [DetailItemModel],
+         delegate: BasePresenterDelegate?,
+         mainScreenDelegate: BasePresenterDelegate?) {
+        
         self.view = view
-        self.dataStore = dataStore
         self.items = items
         self.delegate = delegate
+        self.mainScreenDelegate = mainScreenDelegate
     }
     
     // MARK: - Public methods
@@ -45,9 +49,11 @@ final class SearchPresenter: SearchViewPresenterProtocol {
         let itemId = String(itemId)
         
         if let index = items.firstIndex(where: { $0.id == itemId }) {
-            dataStore?.changeFavorites(itemId: itemId)
+            DataStore.shared.changeFavorites(itemId: itemId)
             items[index].isFavorite.toggle()
-            delegate?.reloadCollection() // reload collection at delegate screen
+            
+            delegate?.reloadItem(itemId: itemId)
+            mainScreenDelegate?.reloadItem(itemId: itemId)
         }
         
     }
