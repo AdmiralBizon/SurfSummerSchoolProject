@@ -153,6 +153,9 @@ extension MainViewController: MainViewProtocol {
     
     func showErrorState(error: Error) {
         DispatchQueue.main.async {
+            if self.collectionView.refreshControl?.isRefreshing == true {
+                self.collectionView.refreshControl?.endRefreshing()
+            }
             self.showErrorState(error.localizedDescription)
         }
     }

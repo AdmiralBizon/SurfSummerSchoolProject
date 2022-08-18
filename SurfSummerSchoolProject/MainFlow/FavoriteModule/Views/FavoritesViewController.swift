@@ -78,6 +78,15 @@ private extension FavoritesViewController {
         
         collectionView.dataSource = adapter
         collectionView.delegate = adapter
+        
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self,
+                                                 action: #selector(didPullToRefresh),
+                                                 for: .valueChanged)
+    }
+    
+    @objc func didPullToRefresh() {
+        presenter.loadFavorites()
     }
     
 }
@@ -88,6 +97,10 @@ extension FavoritesViewController: FavoritesViewProtocol {
     
     func showPosts(_ posts: [DetailItemModel]) {
         DispatchQueue.main.async {
+            if self.collectionView.refreshControl?.isRefreshing == true {
+                self.collectionView.refreshControl?.endRefreshing()
+            }
+            
             self.emptyListLabel.isHidden = true
             self.emptyListImageView.isHidden = true
             self.collectionView.isHidden = false
@@ -98,6 +111,10 @@ extension FavoritesViewController: FavoritesViewProtocol {
     
     func showEmptyState() {
         DispatchQueue.main.async {
+            if self.collectionView.refreshControl?.isRefreshing == true {
+                self.collectionView.refreshControl?.endRefreshing()
+            }
+            
             self.collectionView.isHidden = true
             self.emptyListLabel.isHidden = false
             self.emptyListImageView.isHidden = false
