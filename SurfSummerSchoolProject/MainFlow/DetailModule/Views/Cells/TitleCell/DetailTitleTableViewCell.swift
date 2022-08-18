@@ -39,7 +39,7 @@ private extension DetailTitleTableViewCell {
     func configureAppearance() {
         selectionStyle = .none
         cartTitleLabel.font = .systemFont(ofSize: 16, weight: .medium)
-        dateLabel.font = .systemFont(ofSize: 10)
+        dateLabel.font = .systemFont(ofSize: 10, weight: .medium)
         dateLabel.textColor = Color.lightGrey
     }
 }

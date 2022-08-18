@@ -128,6 +128,7 @@ extension MainViewController: MainViewProtocol {
 
             self.adapter?.configure(items: posts)
         }
+        
     }
     
     func showEmptyState() {
@@ -152,7 +153,9 @@ extension MainViewController: MainViewProtocol {
     }
     
     func showErrorState(error: Error) {
-        print(error)
+        DispatchQueue.main.async {
+            self.showErrorState(error.localizedDescription)
+        }
     }
     
 }

@@ -25,7 +25,7 @@
                     <constraint firstItem="EMU-rY-HW9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="DPn-l8-Q23"/>
                     <constraint firstItem="EMU-rY-HW9" firstAttribute="width" secondItem="EMU-rY-HW9" secondAttribute="height" multiplier="343:326" id="Gqg-ha-qja"/>
                     <constraint firstItem="EMU-rY-HW9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Q4F-pk-2tu"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="EMU-rY-HW9" secondAttribute="bottom" constant="8" id="pbj-tz-3kx"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="EMU-rY-HW9" secondAttribute="bottom" constant="16" id="pbj-tz-3kx"/>
                     <constraint firstAttribute="trailing" secondItem="EMU-rY-HW9" secondAttribute="trailing" constant="16" id="t2d-aU-lY2"/>
                 </constraints>
             </tableViewCellContentView>
