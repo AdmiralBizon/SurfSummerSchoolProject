@@ -50,4 +50,13 @@ final class MainPresenter: MainViewPresenterProtocol {
         view?.showDetails(for: item)
     }
     
+    func reloadItem(itemId: String) {
+        if let itemIndex = dataStore?.getItemIndex(id: itemId) {
+            let indexPath = IndexPath(item: itemIndex, section: 0)
+            let items = dataStore?.getItems() ?? []
+           
+            view?.reloadItemAt(indexPath: indexPath, in: items)
+        }
+    }
+    
 }

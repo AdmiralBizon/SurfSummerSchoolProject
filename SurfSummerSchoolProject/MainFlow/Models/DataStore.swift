@@ -29,22 +29,6 @@ final class DataStore {
     
     // MARK: - Public methods
     
-    func changeFavorites(itemId: String) {
-        guard !itemId.isEmpty else {
-            return
-        }
-        
-        if let index = items.firstIndex(where: { $0.id == itemId }) {
-            items[index].isFavorite.toggle()
-            
-            if !items[index].isFavorite {
-                favoritesService.removeFromFavorites(item: items[index])
-            } else {
-                favoritesService.addToFavorites(item: items[index])
-            }
-        }
-    }
-    
     func loadPosts(completion: @escaping (_ result: Result<[DetailItemModel], Error>) -> Void) {
         picturesService.loadPictures { [weak self] result in
             switch result {
@@ -70,6 +54,37 @@ final class DataStore {
     
     func getItems() -> [DetailItemModel] {
         items
+    }
+    
+    func getItemIndex(id: String) -> Int? {
+        guard !id.isEmpty, let index = items.firstIndex(where: { $0.id == id }) else {
+            return nil
+        }
+       return index
+    }
+    
+    func getFavorites() -> [DetailItemModel] {
+        favoritesService.getFavorites()
+    }
+    
+    func getItemFromFavorites(itemId: String) -> DetailItemModel? {
+        favoritesService.getItemFromFavorites(itemId: itemId)
+    }
+    
+    func changeFavorites(itemId: String) {
+        guard !itemId.isEmpty else {
+            return
+        }
+        
+        if let index = items.firstIndex(where: { $0.id == itemId }) {
+            items[index].isFavorite.toggle()
+            
+            if !items[index].isFavorite {
+                favoritesService.removeFromFavorites(item: items[index])
+            } else {
+                favoritesService.addToFavorites(item: items[index])
+            }
+        }
     }
     
 }

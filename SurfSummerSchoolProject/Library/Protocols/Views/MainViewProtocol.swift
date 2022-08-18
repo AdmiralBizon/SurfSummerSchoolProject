@@ -9,4 +9,5 @@ import Foundation
 
 protocol MainViewProtocol: BaseViewProtocol {
     func showErrorState(error: Error)
+    func reloadItemAt(indexPath: IndexPath, in collection: [DetailItemModel])
 }

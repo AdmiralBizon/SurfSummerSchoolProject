@@ -43,9 +43,14 @@ final class ItemsListAdapter: NSObject {
 
     // MARK: - Public methods
     
-    func configure(items: [DetailItemModel]) {
+    func reloadData(with items: [DetailItemModel]) {
         self.items = items
         collectionView.reloadData()
+    }
+    
+    func reloadData(at indexPath: IndexPath, in collection: [DetailItemModel]) {
+        items = collection
+        collectionView.reloadItems(at: [indexPath])
     }
     
 }

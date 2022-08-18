@@ -9,5 +9,4 @@ import Foundation
 
 protocol FavoritesViewProtocol: BaseViewProtocol {
     func showAlertBeforeRemovingItem(itemId: Int)
-    func reloadMainScreen()
 }

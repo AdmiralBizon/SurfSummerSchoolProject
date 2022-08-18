@@ -9,10 +9,15 @@ import UIKit
 
 final class ModuleBuilder: Builder {
     
+    static var mainModuleDelegate: MainViewPresenterProtocol? = nil
+    
     static func createMainModule() -> UIViewController {
         let view = MainViewController()
         let presenter = MainPresenter(view: view, dataStore: DataStore.shared)
         view.presenter = presenter
+        
+        mainModuleDelegate = presenter
+        
         return view
     }
     
@@ -23,12 +28,16 @@ final class ModuleBuilder: Builder {
         return view
     }
     
-    static func createSearchModule(items: [DetailItemModel], delegate: BaseViewDelegate?) -> UIViewController {
+    static func createSearchModule(items: [DetailItemModel], delegate: BasePresenterDelegate?, useMainModuleDelegate: Bool) -> UIViewController
+    {
+        
+        let mainScreenDelegate = useMainModuleDelegate ? mainModuleDelegate : nil
+        
         let view = SearchViewController()
         let presenter = SearchPresenter(view: view,
-                                        dataStore: DataStore.shared,
                                         items: items,
-                                        delegate: delegate)
+                                        delegate: delegate,
+                                        mainScreenDelegate: mainScreenDelegate)
         view.presenter = presenter
         view.hidesBottomBarWhenPushed = true
         return view
@@ -36,9 +45,9 @@ final class ModuleBuilder: Builder {
     
     static func createFavoriteModule() -> UIViewController {
         let view = FavoritesViewController()
-        let favoritesService = FavoritesService.shared
         let presenter = FavoritesPresenter(view: view,
-                                           favoritesService: favoritesService)
+                                           dataStore: DataStore.shared,
+                                           delegate: mainModuleDelegate)
         view.presenter = presenter
         return view
     }

@@ -63,7 +63,9 @@ private extension FavoritesViewController {
     
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
         let items = presenter.getItems()
-        let searchViewController = ModuleBuilder.createSearchModule(items: items, delegate: self)
+        let searchViewController = ModuleBuilder.createSearchModule(items: items,
+                                                                    delegate: presenter,
+                                                                    useMainModuleDelegate: true)
         navigationController?.pushViewController(searchViewController, animated: true)
     }
     
@@ -126,20 +128,4 @@ extension FavoritesViewController: FavoritesViewProtocol {
         present(alert, animated: true)
     }
     
-    func reloadMainScreen() {
-        if let navigationController = tabBarController?.viewControllers?[0] as? UINavigationController,
-           let mainViewController = navigationController.viewControllers[0] as? MainViewController {
-            mainViewController.reloadCollection()
-        }
-    }
-    
-}
-
-// MARK: - BaseViewDelegate
-
-extension FavoritesViewController: BaseViewDelegate {
-    func reloadCollection() {
-        presenter.loadFavorites()
-        presenter.reloadMainScreen()
-    }
 }

@@ -50,7 +50,8 @@ private extension DetailViewController {
 
     @objc func searchButtonPressed(_ sender: UIBarButtonItem) {
         let searchViewController = ModuleBuilder.createSearchModule(items: [],
-                                                                    delegate: nil)
+                                                                    delegate: nil,
+                                                                    useMainModuleDelegate: false)
         navigationController?.pushViewController(searchViewController, animated: true)
     }
     

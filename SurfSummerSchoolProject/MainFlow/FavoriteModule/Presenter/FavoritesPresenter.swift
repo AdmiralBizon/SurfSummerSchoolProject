@@ -12,19 +12,23 @@ final class FavoritesPresenter: FavoritesViewPresenterProtocol {
     // MARK: - Private properties
     
     private weak var view: FavoritesViewProtocol?
-    private let favoritesService: FavoritesService?
+    private let dataStore: DataStore?
+    private weak var delegate: BasePresenterDelegate?
     
     // MARK: - Initializers
     
-    init(view: FavoritesViewProtocol, favoritesService: FavoritesService) {
+    init(view: FavoritesViewProtocol,
+         dataStore: DataStore,
+         delegate: BasePresenterDelegate?) {
         self.view = view
-        self.favoritesService = favoritesService
+        self.dataStore = dataStore
+        self.delegate = delegate
     }
     
     // MARK: - Public methods
     
     func loadFavorites() {
-        let items = favoritesService?.getFavorites() ?? []
+        let items = dataStore?.getFavorites() ?? []
         
         if !items.isEmpty {
             view?.showPosts(items)
@@ -34,13 +38,13 @@ final class FavoritesPresenter: FavoritesViewPresenterProtocol {
     }
     
     func getItems() -> [DetailItemModel] {
-        favoritesService?.getFavorites() ?? []
+        dataStore?.getFavorites() ?? []
     }
     
     func changeFavorites(itemId: Int) {
-        if let item = favoritesService?.getItemFromFavorites(itemId: String(itemId)) {
-            favoritesService?.removeFromFavorites(item: item)
-            view?.reloadMainScreen() // reload collection at main screen
+        if let _ = dataStore?.getItemFromFavorites(itemId: String(itemId)) {
+            dataStore?.changeFavorites(itemId: String(itemId))
+            delegate?.reloadItem(itemId: String(itemId)) // reload item at main screen
             loadFavorites()
         }
     }
@@ -51,10 +55,6 @@ final class FavoritesPresenter: FavoritesViewPresenterProtocol {
     
     func showDetails(for item: DetailItemModel) {
         view?.showDetails(for: item)
-    }
-    
-    func reloadMainScreen() {
-        view?.reloadMainScreen()
     }
     
 }
