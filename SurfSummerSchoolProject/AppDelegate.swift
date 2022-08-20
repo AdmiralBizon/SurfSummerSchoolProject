@@ -9,12 +9,9 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-    var tokenStorage: TokenStorage {
-        BaseTokenStorage()
-    }
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -31,35 +28,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func startApplicationProccess() {
         runLaunchScreen()
         
-        if let tokenContainer = try? tokenStorage.getToken(), !tokenContainer.isExpired {
-            runMainFlow()
-        } else {
-            let tempCredentials = AuthRequestModel(phone: "+71234567890", password: "qwerty")
-            AuthService()
-                .performLoginRequestAndSaveToken(credentials: tempCredentials) { [weak self] result in
-                    switch result {
-                    case .success:
-                        self?.runMainFlow()
-                    case .failure:
-                        // TODO: - Handle error, if token was not received
-                        break
+        if let credentials = try? UserCredentialsManager.shared.getCredentials() {
+            guard credentials.token.isExpired else {
+                Coordinator.runMainFlow()
+                return
+            }
+            
+            let requestCredentials = AuthRequestModel(phone: credentials.login,
+                                                      password: credentials.password)
+            
+            AuthService().performLoginRequestAndSaveCredentials(credentials: requestCredentials) { [weak self] result in
+                switch result {
+                case .success:
+                    Coordinator.runMainFlow()
+                case .failure(let error):
+                    print("Ошибка автоматической авторизации по причине: \(error)")
+                    DispatchQueue.main.async {
+                        self?.window?.rootViewController?.showErrorState("Не удалось выполнить вход \nПовторите попытку позднее")
                     }
+                    Coordinator.runAuthFlow()
                 }
+            }
+            
+        } else {
+            Coordinator.runAuthFlow()
         }
     }
     
     func runLaunchScreen() {
         let lauchScreenViewController = UIStoryboard(name: "LaunchScreen", bundle: .main)
             .instantiateInitialViewController()
-        
         window?.rootViewController = lauchScreenViewController
     }
     
-    func runMainFlow() {
-        DispatchQueue.main.async {
-            self.window?.rootViewController = TabBarConfigurator().configure()
-        }
-    }
-
 }
-

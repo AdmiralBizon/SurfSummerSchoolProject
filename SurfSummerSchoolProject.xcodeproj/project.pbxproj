@@ -28,6 +28,7 @@
 		0912BBC528ACF78100CF6EF2 /* LocalStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0912BBC428ACF78100CF6EF2 /* LocalStorageProtocol.swift */; };
 		0912BBC728ACF80100CF6EF2 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0912BBC628ACF80100CF6EF2 /* LocalStorage.swift */; };
 		09192B9628B1290100538D4B /* UserCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09192B9528B1290100538D4B /* UserCredentials.swift */; };
+		09192B9828B12D2400538D4B /* UserCredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09192B9728B12D2400538D4B /* UserCredentialsManager.swift */; };
 		092819C128AE6C6A00DB56DE /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092819BF28AE6C6A00DB56DE /* AuthViewController.swift */; };
 		092819C228AE6C6A00DB56DE /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 092819C028AE6C6A00DB56DE /* AuthViewController.xib */; };
 		092819C728AE72F500DB56DE /* UserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092819C628AE72F500DB56DE /* UserInfoModel.swift */; };
@@ -123,6 +124,7 @@
 		0912BBC428ACF78100CF6EF2 /* LocalStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageProtocol.swift; sourceTree = "<group>"; };
 		0912BBC628ACF80100CF6EF2 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		09192B9528B1290100538D4B /* UserCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCredentials.swift; sourceTree = "<group>"; };
+		09192B9728B12D2400538D4B /* UserCredentialsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCredentialsManager.swift; sourceTree = "<group>"; };
 		092819BF28AE6C6A00DB56DE /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		092819C028AE6C6A00DB56DE /* AuthViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthViewController.xib; sourceTree = "<group>"; };
 		092819C628AE72F500DB56DE /* UserInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoModel.swift; sourceTree = "<group>"; };
@@ -306,6 +308,16 @@
 				090B5B1228A2C17500E7190E /* Presenter */,
 			);
 			path = SearchModule;
+			sourceTree = "<group>";
+		};
+		09192B9928B13DE200538D4B /* UserCredentials */ = {
+			isa = PBXGroup;
+			children = (
+				09192B9528B1290100538D4B /* UserCredentials.swift */,
+				09192B9728B12D2400538D4B /* UserCredentialsManager.swift */,
+				09FB6DF728A1792800946B44 /* TokenContainer.swift */,
+			);
+			path = UserCredentials;
 			sourceTree = "<group>";
 		};
 		092819C328AE6C7500DB56DE /* Views */ = {
@@ -749,8 +761,7 @@
 			children = (
 				09FA473F28A2F8E90058558C /* Favorites */,
 				09FB6DF528A178E900946B44 /* BaseTokenStorage.swift */,
-				09FB6DF728A1792800946B44 /* TokenContainer.swift */,
-				09192B9528B1290100538D4B /* UserCredentials.swift */,
+				09192B9928B13DE200538D4B /* UserCredentials */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -925,6 +936,7 @@
 				090B5B0828A2997E00E7190E /* MainPresenter.swift in Sources */,
 				090B5B0F28A2B13900E7190E /* DetailPresenter.swift in Sources */,
 				09794EE2289B03F200E042E8 /* MainViewController.swift in Sources */,
+				09192B9828B12D2400538D4B /* UserCredentialsManager.swift in Sources */,
 				090D8E6D28AFE22600701EA9 /* Validator.swift in Sources */,
 				09FB6DFD28A179FB00946B44 /* PictureResponseModel.swift in Sources */,
 				09794EDA289B003600E042E8 /* FavoritesViewController.swift in Sources */,
