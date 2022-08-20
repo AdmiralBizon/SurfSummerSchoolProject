@@ -23,10 +23,18 @@ struct AuthService {
             switch result {
             case .success(let responseModel):
                 do {
+                    
                     let userCredentials = UserCredentialsManager.shared.prepareCredentials(login: credentials.phone, password: credentials.password, token: responseModel.token)
                     
                     try UserCredentialsManager.shared.saveCredentials(userCredentials)
                     onResponseWasReceived(.success(responseModel))
+
+                    if let savedUserInfo = CoreDataManager.shared.searchUser(credentials.phone) {
+                        CoreDataManager.shared.updateUser(savedData: savedUserInfo, newData: responseModel.userInfo)
+                    } else {
+                        CoreDataManager.shared.createUser(userInfo: responseModel.userInfo)
+                    }
+                    
                 } catch (let error) {
                     print("Ошибка сохранения данных пользователя по причине: \(error)")
                     onResponseWasReceived(.failure(error))
