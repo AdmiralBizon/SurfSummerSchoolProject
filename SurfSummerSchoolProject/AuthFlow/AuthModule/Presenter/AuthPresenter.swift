@@ -47,7 +47,7 @@ final class AuthPresenter: AuthViewPresenterProtocol {
         let unmaskedLogin = Validator.unmask(phoneNumber: login)
         
         let credentials = AuthRequestModel(phone: unmaskedLogin, password: password)
-        authService?.performLoginRequestAndSaveToken(credentials: credentials) { [weak self] result in
+        authService?.performLoginRequestAndSaveCredentials(credentials: credentials) { [weak self] result in
             self?.view?.stopLoadingAnimation()
             switch result {
             case .success:
