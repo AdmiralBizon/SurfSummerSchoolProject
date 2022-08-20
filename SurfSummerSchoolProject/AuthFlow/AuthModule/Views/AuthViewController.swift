@@ -92,8 +92,8 @@ private extension AuthViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        tableView.registerCell(NewLoginTableViewCell.self)
-        tableView.registerCell(NewPasswordTableViewCell.self)
+        tableView.registerCell(LoginTableViewCell.self)
+        tableView.registerCell(PasswordTableViewCell.self)
         tableView.registerCell(ButtonTableViewCell.self)
         
         tableView.dataSource = self
@@ -247,7 +247,7 @@ extension AuthViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension AuthViewController {
     func configureLoginCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        guard let loginCell = tableView.dequeueReusableCell(withIdentifier: K.TableView.loginCellId, for: indexPath) as? NewLoginTableViewCell else {
+        guard let loginCell = tableView.dequeueReusableCell(withIdentifier: K.TableView.loginCellId, for: indexPath) as? LoginTableViewCell else {
             return UITableViewCell()
         }
         loginCell.configure(delegate: self, tag: indexPath.section, validationStatus: loginValidationStatus)
@@ -255,7 +255,7 @@ extension AuthViewController {
     }
     
     func configurePasswordCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        guard let passwordCell = tableView.dequeueReusableCell(withIdentifier: K.TableView.passwordCellId, for: indexPath) as? NewPasswordTableViewCell else {
+        guard let passwordCell = tableView.dequeueReusableCell(withIdentifier: K.TableView.passwordCellId, for: indexPath) as? PasswordTableViewCell else {
             return UITableViewCell()
         }
         passwordCell.configure(delegate: self, tag: indexPath.section, validationStatus: passwordValidationStatus)
@@ -316,14 +316,14 @@ extension AuthViewController: FloatingTextFieldDelegate {
     
     func floatingTextFieldDidEndEditing(_ textField: UITextField) {
         getDataFrom(textField)
-        
-        if Constants.CellTypes(rawValue: textField.tag) == .login {
-            activateTextField(tag: textField.tag + 1) // activate password textField
-        }
     }
     
     func floatingTextFieldShouldReturn(_ textField: UITextField) {
         getDataFrom(textField)
+        
+        if Constants.CellTypes(rawValue: textField.tag) == .login {
+            activateTextField(tag: textField.tag + 1) // activate password textField
+        }
     }
 }
 

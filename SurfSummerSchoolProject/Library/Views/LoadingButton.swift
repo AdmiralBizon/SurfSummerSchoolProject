@@ -4,6 +4,8 @@
 //
 //  Created by Ilya on 19.08.2022.
 //
+// Based on loading-buttons-ios library
+// https://github.com/twho/loading-buttons-ios
 
 import Foundation
 import UIKit

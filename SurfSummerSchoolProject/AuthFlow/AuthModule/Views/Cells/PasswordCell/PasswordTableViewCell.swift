@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewPasswordTableViewCell: UITableViewCell {
+final class PasswordTableViewCell: UITableViewCell {
 
     // MARK: - Views
     

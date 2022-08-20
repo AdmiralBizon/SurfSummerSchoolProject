@@ -7,11 +7,11 @@
 
 import UIKit
 
-class ButtonTableViewCell: UITableViewCell {
+final class ButtonTableViewCell: UITableViewCell {
 
     // MARK: - Views
     
-    @IBOutlet weak var loginButton: LoadingButton!
+    @IBOutlet private weak var loginButton: LoadingButton!
    
     // MARK: - Private properties
     

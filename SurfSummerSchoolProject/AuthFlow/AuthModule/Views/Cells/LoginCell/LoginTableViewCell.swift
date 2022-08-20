@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class NewLoginTableViewCell: UITableViewCell {
+final class LoginTableViewCell: UITableViewCell {
 
     // MARK: - Views
     
