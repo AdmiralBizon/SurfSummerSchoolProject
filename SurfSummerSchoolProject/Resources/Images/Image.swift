@@ -24,6 +24,8 @@ enum Image {
         static let clearButtonIcon = UIImage(named: "clearButtonIcon")
         static let heartFill = UIImage(named: "heart-fill")
         static let heart = UIImage(named: "heart")
+        static let openedEye = UIImage(named: "openedEye")
+        static let closedEye = UIImage(named: "closedEye")
     }
     
     enum ImageView {

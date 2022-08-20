@@ -12,4 +12,7 @@ enum Color {
     static let white = UIColor.white
     static let lightRed = UIColor(named: "CustomRed")
     static let lightGrey = UIColor(named: "CustomGrey")
+    static let customWhite = UIColor(named: "CustomWhite")
+    static let greySeparator = UIColor(named: "greySeparator")
+    static let redSeparator = UIColor(named: "redSeparator")
 }
