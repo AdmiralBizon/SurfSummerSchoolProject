@@ -8,6 +8,7 @@
 import UIKit
 
 protocol Builder {
+    static func createAuthModule() -> UIViewController
     static func createMainModule() -> UIViewController
     static func createDetailModule(item: DetailItemModel?) -> UIViewController
     static func createSearchModule(items: [DetailItemModel], delegate: BasePresenterDelegate?, useMainModuleDelegate: Bool) -> UIViewController

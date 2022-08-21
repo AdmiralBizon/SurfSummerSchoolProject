@@ -5,7 +5,7 @@
 //  Created by Ilya on 17.08.2022.
 //
 // Based on JDropDownAlert library
-// from https://github.com/trilliwon/JDropDownAlert
+// https://github.com/trilliwon/JDropDownAlert
 
 import Foundation
 import UIKit
@@ -119,4 +119,3 @@ private extension ErrorStateAlert {
     }
     
 }
-

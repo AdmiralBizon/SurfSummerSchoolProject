@@ -11,6 +11,14 @@ final class ModuleBuilder: Builder {
     
     static var mainModuleDelegate: MainViewPresenterProtocol? = nil
     
+    static func createAuthModule() -> UIViewController {
+        let view = AuthViewController()
+        let authService = AuthService()
+        let presenter = AuthPresenter(view: view, authService: authService)
+        view.presenter = presenter
+        return view
+    }
+    
     static func createMainModule() -> UIViewController {
         let view = MainViewController()
         let presenter = MainPresenter(view: view, dataStore: DataStore.shared)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TokenContainer {
+struct TokenContainer: Codable {
     let token: String
     let receivingDate: Date
     

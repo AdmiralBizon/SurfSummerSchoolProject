@@ -26,9 +26,7 @@ struct BaseNetworkTask<AbstractInput: Encodable, AbstractOutput: Decodable>: Net
         URLCache.shared
     }
     
-    var tokenStorage: TokenStorage {
-        BaseTokenStorage()
-    }
+    var userCredentialsManager = UserCredentialsManager.shared
     
     // MARK: - Initializtion
     
@@ -139,8 +137,9 @@ private extension BaseNetworkTask {
         request.httpMethod = method.method
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         if isNeedInjectToken {
-            request.addValue("Token \(try tokenStorage.getToken().token)", forHTTPHeaderField: "Authorization")
+            request.addValue("Token \(try userCredentialsManager.getCredentials().token.token)", forHTTPHeaderField: "Authorization")
         }
         
         return request
