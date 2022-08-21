@@ -21,6 +21,8 @@ enum K {
         static let loginCellId = "\(LoginTableViewCell.self)"
         static let passwordCellId = "\(PasswordTableViewCell.self)"
         static let buttonCellId = "\(ButtonTableViewCell.self)"
+        static let headerCellId = "\(HeaderTableViewCell.self)"
+        static let usedDetailCellId = "\(UserDetailTableViewCell.self)"
     }
     
 }

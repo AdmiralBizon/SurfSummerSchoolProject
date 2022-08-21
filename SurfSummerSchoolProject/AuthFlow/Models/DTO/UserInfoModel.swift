@@ -16,4 +16,24 @@ struct UserInfoModel: Codable {
     let avatar: String
     let city: String
     let about: String
+    
+    init(id: String,
+         phone: String,
+         email: String,
+         firstName: String,
+         lastName: String,
+         avatar: String,
+         city: String,
+         about: String) {
+        
+        self.id = id
+        self.phone = phone
+        self.email = email
+        self.firstName = firstName
+        self.lastName = lastName
+        self.avatar = avatar
+        self.city = city
+        self.about = about
+    }
+    
  }

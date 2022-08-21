@@ -18,4 +18,28 @@ extension UIViewController {
         alert.showAlert(message)
     }
     
+    func showAlert(message: String, cancelActionTitle: String, defaultActionTitle: String, _ actionsToPerformAtDefault: @escaping () -> Void
+    ) {
+        
+        let alert = UIAlertController(title: "Внимание",
+                                      message: message,
+                                      preferredStyle: .alert)
+        
+        let defaultAction = UIAlertAction(title: defaultActionTitle,
+                                          style: .default,
+                                          handler: { _ in
+            actionsToPerformAtDefault()
+        })
+        
+        let cancelAction = UIAlertAction(title: cancelActionTitle, style: .cancel)
+        
+        alert.addAction(defaultAction)
+        alert.addAction(cancelAction)
+        
+        alert.preferredAction = defaultAction
+        
+        present(alert, animated: true)
+        
+    }
+    
 }

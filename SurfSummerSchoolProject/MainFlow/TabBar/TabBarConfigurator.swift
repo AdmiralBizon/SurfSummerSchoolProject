@@ -60,7 +60,7 @@ private extension TabBarConfigurator {
         case .favorite:
             return ModuleBuilder.createFavoriteModule()
         case .profile:
-            return ProfileViewController()
+            return ModuleBuilder.createProfileModule()
         }
     }
     

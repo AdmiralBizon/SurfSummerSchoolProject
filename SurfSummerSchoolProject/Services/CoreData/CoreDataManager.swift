@@ -70,16 +70,18 @@ final class CoreDataManager {
     }
     
     func removeUser( _ id: String) {
-        if let user = searchUser(id) {
+        if let user = searchUser(key: "id", value: id) {
             viewContext.delete(user)
             save()
         }
     }
     
-    func searchUser(_ id: String) -> User? {
-        let searchPredicate = NSPredicate(format: "id == %@", id)
+    func searchUser(key: String, value: String) -> User? {
+        let searchPredicate = NSPredicate(format: "\(key) == %@", value)
         return fetchUser(predicate: searchPredicate)
     }
+    
+    
     
 }
 

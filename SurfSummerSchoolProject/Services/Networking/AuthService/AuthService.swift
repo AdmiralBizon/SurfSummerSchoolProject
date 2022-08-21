@@ -29,7 +29,7 @@ struct AuthService {
                     try UserCredentialsManager.shared.saveCredentials(userCredentials)
                     onResponseWasReceived(.success(responseModel))
 
-                    if let savedUserInfo = CoreDataManager.shared.searchUser(responseModel.userInfo.id) {
+                    if let savedUserInfo = CoreDataManager.shared.searchUser(key: "id", value: responseModel.userInfo.id) {
                         CoreDataManager.shared.updateUser(savedData: savedUserInfo, newData: responseModel.userInfo)
                     } else {
                         CoreDataManager.shared.createUser(userInfo: responseModel.userInfo)
