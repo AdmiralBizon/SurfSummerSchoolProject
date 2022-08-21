@@ -63,8 +63,6 @@ struct AuthService {
             logoutDataTask.performRequest(input: tokenData.token) { result in
                 switch result {
                 case .success(let responseModel):
-                    print(responseModel)
-                    
                     do {
                         try UserCredentialsManager.shared.removeCredentials()
                         URLCache.shared.removeAllCachedResponses()
