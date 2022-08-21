@@ -6,10 +6,11 @@
         <attribute name="city" attributeType="String"/>
         <attribute name="email" attributeType="String"/>
         <attribute name="firstName" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
         <attribute name="lastName" attributeType="String"/>
         <attribute name="phone" attributeType="String"/>
     </entity>
     <elements>
-        <element name="User" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="User" positionX="-63" positionY="-18" width="128" height="149"/>
     </elements>
 </model>

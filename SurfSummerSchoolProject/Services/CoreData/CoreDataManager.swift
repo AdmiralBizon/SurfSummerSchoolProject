@@ -45,6 +45,7 @@ final class CoreDataManager {
     
     func createUser(userInfo: UserInfoModel) {
         let user = User(context: viewContext)
+        user.id = userInfo.id
         user.phone = userInfo.phone
         user.email = userInfo.email
         user.firstName = userInfo.firstName
@@ -57,6 +58,7 @@ final class CoreDataManager {
     }
     
     func updateUser(savedData: User, newData: UserInfoModel) {
+        savedData.id = newData.id
         savedData.email = newData.email
         savedData.firstName = newData.firstName
         savedData.lastName = newData.lastName
@@ -67,15 +69,15 @@ final class CoreDataManager {
         save()
     }
     
-    func removeUser( _ phone: String) {
-        if let user = searchUser(phone) {
+    func removeUser( _ id: String) {
+        if let user = searchUser(id) {
             viewContext.delete(user)
             save()
         }
     }
     
-    func searchUser(_ phone: String) -> User? {
-        let searchPredicate = NSPredicate(format: "phone = %@", phone)
+    func searchUser(_ id: String) -> User? {
+        let searchPredicate = NSPredicate(format: "id == %@", id)
         return fetchUser(predicate: searchPredicate)
     }
     
