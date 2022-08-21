@@ -67,6 +67,7 @@ struct AuthService {
                     
                     do {
                         try UserCredentialsManager.shared.removeCredentials()
+                        URLCache.shared.removeAllCachedResponses()
                     } catch {
                         print("Ошибка удаления данных пользователя по причине: \(error)")
                         onResponseWasReceived(.failure(error))

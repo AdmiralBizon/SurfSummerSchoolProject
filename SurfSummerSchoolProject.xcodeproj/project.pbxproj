@@ -100,7 +100,6 @@
 		09FB6DEF28A1782D00946B44 /* AuthRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DEE28A1782D00946B44 /* AuthRequestModel.swift */; };
 		09FB6DF128A1784D00946B44 /* AuthResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DF028A1784D00946B44 /* AuthResponseModel.swift */; };
 		09FB6DF328A1786800946B44 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DF228A1786800946B44 /* AuthService.swift */; };
-		09FB6DF628A178E900946B44 /* BaseTokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DF528A178E900946B44 /* BaseTokenStorage.swift */; };
 		09FB6DF828A1792800946B44 /* TokenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DF728A1792800946B44 /* TokenContainer.swift */; };
 		09FB6DFA28A1794300946B44 /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DF928A1794300946B44 /* TokenStorage.swift */; };
 		09FB6DFD28A179FB00946B44 /* PictureResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DFC28A179FB00946B44 /* PictureResponseModel.swift */; };
@@ -205,7 +204,6 @@
 		09FB6DEE28A1782D00946B44 /* AuthRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRequestModel.swift; sourceTree = "<group>"; };
 		09FB6DF028A1784D00946B44 /* AuthResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponseModel.swift; sourceTree = "<group>"; };
 		09FB6DF228A1786800946B44 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		09FB6DF528A178E900946B44 /* BaseTokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTokenStorage.swift; sourceTree = "<group>"; };
 		09FB6DF728A1792800946B44 /* TokenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenContainer.swift; sourceTree = "<group>"; };
 		09FB6DF928A1794300946B44 /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
 		09FB6DFC28A179FB00946B44 /* PictureResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureResponseModel.swift; sourceTree = "<group>"; };
@@ -837,7 +835,6 @@
 			isa = PBXGroup;
 			children = (
 				09FA473F28A2F8E90058558C /* Favorites */,
-				09FB6DF528A178E900946B44 /* BaseTokenStorage.swift */,
 				09192B9928B13DE200538D4B /* UserCredentials */,
 			);
 			path = Storage;
@@ -952,7 +949,6 @@
 				09FA474128A2F9060058558C /* FavoritesService.swift in Sources */,
 				09B50855289D8D5E00DEFBA3 /* DetailViewController.swift in Sources */,
 				095B237228AC39E2004143DF /* BaseViewPresenterProtocol.swift in Sources */,
-				09FB6DF628A178E900946B44 /* BaseTokenStorage.swift in Sources */,
 				092819C728AE72F500DB56DE /* UserInfoModel.swift in Sources */,
 				09762BEB28AA34CB008F19FE /* ItemsListAdapter.swift in Sources */,
 				09794ED7289AFF5300E042E8 /* TabBarModel.swift in Sources */,
