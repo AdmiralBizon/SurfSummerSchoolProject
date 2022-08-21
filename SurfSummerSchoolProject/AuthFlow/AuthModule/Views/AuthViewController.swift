@@ -366,6 +366,7 @@ extension AuthViewController: AuthViewProtocol {
     
     func showErrorState(message: String) {
         DispatchQueue.main.async {
+            self.view.isUserInteractionEnabled = true
             self.showErrorState(message)
         }
     }
