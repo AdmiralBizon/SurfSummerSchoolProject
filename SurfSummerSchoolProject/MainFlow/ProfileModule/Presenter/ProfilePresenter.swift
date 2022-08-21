@@ -13,12 +13,14 @@ final class ProfilePresenter: ProfileViewPresenterProtocol {
     
     private weak var view: ProfileViewProtocol?
     private let user: User?
+    private let authService: AuthService
     
     // MARK: - Initializers
     
-    init(view: ProfileViewProtocol, user: User?) {
+    init(view: ProfileViewProtocol, user: User?, authService: AuthService) {
         self.view = view
         self.user = user
+        self.authService = authService
     }
     
     // MARK: - Public methods
@@ -34,11 +36,21 @@ final class ProfilePresenter: ProfileViewPresenterProtocol {
     }
     
     func logout() {
-        
+        authService.performLogoutRequestAndRemoveCredentials { [weak self] result in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self?.view?.stopLoadingAnimation()
+                switch result {
+                case .success:
+                    self?.runAuthFlow()
+                case .failure:
+                    self?.view?.showErrorState(message: "Не удалось выйти, попробуйте еще раз")
+                }
+            }
+        }
     }
     
     func runAuthFlow() {
-        //
+        Coordinator.runAuthFlow()
     }
     
 }

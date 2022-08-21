@@ -19,7 +19,7 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - Views
-
+    
     private let tableView = UITableView()
     private let logoutButton = LoadingButton()
     
@@ -48,10 +48,10 @@ private extension ProfileViewController {
         configureLogoutButton()
         configureTableView()
     }
-    
+
     func configureLogoutButton() {
         view.addSubview(logoutButton)
-        
+
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             logoutButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
@@ -59,18 +59,15 @@ private extension ProfileViewController {
             logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
             logoutButton.widthAnchor.constraint(equalTo: logoutButton.heightAnchor, multiplier: 343 / 48)
         ])
-        
+
         logoutButton.setTitle("Выйти", for: .normal)
         logoutButton.setTitleColor(Color.white, for: .normal)
-        logoutButton.tintColor = Color.white
-        logoutButton.backgroundColor = Color.black
-        
         logoutButton.addTarget(self, action: #selector(logoutButtonPressed(_:)), for: .touchUpInside)
     }
-    
+
     func configureTableView() {
         view.addSubview(tableView)
-        
+
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -78,11 +75,11 @@ private extension ProfileViewController {
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: logoutButton.topAnchor, constant: -16)
         ])
-        
+
         tableView.contentInset = .init(top: 10, left: 0, bottom: 10, right: 0)
         tableView.registerCell(HeaderTableViewCell.self)
         tableView.registerCell(UserDetailTableViewCell.self)
-        
+
         tableView.dataSource = self
         tableView.layoutMargins = .zero
         tableView.separatorInset = .zero
@@ -167,12 +164,14 @@ extension ProfileViewController: ProfileViewProtocol {
         }
     }
     
-    
     func stopLoadingAnimation() {
-        //
+        self.logoutButton.stopLoading()
     }
     
     func showErrorState(message: String) {
-        
+        DispatchQueue.main.async {
+            self.view.isUserInteractionEnabled = true
+            self.showErrorState(message)
+        }
     }
 }

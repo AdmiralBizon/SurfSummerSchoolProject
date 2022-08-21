@@ -90,6 +90,27 @@ extension BaseNetworkTask where Input == EmptyModel {
     
 }
 
+extension BaseNetworkTask where Output == EmptyModel {
+    
+    func performRequest(input: AbstractInput, _ onResponseWasReceived: @escaping (_ result: Result<AbstractOutput, Error>) -> Void) {
+        do {
+            let request = try getRequest(with: input)
+            
+            session.dataTask(with: request) { data, _, error in
+                if let error = error {
+                    onResponseWasReceived(.failure(error))
+                    return
+                }
+                onResponseWasReceived(.success(EmptyModel()))
+            }.resume()
+            
+        } catch {
+            onResponseWasReceived(.failure(error))
+        }
+    }
+
+}
+
 // MARK: - Cache logic
 
 private extension BaseNetworkTask {

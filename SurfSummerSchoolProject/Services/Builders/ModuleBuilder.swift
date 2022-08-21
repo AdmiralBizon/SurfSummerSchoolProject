@@ -61,7 +61,7 @@ final class ModuleBuilder: Builder {
     }
     
     static func createProfileModule() -> UIViewController {
-        var userInfo: User?
+        var userInfo: User? = nil
     
         if let userPhone = try? UserCredentialsManager.shared.getCredentials().login,
            let savedInfo = CoreDataManager.shared.searchUser(key: "phone", value: userPhone) {
@@ -69,7 +69,8 @@ final class ModuleBuilder: Builder {
         }
         
         let view = ProfileViewController()
-        let presenter = ProfilePresenter(view: view, user: userInfo)
+        let authService = AuthService()
+        let presenter = ProfilePresenter(view: view, user: userInfo, authService: authService)
         view.presenter = presenter
         return view
     }
