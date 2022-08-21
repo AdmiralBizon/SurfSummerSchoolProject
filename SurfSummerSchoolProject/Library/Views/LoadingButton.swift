@@ -45,6 +45,7 @@ final class LoadingButton: UIButton {
         
         UIView.transition(with: self, duration: 0.2, options: .curveEaseOut) {
             self.titleLabel?.alpha = 0.0
+            self.activityIndicator.alpha = 1.0
         } completion: {_ in
             self.activityIndicator.startAnimating()
         }
@@ -73,7 +74,7 @@ final class LoadingButton: UIButton {
 private extension LoadingButton {
     func setDefaultConfiguration() {
         backgroundColor = Color.black
-        titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
+        titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         tintColor = Color.white
     }
     
@@ -81,8 +82,12 @@ private extension LoadingButton {
         activityIndicator.color = Color.white
         activityIndicator.hidesWhenStopped = true
         
-        activityIndicator.center = center
-        
         addSubview(activityIndicator)
+       
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
     }
 }

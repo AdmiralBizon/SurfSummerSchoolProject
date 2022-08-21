@@ -10,9 +10,16 @@ import UIKit
 
 struct Coordinator {
     
+    // MARK: - Constants
+    
+    private enum Constants {
+        static let duration: TimeInterval = 0.3
+        static let options: UIView.AnimationOptions = .transitionCrossDissolve
+    }
+    
+    // MARK: - Public methods
+    
     static func runMainFlow() {
-        let duration: TimeInterval = 0.3
-        let options: UIView.AnimationOptions = .transitionCrossDissolve
         
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first else {
@@ -21,26 +28,29 @@ struct Coordinator {
             
             let tabBarViewController = TabBarConfigurator().configure()
             
-            UIView.transition(with: window, duration: duration, options: options, animations: {
+            UIView.transition(with: window, duration: Constants.duration, options: Constants.options, animations: {
                 window.rootViewController = tabBarViewController
             })
         }
         
     }
     
-    static func runAuthFlow() {
-        let duration: TimeInterval = 0.3
-        let options: UIView.AnimationOptions = .transitionCrossDissolve
+    static func runAuthFlow(isNeedShowErrorState: Bool = false) {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        DispatchQueue.main.async {
             guard let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first else {
                 return
             }
             
             let authViewController = ModuleBuilder.createAuthModule()
             
-            UIView.transition(with: window, duration: duration, options: options, animations: {
+            UIView.transition(with: window, duration: Constants.duration, options: Constants.options, animations: {
                 window.rootViewController = authViewController
+                
+                if isNeedShowErrorState {
+                    window.rootViewController?.showErrorState("Не удалось выполнить вход \nПовторите попытку позднее")
+                }
+                
             })
         }
     }

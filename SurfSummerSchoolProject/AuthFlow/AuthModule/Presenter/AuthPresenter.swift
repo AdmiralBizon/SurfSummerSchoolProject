@@ -24,7 +24,7 @@ final class AuthPresenter: AuthViewPresenterProtocol {
     // MARK: - Public methods
     
     func maskPhoneNumber(phone: String) -> String {
-        Validator.applyMask(to: phone)
+        Validator.applyPhoneMask(phoneNumber: phone)
     }
     
     func validateAuthData(login: String, password: String) {

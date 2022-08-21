@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoritesViewController: UIViewController {
+final class FavoritesViewController: UIViewController {
     
     // MARK: - Public properties
     
@@ -28,7 +28,7 @@ class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAdapter()
-        configureApperance()
+        configureAppearance()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +69,7 @@ private extension FavoritesViewController {
         navigationController?.pushViewController(searchViewController, animated: true)
     }
     
-    func configureApperance() {
+    func configureAppearance() {
         emptyListImageView.isHidden = true
         emptyListLabel.isHidden = true
         
@@ -127,22 +127,11 @@ extension FavoritesViewController: FavoritesViewProtocol {
     }
     
     func showAlertBeforeRemovingItem(itemId: Int) {
-        let alert = UIAlertController(title: "Внимание",
-                                      message: "Вы точно хотите удалить из избранного?",
-                                      preferredStyle: .alert)
-        
-        let removeAction = UIAlertAction(title: "Да, точно", style: .default, handler: { [weak self] _ in
-            self?.presenter.changeFavorites(itemId: itemId)
-        })
-        
-        let cancelAction = UIAlertAction(title: "Нет", style: .cancel)
-        
-        alert.addAction(removeAction)
-        alert.addAction(cancelAction)
-        
-        alert.preferredAction = removeAction
-        
-        present(alert, animated: true)
+        showAlert(message: "Вы точно хотите удалить из избранного?",
+                  cancelActionTitle: "Нет",
+                  defaultActionTitle: "Да, точно") {
+            self.presenter.changeFavorites(itemId: itemId)
+        }
     }
     
 }

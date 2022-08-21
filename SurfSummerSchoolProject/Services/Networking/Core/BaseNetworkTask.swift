@@ -46,10 +46,10 @@ struct BaseNetworkTask<AbstractInput: Encodable, AbstractOutput: Decodable>: Net
             let request = try getRequest(with: input)
             
             if let cachedResponse = getCachedResponseFromCache(by: request) {
-                
+
                 let mappedModel = try JSONDecoder().decode(AbstractOutput.self, from: cachedResponse.data)
                 onResponseWasReceived(.success(mappedModel))
-                
+
                 return
             }
             
@@ -88,6 +88,27 @@ extension BaseNetworkTask where Input == EmptyModel {
         performRequest(input: EmptyModel(), onResponseWasReceived)
     }
     
+}
+
+extension BaseNetworkTask where Output == EmptyModel {
+    
+    func performRequest(input: AbstractInput, _ onResponseWasReceived: @escaping (_ result: Result<AbstractOutput, Error>) -> Void) {
+        do {
+            let request = try getRequest(with: input)
+            
+            session.dataTask(with: request) { data, _, error in
+                if let error = error {
+                    onResponseWasReceived(.failure(error))
+                    return
+                }
+                onResponseWasReceived(.success(EmptyModel()))
+            }.resume()
+            
+        } catch {
+            onResponseWasReceived(.failure(error))
+        }
+    }
+
 }
 
 // MARK: - Cache logic

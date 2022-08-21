@@ -25,7 +25,10 @@ struct Validator {
         static let maximumPasswordLength = 255
     }
     
-    static func applyMask(to phoneNumber: String, mask: String = "") -> String {
+    static func applyPhoneMask(phoneNumber: String, mask: String = "") -> String {
+        guard !phoneNumber.isEmpty else {
+            return ""
+        }
         
         let mask = !mask.isEmpty ? mask : Constants.phoneMask
         
@@ -46,7 +49,7 @@ struct Validator {
     }
     
     static func unmask(phoneNumber: String) -> String {
-        applyMask(to: phoneNumber, mask: Constants.phoneMaskToRequest)
+        applyPhoneMask(phoneNumber: phoneNumber, mask: Constants.phoneMaskToRequest)
     }
     
     static func validateLogin(login: String) -> ValidationStatus {
@@ -54,7 +57,7 @@ struct Validator {
             return .emptyLogin
         }
         
-        let maskedLogin = applyMask(to: Constants.controlPhone)
+        let maskedLogin = applyPhoneMask(phoneNumber: Constants.controlPhone)
         if login.count != maskedLogin.count {
             return .loginDoesNotMatchMask
         }

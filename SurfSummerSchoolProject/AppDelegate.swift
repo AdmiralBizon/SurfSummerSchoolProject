@@ -39,16 +39,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let requestCredentials = AuthRequestModel(phone: credentials.login,
                                                       password: credentials.password)
             
-            AuthService().performLoginRequestAndSaveCredentials(credentials: requestCredentials) { [weak self] result in
+            AuthService().performLoginRequestAndSaveCredentials(credentials: requestCredentials) { result in
                 switch result {
                 case .success:
                     Coordinator.runMainFlow()
                 case .failure(let error):
                     print("Ошибка автоматической авторизации по причине: \(error)")
-                    DispatchQueue.main.async {
-                        self?.window?.rootViewController?.showErrorState("Не удалось выполнить вход \nПовторите попытку позднее")
-                    }
-                    Coordinator.runAuthFlow()
+                    Coordinator.runAuthFlow(isNeedShowErrorState: true)
                 }
             }
             

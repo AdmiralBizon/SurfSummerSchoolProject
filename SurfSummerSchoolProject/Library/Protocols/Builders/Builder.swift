@@ -13,4 +13,5 @@ protocol Builder {
     static func createDetailModule(item: DetailItemModel?) -> UIViewController
     static func createSearchModule(items: [DetailItemModel], delegate: BasePresenterDelegate?, useMainModuleDelegate: Bool) -> UIViewController
     static func createFavoriteModule() -> UIViewController
+    static func createProfileModule() -> UIViewController
 }

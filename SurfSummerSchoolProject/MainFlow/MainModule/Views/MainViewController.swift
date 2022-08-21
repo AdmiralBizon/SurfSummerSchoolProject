@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 
     // MARK: - Public properties
     
@@ -28,7 +28,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAdapter()
-        configureApperance()
+        configureAppearance()
         configureActivityIndicator()
         activityIndicator.startAnimating()
         presenter.loadPosts()
@@ -81,7 +81,7 @@ private extension MainViewController {
         navigationController?.pushViewController(searchViewController, animated: true)
     }
     
-    func configureApperance() {
+    func configureAppearance() {
         placeholderView.isHidden = true
         
         collectionView.contentInset = .init(top: 10, left: 16, bottom: 10, right: 16)

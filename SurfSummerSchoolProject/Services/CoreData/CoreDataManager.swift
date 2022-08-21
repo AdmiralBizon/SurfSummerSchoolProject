@@ -70,14 +70,14 @@ final class CoreDataManager {
     }
     
     func removeUser( _ id: String) {
-        if let user = searchUser(id) {
+        if let user = searchUser(key: "id", value: id) {
             viewContext.delete(user)
             save()
         }
     }
     
-    func searchUser(_ id: String) -> User? {
-        let searchPredicate = NSPredicate(format: "id == %@", id)
+    func searchUser(key: String, value: String) -> User? {
+        let searchPredicate = NSPredicate(format: "\(key) == %@", value)
         return fetchUser(predicate: searchPredicate)
     }
     
@@ -91,7 +91,7 @@ private extension CoreDataManager {
             do {
                 try viewContext.save()
             } catch {
-                print ("An error ocurred while saving data: \(error)")
+                print ("Не удалось сохранить данные в CoreData по причине: \(error)")
             }
         }
     }
@@ -105,7 +105,7 @@ private extension CoreDataManager {
             let user = try viewContext.fetch(request).first
             return user
         } catch {
-            print ("An error ocurred while fetching data: \(error)")
+            print ("Не удалось получить данные из CoreData по причине: \(error)")
             return nil
         }
     }
