@@ -9,50 +9,64 @@ import Foundation
 
 final class FavoritesService {
     
-    // MARK: - Public properties
-    
-    static let shared = FavoritesService()
-    
     // MARK: - Private properties
     
-    private var favorites = [DetailItemModel]()
+    private var userPhone: String?
     
     // MARK: - Initializers
     
-    private init() {
-        loadFavorites()
+    init() {
+        userPhone = getUserPhone()
     }
     
     // MARK: - Public methods
     
     func getFavorites() -> [DetailItemModel] {
-        favorites
+        var favorites = [DetailItemModel]()
+        
+        let savedItems = CoreDataManager.shared.getFavorites(userPhone: userPhone)
+        favorites = savedItems.map { item in
+            DetailItemModel(
+                id: item.id ?? "",
+                imageUrlInString: item.imageURL ?? "",
+                title: item.title ?? "",
+                isFavorite: true,
+                content: item.content ?? "",
+                dateCreation: item.dateCreation ?? Date()
+            )
+        }
+        return favorites
     }
     
     func addToFavorites(item: DetailItemModel) {
-        if !favorites.contains(item) {
-            favorites.append(item)
-            saveFavorites()
-        }
+        CoreDataManager.shared.addToFavorites(userPhone: userPhone, item: item)
         
     }
     
     func removeFromFavorites(item: DetailItemModel) {
-        if let index = favorites.firstIndex(of: item) {
-            favorites.remove(at: index)
-            saveFavorites()
-        }
+        CoreDataManager.shared.removeFromFavorites(userPhone: userPhone, itemId: item.id)
     }
     
     func getItemFromFavorites(itemId: String) -> DetailItemModel? {
-        guard !itemId.isEmpty else { return nil }
-        let item = favorites.first { $0.id == itemId }
+        guard let savedItem = CoreDataManager.shared.getItemFromFavorites(userPhone: userPhone, itemId: itemId) else {
+                  return nil
+              }
+        let item =  DetailItemModel(
+            id: savedItem.id ?? "",
+            imageUrlInString: savedItem.imageURL ?? "",
+            title: savedItem.title ?? "",
+            isFavorite: true,
+            content: savedItem.content ?? "",
+            dateCreation: savedItem.dateCreation ?? Date()
+        )
         return item
     }
     
     func isFavorite(itemId: String) -> Bool {
-        guard !itemId.isEmpty else { return false }
-        return (favorites.filter{ $0.id == itemId }.first) != nil
+        guard CoreDataManager.shared.getItemFromFavorites(userPhone: userPhone, itemId: itemId) != nil else {
+            return false
+        }
+        return true
     }
     
 }
@@ -60,16 +74,10 @@ final class FavoritesService {
 // MARK: - Private methods
 
 private extension FavoritesService {
-    func loadFavorites() {
-        favorites = []
-        let loadedData: [DetailItemModel]? = LocalStorage().value(for: LocalStorageKeys.favorites)
-        
-        if let loadedData = loadedData {
-            favorites = loadedData
+    func getUserPhone() -> String? {
+        guard let userPhone = try? UserCredentialsManager.shared.getCredentials().login else {
+            return nil
         }
-    }
-    
-    func saveFavorites() {
-        LocalStorage().set(value: favorites, for: LocalStorageKeys.favorites)
+        return userPhone
     }
 }

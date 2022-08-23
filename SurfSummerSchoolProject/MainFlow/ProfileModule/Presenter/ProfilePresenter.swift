@@ -50,6 +50,7 @@ final class ProfilePresenter: ProfileViewPresenterProtocol {
     }
     
     func runAuthFlow() {
+        ModuleBuilder.prepateForEndMainFlow()
         Coordinator.runAuthFlow()
     }
     

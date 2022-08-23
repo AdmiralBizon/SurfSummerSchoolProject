@@ -31,8 +31,6 @@
 		090FEBB128B22C6600E527FB /* HeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 090FEBAF28B22C6600E527FB /* HeaderTableViewCell.xib */; };
 		090FEBB528B23C4700E527FB /* UserDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090FEBB328B23C4700E527FB /* UserDetailTableViewCell.swift */; };
 		090FEBB628B23C4700E527FB /* UserDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 090FEBB428B23C4700E527FB /* UserDetailTableViewCell.xib */; };
-		0912BBC528ACF78100CF6EF2 /* LocalStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0912BBC428ACF78100CF6EF2 /* LocalStorageProtocol.swift */; };
-		0912BBC728ACF80100CF6EF2 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0912BBC628ACF80100CF6EF2 /* LocalStorage.swift */; };
 		09192B9628B1290100538D4B /* UserCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09192B9528B1290100538D4B /* UserCredentials.swift */; };
 		09192B9828B12D2400538D4B /* UserCredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09192B9728B12D2400538D4B /* UserCredentialsManager.swift */; };
 		09192B9C28B1520200538D4B /* Users.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 09192B9A28B1520200538D4B /* Users.xcdatamodeld */; };
@@ -101,7 +99,6 @@
 		09FB6DF128A1784D00946B44 /* AuthResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DF028A1784D00946B44 /* AuthResponseModel.swift */; };
 		09FB6DF328A1786800946B44 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DF228A1786800946B44 /* AuthService.swift */; };
 		09FB6DF828A1792800946B44 /* TokenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DF728A1792800946B44 /* TokenContainer.swift */; };
-		09FB6DFA28A1794300946B44 /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DF928A1794300946B44 /* TokenStorage.swift */; };
 		09FB6DFD28A179FB00946B44 /* PictureResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DFC28A179FB00946B44 /* PictureResponseModel.swift */; };
 		09FB6DFF28A17A2D00946B44 /* PicturesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6DFE28A17A2D00946B44 /* PicturesService.swift */; };
 		09FB6E0228A17AE100946B44 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FB6E0128A17AE100946B44 /* ImageLoader.swift */; };
@@ -133,8 +130,6 @@
 		090FEBAF28B22C6600E527FB /* HeaderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderTableViewCell.xib; sourceTree = "<group>"; };
 		090FEBB328B23C4700E527FB /* UserDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailTableViewCell.swift; sourceTree = "<group>"; };
 		090FEBB428B23C4700E527FB /* UserDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserDetailTableViewCell.xib; sourceTree = "<group>"; };
-		0912BBC428ACF78100CF6EF2 /* LocalStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageProtocol.swift; sourceTree = "<group>"; };
-		0912BBC628ACF80100CF6EF2 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		09192B9528B1290100538D4B /* UserCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCredentials.swift; sourceTree = "<group>"; };
 		09192B9728B12D2400538D4B /* UserCredentialsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCredentialsManager.swift; sourceTree = "<group>"; };
 		09192B9B28B1520200538D4B /* Users.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Users.xcdatamodel; sourceTree = "<group>"; };
@@ -205,7 +200,6 @@
 		09FB6DF028A1784D00946B44 /* AuthResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponseModel.swift; sourceTree = "<group>"; };
 		09FB6DF228A1786800946B44 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		09FB6DF728A1792800946B44 /* TokenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenContainer.swift; sourceTree = "<group>"; };
-		09FB6DF928A1794300946B44 /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
 		09FB6DFC28A179FB00946B44 /* PictureResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureResponseModel.swift; sourceTree = "<group>"; };
 		09FB6DFE28A17A2D00946B44 /* PicturesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturesService.swift; sourceTree = "<group>"; };
 		09FB6E0128A17AE100946B44 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
@@ -554,7 +548,6 @@
 			isa = PBXGroup;
 			children = (
 				095B237B28AC3B37004143DF /* Builders */,
-				095B237C28AC3B45004143DF /* Storage */,
 				095B237D28AC3B4F004143DF /* Network */,
 				095B237E28AC3B6E004143DF /* Views */,
 				095B237F28AC3BA0004143DF /* Presenters */,
@@ -568,15 +561,6 @@
 				095B236228AC3730004143DF /* Builder.swift */,
 			);
 			path = Builders;
-			sourceTree = "<group>";
-		};
-		095B237C28AC3B45004143DF /* Storage */ = {
-			isa = PBXGroup;
-			children = (
-				09FB6DF928A1794300946B44 /* TokenStorage.swift */,
-				0912BBC428ACF78100CF6EF2 /* LocalStorageProtocol.swift */,
-			);
-			path = Storage;
 			sourceTree = "<group>";
 		};
 		095B237D28AC3B4F004143DF /* Network */ = {
@@ -784,7 +768,6 @@
 			isa = PBXGroup;
 			children = (
 				09FA474028A2F9060058558C /* FavoritesService.swift */,
-				0912BBC628ACF80100CF6EF2 /* LocalStorage.swift */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -976,7 +959,6 @@
 				09FB6DEF28A1782D00946B44 /* AuthRequestModel.swift in Sources */,
 				092819CA28AE750600DB56DE /* AuthPresenter.swift in Sources */,
 				095B236C28AC38DD004143DF /* FavoritesViewPresenterProtocol.swift in Sources */,
-				0912BBC728ACF80100CF6EF2 /* LocalStorage.swift in Sources */,
 				09ED662028A028DC00A9347C /* FavoritesItemCollectionViewCell.swift in Sources */,
 				090B5B1428A2C19500E7190E /* SearchPresenter.swift in Sources */,
 				095B234D28ABA3CD004143DF /* FavoritesListAdapter.swift in Sources */,
@@ -988,7 +970,6 @@
 				09FB6DEC28A177D800946B44 /* NetworkTask.swift in Sources */,
 				09FB6DF828A1792800946B44 /* TokenContainer.swift in Sources */,
 				090B5B0B28A2A5E500E7190E /* ModuleBuilder.swift in Sources */,
-				09FB6DFA28A1794300946B44 /* TokenStorage.swift in Sources */,
 				094FBB3828AD82E4003DACC0 /* UIViewController.swift in Sources */,
 				090FEBB528B23C4700E527FB /* UserDetailTableViewCell.swift in Sources */,
 				095B236E28AC3939004143DF /* FavoritesButtonDelegate.swift in Sources */,
@@ -998,7 +979,6 @@
 				09FB6DEA28A177B900946B44 /* NetworkMethod.swift in Sources */,
 				095B237428AC39FC004143DF /* BaseViewDelegate.swift in Sources */,
 				090E47B0289D01C700B7C173 /* SearchViewController.swift in Sources */,
-				0912BBC528ACF78100CF6EF2 /* LocalStorageProtocol.swift in Sources */,
 				095B237828AC3A2B004143DF /* MainViewPresenterProtocol.swift in Sources */,
 				09FB6DE628A1774600946B44 /* BaseNetworkTask.swift in Sources */,
 				095B237628AC3A16004143DF /* MainViewProtocol.swift in Sources */,

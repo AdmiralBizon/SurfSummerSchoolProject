@@ -21,6 +21,8 @@ struct Coordinator {
     
     static func runMainFlow() {
         
+        ModuleBuilder.prepareForStartMainFlow()
+        
         DispatchQueue.main.async {
             guard let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first else {
                 return

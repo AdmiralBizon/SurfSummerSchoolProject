@@ -18,7 +18,7 @@ final class FavoritesPresenter: FavoritesViewPresenterProtocol {
     // MARK: - Initializers
     
     init(view: FavoritesViewProtocol,
-         dataStore: DataStore,
+         dataStore: DataStore?,
          delegate: BasePresenterDelegate?) {
         self.view = view
         self.dataStore = dataStore

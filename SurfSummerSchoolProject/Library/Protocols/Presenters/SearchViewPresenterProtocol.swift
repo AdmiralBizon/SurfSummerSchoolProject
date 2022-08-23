@@ -8,6 +8,6 @@
 import Foundation
 
 protocol SearchViewPresenterProtocol: BaseViewPresenterProtocol {
-    init(view: BaseViewProtocol, items: [DetailItemModel], delegate: BasePresenterDelegate?, mainScreenDelegate: BasePresenterDelegate?)
+    init(view: BaseViewProtocol, items: [DetailItemModel], dataStore: DataStore?, delegate: BasePresenterDelegate?, mainScreenDelegate: BasePresenterDelegate?)
     func searchItems(by title: String)
 }

@@ -16,7 +16,7 @@ final class MainPresenter: MainViewPresenterProtocol {
     
     // MARK: - Initializers
     
-    init(view: MainViewProtocol, dataStore: DataStore) {
+    init(view: MainViewProtocol, dataStore: DataStore?) {
         self.view = view
         self.dataStore = dataStore
     }
