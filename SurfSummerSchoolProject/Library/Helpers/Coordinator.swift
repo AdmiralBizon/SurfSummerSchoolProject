@@ -13,17 +13,17 @@ struct Coordinator {
     // MARK: - Constants
     
     private enum Constants {
-        static let duration: TimeInterval = 0.3
-        static let options: UIView.AnimationOptions = .transitionCrossDissolve
+        static let duration: TimeInterval = 0.5
+        static let options: UIView.AnimationOptions = .transitionFlipFromRight
     }
     
     // MARK: - Public methods
     
-    static func runMainFlow() {
+    static func runMainFlow(_ timeout: DispatchTime = .now() + 0) {
         
         ModuleBuilder.prepareForStartMainFlow()
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: timeout) {
             guard let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first else {
                 return
             }
@@ -37,9 +37,9 @@ struct Coordinator {
         
     }
     
-    static func runAuthFlow(isNeedShowErrorState: Bool = false) {
+    static func runAuthFlow(_ timeout: DispatchTime = .now() + 0, isNeedShowErrorState: Bool = false) {
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: timeout) {
             guard let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first else {
                 return
             }

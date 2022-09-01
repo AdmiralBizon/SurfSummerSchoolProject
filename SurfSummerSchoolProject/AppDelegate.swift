@@ -11,6 +11,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var splashPresenter: SplashPresenterProtocol? = SplashPresenter()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
@@ -28,36 +29,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func startApplicationProccess() {
-        runLaunchScreen()
+        presentSplashScreen()
         
         if let credentials = try? UserCredentialsManager.shared.getCredentials() {
             guard credentials.token.isExpired else {
-                Coordinator.runMainFlow()
+                dismissSplashScreen()
+                Coordinator.runMainFlow(.now() + 2.5)
                 return
             }
-            
+
             let requestCredentials = AuthRequestModel(phone: credentials.login,
                                                       password: credentials.password)
-            
-            AuthService().performLoginRequestAndSaveCredentials(credentials: requestCredentials) { result in
+
+            AuthService().performLoginRequestAndSaveCredentials(credentials: requestCredentials) { [weak self] result in
                 switch result {
                 case .success:
-                    Coordinator.runMainFlow()
+                    self?.dismissSplashScreen()
+                    Coordinator.runMainFlow(.now() + 2.5)
                 case .failure(let error):
                     print("Ошибка автоматической авторизации по причине: \(error)")
-                    Coordinator.runAuthFlow(isNeedShowErrorState: true)
+                    self?.dismissSplashScreen()
+                    Coordinator.runAuthFlow(.now() + 2.5, isNeedShowErrorState: true)
                 }
             }
-            
+
         } else {
-            Coordinator.runAuthFlow()
+            dismissSplashScreen()
+            Coordinator.runAuthFlow(.now() + 2.5)
         }
     }
     
-    func runLaunchScreen() {
-        let lauchScreenViewController = UIStoryboard(name: "LaunchScreen", bundle: .main)
-            .instantiateInitialViewController()
-        window?.rootViewController = lauchScreenViewController
+    func presentSplashScreen() {
+        window?.rootViewController = splashPresenter?.getSplashScreen()
+        splashPresenter?.startAnimatingSplashScreen()
+    }
+    
+    func dismissSplashScreen() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.splashPresenter?.stopAnimatingSplashScreen()
+            self.splashPresenter = nil
+        }
     }
     
 }
