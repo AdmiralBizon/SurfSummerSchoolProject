@@ -7,9 +7,20 @@
 
 import UIKit
 
-final class ModuleBuilder: Builder {
+struct ModuleBuilder: Builder {
     
     static var mainModuleDelegate: MainViewPresenterProtocol? = nil
+    static var dataStore: DataStore? = nil
+    
+    static func prepareForStartMainFlow() {
+        mainModuleDelegate = nil
+        dataStore = DataStore()
+    }
+    
+    static func prepateForEndMainFlow() {
+        mainModuleDelegate = nil
+        dataStore = nil
+    }
     
     static func createAuthModule() -> UIViewController {
         let view = AuthViewController()
@@ -21,7 +32,7 @@ final class ModuleBuilder: Builder {
     
     static func createMainModule() -> UIViewController {
         let view = MainViewController()
-        let presenter = MainPresenter(view: view, dataStore: DataStore.shared)
+        let presenter = MainPresenter(view: view, dataStore: dataStore)
         view.presenter = presenter
         
         mainModuleDelegate = presenter
@@ -37,13 +48,14 @@ final class ModuleBuilder: Builder {
     }
     
     static func createSearchModule(items: [DetailItemModel], delegate: BasePresenterDelegate?, useMainModuleDelegate: Bool) -> UIViewController
-    {
+        {
         
         let mainScreenDelegate = useMainModuleDelegate ? mainModuleDelegate : nil
         
         let view = SearchViewController()
         let presenter = SearchPresenter(view: view,
                                         items: items,
+                                        dataStore: dataStore,
                                         delegate: delegate,
                                         mainScreenDelegate: mainScreenDelegate)
         view.presenter = presenter
@@ -54,7 +66,7 @@ final class ModuleBuilder: Builder {
     static func createFavoriteModule() -> UIViewController {
         let view = FavoritesViewController()
         let presenter = FavoritesPresenter(view: view,
-                                           dataStore: DataStore.shared,
+                                           dataStore: dataStore,
                                            delegate: mainModuleDelegate)
         view.presenter = presenter
         return view

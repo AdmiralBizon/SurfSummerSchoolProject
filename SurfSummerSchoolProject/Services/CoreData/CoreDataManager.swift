@@ -29,7 +29,7 @@ final class CoreDataManager {
     
     // MARK: - Initializers
     
-    init(modelName: String) {
+    private init(modelName: String) {
         persistentContainer = NSPersistentContainer(name: modelName)
     }
     
@@ -43,6 +43,11 @@ final class CoreDataManager {
         }
     }
     
+}
+
+// MARK: - Users
+
+extension CoreDataManager {
     func createUser(userInfo: UserInfoModel) {
         let user = User(context: viewContext)
         user.id = userInfo.id
@@ -58,7 +63,6 @@ final class CoreDataManager {
     }
     
     func updateUser(savedData: User, newData: UserInfoModel) {
-        savedData.id = newData.id
         savedData.email = newData.email
         savedData.firstName = newData.firstName
         savedData.lastName = newData.lastName
@@ -80,6 +84,67 @@ final class CoreDataManager {
         let searchPredicate = NSPredicate(format: "\(key) == %@", value)
         return fetchUser(predicate: searchPredicate)
     }
+}
+
+// MARK: - Favorites
+
+extension CoreDataManager {
+    
+    func getFavorites(userPhone: String?) -> [Favorites] {
+        guard let userPhone = userPhone,
+              let user = searchUser(key: "phone", value: userPhone) else {
+                  return []
+              }
+        
+        let searchPredicate = NSPredicate(format: "owner == %@", user)
+        return fetchFavorites(predicate: searchPredicate)
+    }
+    
+    func addToFavorites(userPhone: String?, item: DetailItemModel) {
+        guard !item.id.isEmpty,
+              let userPhone = userPhone,
+              let user = searchUser(key: "phone", value: userPhone) else {
+                  return
+              }
+       
+        let searchPredicate = NSPredicate(format: "owner = %@ && id = %@", user, item.id)
+        
+        if fetchFavorites(predicate: searchPredicate).isEmpty {
+            let newItem = Favorites(context: viewContext)
+            newItem.id = item.id
+            newItem.imageURL = item.imageUrlInString
+            newItem.title = item.title
+            newItem.content = item.content
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd.MM.yyyy"
+            
+            newItem.dateCreation = formatter.date(from: item.dateCreation)
+            
+            user.addToFavoritesPosts(newItem)
+            save()
+        }
+    }
+    
+    func removeFromFavorites(userPhone: String?, itemId: String) {
+        if let itemToRemove = getItemFromFavorites(userPhone: userPhone, itemId: itemId) {
+            viewContext.delete(itemToRemove)
+            save()
+        }
+    }
+    
+    func getItemFromFavorites(userPhone: String?, itemId: String) -> Favorites? {
+        guard !itemId.isEmpty,
+              let userPhone = userPhone,
+              let user = searchUser(key: "phone", value: userPhone) else {
+                  return nil
+              }
+       
+        let searchPredicate = NSPredicate(format: "owner = %@ && id = %@", user, itemId)
+        let items = fetchFavorites(predicate: searchPredicate)
+        
+        return !items.isEmpty ? items.first : nil
+    }
     
 }
 
@@ -100,13 +165,23 @@ private extension CoreDataManager {
         let request: NSFetchRequest<User> = User.fetchRequest()
         request.predicate = predicate
         request.fetchLimit = 1
-        
         do {
             let user = try viewContext.fetch(request).first
             return user
         } catch {
             print ("Не удалось получить данные из CoreData по причине: \(error)")
             return nil
+        }
+    }
+    
+    func fetchFavorites(predicate: NSPredicate) -> [Favorites] {
+        let request: NSFetchRequest<Favorites> = Favorites.fetchRequest()
+        request.predicate = predicate
+        do {
+            return try viewContext.fetch(request)
+        } catch {
+            print ("Не удалось получить данные из CoreData по причине: \(error)")
+            return []
         }
     }
     

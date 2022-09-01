@@ -8,7 +8,7 @@
 import Foundation
 
 protocol MainViewPresenterProtocol: BaseViewPresenterProtocol, BasePresenterDelegate {
-    init(view: MainViewProtocol, dataStore: DataStore)
+    init(view: MainViewProtocol, dataStore: DataStore?)
     func loadPosts()
     func getItems() -> [DetailItemModel]
 }

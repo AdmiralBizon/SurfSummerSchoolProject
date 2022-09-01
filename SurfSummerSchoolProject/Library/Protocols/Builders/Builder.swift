@@ -8,6 +8,8 @@
 import UIKit
 
 protocol Builder {
+    static func prepareForStartMainFlow()
+    static func prepateForEndMainFlow()
     static func createAuthModule() -> UIViewController
     static func createMainModule() -> UIViewController
     static func createDetailModule(item: DetailItemModel?) -> UIViewController

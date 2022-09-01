@@ -9,10 +9,6 @@ import Foundation
 
 final class DataStore {
     
-    // MARK: - Public properties
-    
-    static let shared = DataStore()
-    
     // MARK: - Private properties
     
     private let picturesService: PicturesService
@@ -22,9 +18,9 @@ final class DataStore {
     
     // MARK: - Initializers
     
-    private init() {
+    init() {
         self.picturesService = PicturesService()
-        self.favoritesService = FavoritesService.shared
+        self.favoritesService = FavoritesService()
     }
     
     // MARK: - Public methods

@@ -13,6 +13,7 @@ final class SearchPresenter: SearchViewPresenterProtocol {
     
     private weak var view: BaseViewProtocol?
     private var items: [DetailItemModel]
+    private var dataStore: DataStore?
     private weak var delegate: BasePresenterDelegate?
     private weak var mainScreenDelegate: BasePresenterDelegate?
     
@@ -20,11 +21,13 @@ final class SearchPresenter: SearchViewPresenterProtocol {
     
     init(view: BaseViewProtocol,
          items: [DetailItemModel],
+         dataStore: DataStore?,
          delegate: BasePresenterDelegate?,
          mainScreenDelegate: BasePresenterDelegate?) {
         
         self.view = view
         self.items = items
+        self.dataStore = dataStore
         self.delegate = delegate
         self.mainScreenDelegate = mainScreenDelegate
     }
@@ -49,7 +52,7 @@ final class SearchPresenter: SearchViewPresenterProtocol {
         let itemId = String(itemId)
         
         if let index = items.firstIndex(where: { $0.id == itemId }) {
-            DataStore.shared.changeFavorites(itemId: itemId)
+            dataStore?.changeFavorites(itemId: itemId)
             items[index].isFavorite.toggle()
             
             delegate?.reloadItem(itemId: itemId)
@@ -60,6 +63,10 @@ final class SearchPresenter: SearchViewPresenterProtocol {
     
     func showDetails(for item: DetailItemModel) {
         view?.showDetails(for: item)
+    }
+    
+    func getDataStore() -> DataStore? {
+        dataStore
     }
     
 }
